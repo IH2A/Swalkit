@@ -9,11 +9,11 @@ The proposed solution is easy to reproduce and can be implemented by any person 
 
 # Install
 
-For more extensive informations about installation, please use the [wiki](https://github.com/IH2A/Swalkit/wiki/Home).
+For more extensive informations about installation without modification, please use the [wiki](https://github.com/IH2A/Swalkit/wiki/Home).
 
 # Develop
 	
-You can modify the project to your requirements using the sources explained [here](https://github.com/IH2A/Swalkit/wiki/Developpers).
+You can modify the project to your requirements using the sources available [in the Developpement folder](https://github.com/IH2A/Swalkit/tree/writing-tuto/Developpement) which are explained [here](https://github.com/IH2A/Swalkit/wiki/Developpers).
 	
 
 # Publications
