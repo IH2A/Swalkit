@@ -1,0 +1,304 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:stretchColumns="0,1,2,3"
+                android:gravity="center">
+
+                <TableRow
+                    android:background="#000000"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+
+                    >
+
+                    <TextView
+                        android:layout_height="match_parent"
+                        android:layout_column="0"
+                        android:layout_margin="1dp"
+                        android:background="#FFFFFF"
+                        android:fontFamily="@font/open_sans"
+                        android:gravity="center"
+                        android:text="@string/motors"
+                        android:textAllCaps="true"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:background="#FFFFFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:fontFamily="@font/open_sans"
+                        android:layout_margin="1dp"
+                        android:layout_column="0"
+                        android:text="@string/frequency"
+                        android:textAllCaps="true"
+                        android:textSize="6pt"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        />
+
+                    <TextView
+                        android:background="#FFFFFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:fontFamily="@font/open_sans"
+                        android:layout_margin="1dp"
+                        android:layout_column="0"
+                        android:text="@string/pulse"
+                        android:textAllCaps="true"
+                        android:textSize="6pt"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        />
+
+                    <TextView
+                        android:background="#FFFFFF"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:fontFamily="@font/open_sans"
+                        android:layout_margin="1dp"
+                        android:layout_column="0"
+                        android:text="@string/distance"
+                        android:textAllCaps="true"
+                        android:textSize="6pt"
+                        android:textStyle="bold"
+                        android:gravity="center"
+
+                        />
+
+                </TableRow>
+                <TableRow
+                    android:background="#999999"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/front"
+                        android:layout_margin="1dp"
+                        android:layout_column="0"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        />
+
+                    <Button
+                        android:id="@+id/btn_motor_1_1"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_1_1"
+                        android:layout_margin="1dp"
+                        android:layout_column="1"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+
+                    <Button
+                        android:id="@+id/btn_motor_1_2"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_1_2"
+                        android:layout_margin="1dp"
+                        android:layout_column="2"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+
+                    <Button
+                        android:id="@+id/btn_motor_1_3"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_1_3"
+                        android:layout_margin="1dp"
+                        android:layout_column="3"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                </TableRow>
+                <TableRow
+                    android:background="#999999"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/danger"
+                        android:layout_margin="1dp"
+                        android:layout_column="0"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        />
+
+                    <Button
+                        android:id="@+id/btn_motor_2_1"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_2_1"
+                        android:layout_margin="1dp"
+                        android:layout_column="1"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+
+
+                    <Button
+                        android:id="@+id/btn_motor_2_2"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_2_2"
+                        android:layout_margin="1dp"
+                        android:layout_column="2"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                    <Button
+                        android:id="@+id/btn_motor_2_3"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_2_3"
+                        android:layout_margin="1dp"
+                        android:layout_column="3"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                </TableRow>
+                <TableRow
+                    android:background="#999999"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/near"
+                        android:layout_margin="1dp"
+                        android:layout_column="0"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        />
+
+                    <Button
+                        android:id="@+id/btn_motor_3_1"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_3_1"
+                        android:layout_margin="1dp"
+                        android:layout_column="1"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                    <Button
+                        android:id="@+id/btn_motor_3_2"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_3_2"
+                        android:layout_margin="1dp"
+                        android:layout_column="2"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                    <Button
+                        android:id="@+id/btn_motor_3_3"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_3_3"
+                        android:layout_margin="1dp"
+                        android:layout_column="3"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                </TableRow>
+                <TableRow
+                    android:background="#999999"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/far"
+                        android:layout_margin="1dp"
+                        android:layout_column="0"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        />
+
+                    <Button
+                        android:id="@+id/btn_motor_4_1"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_4_1"
+                        android:layout_margin="1dp"
+                        android:layout_column="1"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+
+
+                    <Button
+                        android:id="@+id/btn_motor_4_2"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_4_2"
+                        android:layout_margin="1dp"
+                        android:layout_column="2"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                    <Button
+                        android:id="@+id/btn_motor_4_3"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@+id/txt_motor_4_3"
+                        android:layout_margin="1dp"
+                        android:layout_column="3"
+                        android:background="#FFFFFF"
+                        android:gravity="center"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                </TableRow>
+            </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

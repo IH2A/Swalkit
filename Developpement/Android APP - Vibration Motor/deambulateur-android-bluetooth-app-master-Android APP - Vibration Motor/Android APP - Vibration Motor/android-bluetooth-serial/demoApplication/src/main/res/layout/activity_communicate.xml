@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="@dimen/margin" >
+
+        <TextView
+            android:id="@+id/communicate_connection_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/status_disconnected"
+            android:textSize="@dimen/text" />
+
+        <Button
+            android:id="@+id/communicate_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/connect" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin" >>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/profile"
+            android:textAlignment="textEnd" />
+
+        <Spinner
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/spinner_profiles"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:spinnerMode="dropdown"/>
+
+        <Button
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/select_profile"
+            android:text="@string/select_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:orientation="horizontal"
+        android:layout_marginEnd="@dimen/margin" >
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/profileText"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_text" />
+
+        <EditText
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/profileInfo"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_info"
+            android:textAlignment="textStart" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="@dimen/margin">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/userText"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/user_text" />
+
+        <EditText
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/userInfo"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/user_info"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="@dimen/margin">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/surnameText"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/userSurname_text" />
+
+        <EditText
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/surnameInfo"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/userSurname_info"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="30dp">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/motors"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/motors" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/motorText1"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/motor1_text"
+            android:textAlignment="center" />
+
+        <EditText
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/motorInfo1"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/motor1_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/motorText2"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/motor2_text"
+            android:textAlignment="center" />
+
+        <EditText
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/motorInfo2"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/motor2_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/motorText3"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/motor3_text"
+            android:textAlignment="center" />
+
+        <EditText
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/motorInfo3"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/motor3_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/motorText4"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/motor4_text"
+            android:textAlignment="center" />
+
+        <EditText
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/motorInfo4"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/motor4_val"
+            android:textAlignment="textStart" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="30dp">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensors"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensors" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText1"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor1_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo1"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor1_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText2"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor2_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo2"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor2_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText3"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor3_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo3"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor3_val"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <TextView
+            android:id="@+id/sensorText4"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor4_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo4"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor4_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText5"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor5_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo5"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor5_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText6"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor6_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo6"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor6_val"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:fontFamily="@font/open_sans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText7"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor7_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo7"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor7_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText8"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor8_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo8"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor8_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText9"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor9_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo9"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor9_val"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:fontFamily="@font/open_sans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText10"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor10_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo10"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor10_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText11"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor11_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo11"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor11_val"
+            android:textAlignment="textStart" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorText12"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor12_text"
+            android:textAlignment="center" />
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/sensorInfo12"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sensor12_val"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin"
+            android:text="@string/messages"
+            android:textSize="@dimen/title" />
+
+        <ImageButton
+            android:id="@+id/saveData"
+
+            android:shape="ring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_save" />
+
+        <ImageButton
+            android:id="@+id/delete_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_delete" />
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/communicate_messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text"
+            android:text="@string/no_messages"
+            android:layout_marginBottom="@dimen/margin"
+            android:layout_marginTop="@dimen/margin"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin" />
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin" >
+
+        <EditText
+            android:id="@+id/communicate_message"
+            android:hint="@string/message"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/communicate_send"
+            android:text="@string/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

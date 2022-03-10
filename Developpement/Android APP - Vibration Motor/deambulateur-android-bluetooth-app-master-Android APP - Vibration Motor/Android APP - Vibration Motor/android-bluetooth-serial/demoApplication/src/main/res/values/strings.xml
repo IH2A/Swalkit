@@ -1,0 +1,134 @@
+<resources>
+    <string name="app_name">ADAPT - Walker</string>
+    <string name="messages">Log:</string>
+    <string name="message">Message</string>
+    <string name="send">Send</string>
+    <string name="paired_devices">Paired devices:</string>
+    <string name="no_messages">No messages sent!</string>
+    <string name="no_bluetooth">Bluetooth not available.</string>
+    <string name="device_name_format">Device: %1$s</string>
+    <string name="status_connecting">Connecting</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="connect">Connect</string>
+    <string name="connected">Connected</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="connection_failed">Connection Failed.</string>
+    <string name="bluetooth_unavailable">Connection Failed.</string>
+    <string name="message_send_error">Error sending message!</string>
+    <string name="you_sent">You</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="profile_text">File name</string>
+    <string name="profile_info">-</string>
+    <string name="user_text">Name</string>
+    <string name="user_info">-</string>
+    <string name="userSurname_text">Surname</string>
+    <string name="userSurname_info">-</string>
+    <string name="motors">Motors</string>
+    <string name="sensors">Sensors</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+
+    <string name="profile">Profiles</string>
+    <string name="select_profile">Ok</string>
+
+    <string name="motor1_text">1</string>
+    <string name="motor1_val">-</string>
+    <string name="motor2_text">2</string>
+    <string name="motor2_val">-</string>
+    <string name="motor3_text">3</string>
+    <string name="motor3_val">-</string>
+    <string name="motor4_text">4</string>
+    <string name="motor4_val">-</string>
+
+    <string name="sensor1_text">1</string>
+    <string name="sensor1_val">-</string>
+    <string name="sensor2_text">2</string>
+    <string name="sensor2_val">-</string>
+    <string name="sensor3_text">3</string>
+    <string name="sensor3_val">-</string>
+    <string name="sensor4_text">4</string>
+    <string name="sensor4_val">-</string>
+    <string name="sensor5_text">5</string>
+    <string name="sensor5_val">-</string>
+    <string name="sensor6_text">6</string>
+    <string name="sensor6_val">-</string>
+    <string name="sensor7_text">7</string>
+    <string name="sensor7_val">-</string>
+    <string name="sensor8_text">8</string>
+    <string name="sensor8_val">-</string>
+    <string name="sensor9_text">9</string>
+    <string name="sensor9_val">-</string>
+    <string name="sensor10_text">10</string>
+    <string name="sensor10_val">-</string>
+    <string name="sensor11_text">11</string>
+    <string name="sensor11_val">-</string>
+    <string name="sensor12_text">12</string>
+    <string name="sensor12_val">-</string>
+
+    <string name="save_file_alert">Save file?</string>
+    <string name="delete_file_alert">Delete file?</string>
+    <string name="confirm">Yes</string>
+    <string name="reject">No</string>
+
+    <string name="menu_debug">Debug</string>
+
+    <!--FRAGMENTS-->
+    <!--Sensors fragment view-->
+    <string name="no_sensor_selected">Nothing selected</string>
+    <string name="left_sensor_id_reference">Left sensor - ID: </string>
+    <string name="right_sensor_id_reference">Right sensor - ID: </string>
+
+    <string name="sensor_configuration">Selected sensor</string>
+    <string name="angle">Angle</string>
+    <string name="relative_angle">Relative angle</string>
+
+    <string name="chart_configuration">Chart configuration</string>
+    <string name="view_line_plot">View line plot</string>
+    <string name="view_scatter_plot">View scatter plot</string>
+    <string name="allow_cubic_interpolation">Allow cubic interpolation</string>
+
+    <!--Motor fragment view-->
+    <string name="motor_1_text">Motor 1</string>
+    <string name="motor_2_text">Motor 2</string>
+    <string name="motor_3_text">Motor 3</string>
+    <string name="motor_4_text">Motor 4</string>
+    <string name="motor_5_text">Motor 5</string>
+    <string name="motor_6_text">Motor 6</string>
+    <string name="undefined_motor">No selection</string>
+
+    <string name="right">Right</string>
+    <string name="left">Left</string>
+
+    <string name="front_medium">Front</string>
+    <string name="front_near">Front near</string>
+    <string name="front_danger">Front danger</string>
+
+    <string name="right_medium">Right</string>
+    <string name="right_near">Right near</string>
+    <string name="right_danger">Right danger</string>
+
+    <string name="left_medium">Left</string>
+    <string name="left_near">Left near</string>
+    <string name="left_danger">Left danger</string>
+
+    <string name="test_motor">Test</string>
+    <string name="set_motor">Set</string>
+    <string name="test_all">Test all</string>
+
+    <string name="pulse">Pulse</string>
+    <string name="frequency">Frequency</string>
+    <string name="distance">Distance</string>
+
+    <string name="lateral_near">Lateral near</string>
+    <string name="lateral_far">Lateral far</string>
+    <string name="lateral_danger">Lateral danger</string>
+
+
+    <string name="near">Near</string>
+    <string name="far">Far</string>
+    <string name="danger">Danger</string>
+    <string name="front">Front</string>
+
+</resources>

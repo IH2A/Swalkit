@@ -1,0 +1,9 @@
+/Debug
+-- hello.txt
+-- hello2.txt
+/Profiles
+-- Created files
+
+Separator to send to file (deprecated)
+alt+26
+→

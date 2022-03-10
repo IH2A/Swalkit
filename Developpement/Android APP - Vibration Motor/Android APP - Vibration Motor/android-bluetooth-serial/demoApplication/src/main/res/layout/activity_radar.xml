@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/shadow_box">
+
+        <LinearLayout
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/btn_connection"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:paddingTop="5dp"
+                app:srcCompat="@drawable/ic_disconected"
+                />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="16sp"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/connect"
+                    android:textAllCaps="true"
+                    android:textSize="8sp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="@id/btn_connection"
+                    app:layout_constraintRight_toRightOf="@id/btn_connection"
+                    app:layout_constraintTop_toBottomOf="@id/btn_connection" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_profile"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:paddingTop="5dp"
+                app:srcCompat="@drawable/ic_profile" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/profile"
+                android:textAllCaps="true"
+                android:textSize="8sp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintLeft_toLeftOf="@id/btn_profile"
+                app:layout_constraintRight_toRightOf="@id/btn_profile"
+                app:layout_constraintTop_toBottomOf="@id/btn_profile" />
+
+             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_save"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:paddingTop="5dp"
+                app:srcCompat="@drawable/ic_donwload" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/save"
+                    android:textAllCaps="true"
+                    android:textSize="8sp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="@id/btn_save"
+                    app:layout_constraintRight_toRightOf="@id/btn_save"
+                    app:layout_constraintTop_toBottomOf="@id/btn_save" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:paddingTop="5dp"
+                app:srcCompat="@drawable/ic_trash" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
+                    android:text="@string/delete"
+                    android:textAllCaps="true"
+                    android:textSize="8sp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="@id/btn_delete"
+                    app:layout_constraintRight_toRightOf="@id/btn_delete"
+                    app:layout_constraintTop_toBottomOf="@id/btn_delete" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="@dimen/margin" >
+
+        <TextView
+            android:id="@+id/communicate_connection_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:hint="@string/status_disconnected"
+            android:textSize="@dimen/text" />
+
+        <Button
+            android:id="@+id/communicate_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/connect" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/profile"
+            android:textAlignment="textEnd" />
+
+        <Spinner
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/spinner_profiles"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:spinnerMode="dropdown"/>
+
+        <Button
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/select_profile"
+            android:text="@string/select_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shadow_box">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/sensors"
+            android:textAlignment="textEnd" />
+
+        <com.github.mikephil.charting.charts.ScatterChart
+            android:id="@+id/scatter_chart"
+            android:layout_width="match_parent"
+            android:layout_height="210dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:visibility="gone">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin"
+            android:text=" "
+            android:textSize="@dimen/title" />
+
+        <ImageButton
+            android:id="@+id/saveData"
+
+            android:shape="ring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_save" />
+
+        <ImageButton
+            android:id="@+id/delete_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_delete" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/shadow_box">
+
+        <TextView
+            android:id="@+id/motorsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:fontFamily="@font/open_sans"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/motors"
+            android:textAlignment="textEnd" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/motorText5"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="13dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/motor1_text"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderMotor1"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:valueFrom="0.0"
+                android:valueTo="100.0"
+                app:thumbRadius="10dp"
+                app:layout_constraintStart_toEndOf="@+id/motorText5"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/motorSliderText2"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="13dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/motor2_text"
+                android:textAlignment="center"
+                app:layout_constraintStart_toEndOf="@id/sliderMotor1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderMotor2"
+                android:layout_width="150dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:valueFrom="0.0"
+                android:valueTo="100.0"
+                app:layout_constraintStart_toEndOf="@+id/motorSliderText2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/motorSliderText3"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="13dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/motor3_text"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sliderMotor1" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderMotor3"
+                android:layout_width="150dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:valueFrom="0.0"
+                android:valueTo="100.0"
+                app:layout_constraintStart_toEndOf="@+id/motorText5"
+                app:layout_constraintTop_toBottomOf="@id/sliderMotor1" />
+
+            <TextView
+                android:id="@+id/motorSliderText4"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="13dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/motor4_text"
+                android:textAlignment="center"
+                app:layout_constraintStart_toEndOf="@id/sliderMotor3"
+                app:layout_constraintTop_toBottomOf="@id/sliderMotor2" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderMotor4"
+                android:layout_width="150dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:valueFrom="0.0"
+                android:valueTo="100.0"
+                app:layout_constraintStart_toEndOf="@id/motorSliderText4"
+                app:layout_constraintTop_toBottomOf="@id/sliderMotor2" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
+
+    <ScrollView
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:fontFamily="@font/open_sans"
+            android:id="@+id/communicate_messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text"
+            android:text="@string/no_messages"
+            android:layout_marginBottom="@dimen/margin"
+            android:layout_marginTop="@dimen/margin"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin" />
+
+    </ScrollView>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin" >
+
+        <EditText
+            android:id="@+id/communicate_message"
+            android:hint="@string/message"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/communicate_send"
+            android:text="@string/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/shadow_box">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/profileText"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/profile_text" />
+
+        <EditText
+            android:id="@+id/profileInfo"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/profile_info"
+            android:textAlignment="textStart" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="@dimen/margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/userText"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/user_text" />
+
+        <EditText
+            android:id="@+id/userInfo"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/user_info"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="@dimen/margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/surnameText"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/userSurname_text" />
+
+        <EditText
+            android:id="@+id/surnameInfo"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/userSurname_info"
+            android:textAlignment="textStart" />
+    </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

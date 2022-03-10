@@ -1,0 +1,141 @@
+<resources>
+    <string name="app_name">ADAPT - Gehhilfe</string>
+    <string name="messages">Log:</string>
+    <string name="message">Nachricht</string>
+    <string name="send">Senden</string>
+    <string name="paired_devices">Gekoppelte Geräte:</string>
+    <string name="no_messages">Keine gesendete Nachricht!</string>
+    <string name="no_bluetooth">Bluetooth nicht verfügbar!</string>
+    <string name="device_name_format">Gerät: %1$s</string>
+    <string name="status_connecting">Verbindung wird hergestellt</string>
+    <string name="status_connected">Verbunden</string>
+    <string name="status_disconnected">Verbindung abgebrochen</string>
+    <string name="connect">Verbinden</string>
+    <string name="connected">Verbunden</string>
+    <string name="disconnect">Nicht verbunden</string>
+    <string name="connection_failed">Verbindung konnte nicht hergestellt werden</string>
+    <string name="bluetooth_unavailable">Verbindung konnte nicht hergestellt werden</string>
+    <string name="message_send_error">Fehler bei Datenübertragung!</string>
+    <string name="you_sent">Sie</string>
+    <string name="cancel">Abbrechen</string>
+
+    <string name="profile_text">Dateiname</string>
+    <string name="profile_info">-</string>
+    <string name="user_text">Name</string>
+    <string name="user_info">-</string>
+    <string name="userSurname_text">Vorname</string>
+    <string name="userSurname_info">-</string>
+    <string name="motors">Motoren</string>
+    <string name="sensors">Sensoren</string>
+    <string name="save">Speichern</string>
+    <string name="delete">Löschen</string>
+    <string name="switch_profile">Profil wechseln</string>
+
+    <string name="profile">Profile</string>
+    <string name="options">Optionen</string>
+    <string name="options_scroll">Optionen (für mehr scrollen)</string>
+    <string name="select_profile">OK</string>
+
+    <string name="motor1_text">1</string>
+    <string name="motor1_val">-</string>
+    <string name="motor2_text">2</string>
+    <string name="motor2_val">-</string>
+    <string name="motor3_text">3</string>
+    <string name="motor3_val">-</string>
+    <string name="motor4_text">4</string>
+    <string name="motor4_val">-</string>
+
+    <string name="sensor1_text">1</string>
+    <string name="sensor1_val">-</string>
+    <string name="sensor2_text">2</string>
+    <string name="sensor2_val">-</string>
+    <string name="sensor3_text">3</string>
+    <string name="sensor3_val">-</string>
+    <string name="sensor4_text">4</string>
+    <string name="sensor4_val">-</string>
+    <string name="sensor5_text">5</string>
+    <string name="sensor5_val">-</string>
+    <string name="sensor6_text">6</string>
+    <string name="sensor6_val">-</string>
+    <string name="sensor7_text">7</string>
+    <string name="sensor7_val">-</string>
+    <string name="sensor8_text">8</string>
+    <string name="sensor8_val">-</string>
+    <string name="sensor9_text">9</string>
+    <string name="sensor9_val">-</string>
+    <string name="sensor10_text">10</string>
+    <string name="sensor10_val">-</string>
+    <string name="sensor11_text">11</string>
+    <string name="sensor11_val">-</string>
+    <string name="sensor12_text">12</string>
+    <string name="sensor12_val">-</string>
+
+    <string name="save_file_alert">Datei speichern?</string>
+    <string name="delete_file_alert">Datei löschen?</string>
+    <string name="confirm">Ja</string>
+    <string name="reject">Nein</string>
+
+    <string name="menu_debug">Debug</string>
+
+    <!--FRAGMENTS-->
+    <!--Profile fragment view-->
+    <string name="apply">Profil Speichern</string>
+    <string name="applied">Profil gespeichert</string>
+
+    <!--Sensors fragment view-->
+    <string name="no_sensor_selected">Nichts ausgewählt</string>
+    <string name="left_sensor_id_reference">Links - ID: </string>
+    <string name="right_sensor_id_reference">Rechts - ID: </string>
+
+    <string name="sensor_configuration">Gewählter Sensor</string>
+    <string name="angle">Winkel</string>
+    <string name="relative_angle">Relativer Winkel</string>
+
+    <string name="chart_configuration">Diagrammeinstellungen</string>
+    <string name="view_line_plot">Zeige Linienplot</string>
+    <string name="view_scatter_plot">Zeige Scatterplot</string>
+    <string name="allow_cubic_interpolation">Erlaube kubische Interpolation</string>
+
+    <!--Motor fragment view-->
+    <string name="motor_1_text">Motor 1</string>
+    <string name="motor_2_text">Motor 2</string>
+    <string name="motor_3_text">Motor 3</string>
+    <string name="motor_4_text">Motor 4</string>
+    <string name="motor_5_text">Motor 5</string>
+    <string name="motor_6_text">Motor 6</string>
+    <string name="undefined_motor">Keine Auswahl</string>
+
+    <string name="right">Rechts</string>
+    <string name="left">Links</string>
+
+    <string name="front_medium">Vorne</string>
+    <string name="front_near">Vorne nah</string>
+    <string name="front_danger">Vorne Gefahrr</string>
+
+    <string name="right_medium">Rechts</string>
+    <string name="right_near">Rechts nah</string>
+    <string name="right_danger">Rechts Gefahr</string>
+
+    <string name="left_medium">Links</string>
+    <string name="left_near">Links nah</string>
+    <string name="left_danger">Links Gefahr</string>
+
+    <string name="test_motor">Teste</string>
+    <string name="set_motor">Setze</string>
+    <string name="test_all">Teste alle</string>
+
+    <string name="pulse">Puls</string>
+    <string name="frequency">Frequenz</string>
+    <string name="distance">Abstand</string>
+
+    <string name="lateral_near">seitlich nah</string>
+    <string name="lateral_far">seitlich fern</string>
+    <string name="lateral_danger">seitlich Gefahr</string>
+
+
+    <string name="near">Nah</string>
+    <string name="far">Fern</string>
+    <string name="danger">Gefahr</string>
+    <string name="front">Vorne</string>
+
+</resources>
