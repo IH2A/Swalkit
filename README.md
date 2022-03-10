@@ -1,13 +1,17 @@
 # Swalkit
+
 A generic augmented walker kit to provide haptic feedback navigation assistance to people with both visual and motor impairments
 
-
-<p align="center"> <img src="https://user-images.githubusercontent.com/100538879/157646210-4b248532-0007-4f7d-b5d4-7d8bc51b2a63.png" alt="walker" height="300"/>
-<p align="center"> <img src="https://user-images.githubusercontent.com/100538879/157646392-679fcf65-dfe2-4fdc-a37a-ba51c5b768a8.jpg" alt="overview" height="300"/>
+<p align="center"> <img src="https://user-images.githubusercontent.com/100538879/157646210-4b248532-0007-4f7d-b5d4-7d8bc51b2a63.png" alt="walker" height="400"/>
 
 https://user-images.githubusercontent.com/100538879/157646195-c86fd216-0dd4-412f-9931-ac7addbbb123.mp4
 
 
+# Overview
+	
+<p align="center"> <img src="https://user-images.githubusercontent.com/100538879/157646392-679fcf65-dfe2-4fdc-a37a-ba51c5b768a8.jpg" alt="overview" height="300"/>
+
+	
 # Loading the program to the M5Stacks
 For loading a program to the M5Stacks you will need a corresponding program like the ESP Flash Tools from Espressif or Visual Studio Code. 
 The second option is only necessary if you want to change the code. You will find the ESP Flash Tools here: Tools | Espressif Systems. Download the Flash Download Tools. You will download a Zip file containing an exe-file: flash_download_tool_x where x is the version number. Double-click this file to execute it and install your program. A window will open. Select ESP32 as chipType and develop as workMode. With the “…”-button you can choose the program you want to load on your M5Stack. Change the COM-Port according to your device…
@@ -65,9 +69,7 @@ Front: an obstacle is detected on front of the walker/ right behind the wheelcha
 Danger; Near; Far: Three distance levels for lateral obstacles.
 For all cases vibration and pulses can be turned off.
 The M5Stack can hold two profiles at once. To change between the profiles you have to press Button C. You can change the profile every time, also when connected to your Android device to change the second profile respectively.
--bild
 If you swipe further you will have an overview of the current sensor data. This diagram can help to find malfunctioning sensors.
--bild
 Troubleshooting:
 If you cannot find your M5Stack in the device list make sure both sides have Bluetooth turned on and that your Android device already knows your M5Stack (see first connection). You will know the Bluetooth on the M5Stack is turned on because a blue “B”-sign will appear.
 If you have already connected to another “Fauteuil IRISA”-device and now can’t connect, erase the old device from your Bluetooth list before restarting with the steps for a first connection.
