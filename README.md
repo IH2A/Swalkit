@@ -1,7 +1,12 @@
 # Swalkit
 A generic augmented walker kit to provide haptic feedback navigation assistance to people with both visual and motor impairments
 
-![Swalkit overview](schema_swalkit.jpg)
+
+<p align="center"> <img src="https://user-images.githubusercontent.com/100538879/157646210-4b248532-0007-4f7d-b5d4-7d8bc51b2a63.png" alt="walker" height="300"/>
+<p align="center"> <img src="https://user-images.githubusercontent.com/100538879/157646392-679fcf65-dfe2-4fdc-a37a-ba51c5b768a8.jpg" alt="overview" height="300"/>
+
+https://user-images.githubusercontent.com/100538879/157646195-c86fd216-0dd4-412f-9931-ac7addbbb123.mp4
+
 
 # Loading the program to the M5Stacks
 For loading a program to the M5Stacks you will need a corresponding program like the ESP Flash Tools from Espressif or Visual Studio Code. 
