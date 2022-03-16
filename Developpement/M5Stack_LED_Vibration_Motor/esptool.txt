@@ -3,7 +3,8 @@ commands used by platform io to uplaod, use this to have esp flash tool config
 
 pio run -v -t upload
 
-
+------------------------------------------------------------------------------
+M5Stack (standard kit):
 
 "C:\Users\fgrzesko\.platformio\penv\Scripts\python.exe"
 "C:\Users\fgrzesko\.platformio\packages\tool-esptoolpy\esptool.py"
@@ -19,3 +20,22 @@ pio run -v -t upload
 0x8000 D:\git\Swalkit\Installation\M5Stack_LED_Vibration_Motor\.pio\build\m5stack-core-esp32\partitions.bin 
 0xe000 C:\Users\fgrzesko\.platformio\packages\framework-arduinoespressif32\tools\partitions\boot_app0.bin 
 0x10000 .pio\build\m5stack-core-esp32\firmware.bin
+
+------------------------------------------------------------------------------
+M5atom (lite kit):
+
+"C:\Users\fgrzesko\.platformio\penv\Scripts\python.exe"
+"C:\Users\fgrzesko\.platformio\packages\tool-esptoolpy\esptool.py" 
+--chip esp32 
+--port "COM8" 
+--baud 1500000 
+--before default_reset 
+--after hard_reset write_flash 
+-z 
+--flash_mode dio 
+--flash_freq 40m 
+--flash_size detect 
+0x1000 C:\Users\fgrzesko\.platformio\packages\framework-arduinoespressif32\tools\sdk\bin\bootloader_dio_40m.bin 
+0x8000 D:\git\Swalkit\Developpement\m5atom_commu\.pio\build\m5stick-c\partitions.bin 
+0xe000 C:\Users\fgrzesko\.platformio\packages\framework-arduinoespressif32\tools\partitions\boot_app0.bin 
+0x10000 .pio\build\m5stick-c\firmware.bin
