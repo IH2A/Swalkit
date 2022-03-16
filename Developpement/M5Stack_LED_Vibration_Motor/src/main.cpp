@@ -60,10 +60,10 @@ std::vector<unsigned char> HUB_1_I2C_SENSORS_CHANNELS = {
   TCA_CHANNEL_3,
   };
 std::vector<unsigned char> HUB_2_I2C_SENSORS_CHANNELS = {
-  TCA_CHANNEL_0,
-  TCA_CHANNEL_1,
-  TCA_CHANNEL_2, 
   TCA_CHANNEL_3,
+  TCA_CHANNEL_2,
+  TCA_CHANNEL_1, 
+  TCA_CHANNEL_0,
   };
 const std::vector<unsigned char> HUB_1_SENSORS_ADDRS = {
   0x2A, 0x2B, 0x2C, 0x2D
