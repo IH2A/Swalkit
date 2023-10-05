@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SwalkitAndroid</string>
+    <string name="no_bluetooth_adapter">No Bluetooth adapter</string>
+    <string name="bluetooth_disabled">Bluetooth disabled</string>
+    <string name="permission_required">Permission required</string>
+    <string name="no_device_selected">No device selected</string>
+    <string name="profiles_screen_title">Profiles</string>
+    <string name="motors_screen_title">Motors</string>
+    <string name="sensors_screen_title">Sensors</string>
+    <string name="motors_front">Front</string>
+    <string name="motors_danger">Danger</string>
+    <string name="motors_near">Near</string>
+    <string name="motors_far">Far</string>
+    <string name="motors_motors">Motors</string>
+    <string name="motors_frequency">Frequency</string>
+    <string name="motors_pulse">Pulse</string>
+    <string name="motors_distance">Distance</string>
+</resources>
