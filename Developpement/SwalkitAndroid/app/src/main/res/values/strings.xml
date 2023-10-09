@@ -4,6 +4,7 @@
     <string name="bluetooth_disabled">Bluetooth disabled</string>
     <string name="permission_required">Permission required</string>
     <string name="no_device_selected">No device selected</string>
+    <string name="device_not_found">%s not found</string>
     <string name="profiles_screen_title">Profiles</string>
     <string name="motors_screen_title">Motors</string>
     <string name="sensors_screen_title">Sensors</string>

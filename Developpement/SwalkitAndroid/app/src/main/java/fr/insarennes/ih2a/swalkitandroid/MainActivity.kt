@@ -18,12 +18,24 @@ import fr.insarennes.ih2a.swalkitandroid.ui.theme.SwalkitAndroidTheme
 
 
 class MainActivity : ComponentActivity() {
+    private lateinit var swBluetooth:SWBluetooth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        swBluetooth = SWBluetooth(this)
         setContent {
             MainComposable()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        swBluetooth.start()
+    }
+
+    override fun onStop() {
+        swBluetooth.stop()
+        super.onStop()
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +44,7 @@ class MainActivity : ComponentActivity() {
         SwalkitAndroidTheme {
             val navController = rememberNavController()
             Scaffold(
-                topBar = { BlueToothStatus() },
+                topBar = { BlueToothStatus(swBluetooth) },
                 bottomBar = {
                     BottomAppBar(
                         actions = {
