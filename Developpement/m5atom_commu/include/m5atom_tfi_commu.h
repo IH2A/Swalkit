@@ -10,16 +10,17 @@
 #include "FastLED.h"
 #include "BluetoothSerial.h"
 #include "ArduinoJson.h"
+#include <vector>
 
 #ifndef _m5atom_tfi_h_
 #define _m5atom_tfi_h_
 
 bool BluetoothEnable = false;
 bool DisplayEnable = true;
-bool VibrationEnabled = true;
-bool IMUEnabled = true;
-bool SecondHub = true;
-bool HubBridge = true;
+bool VibrationEnabled = false;
+bool IMUEnabled = false;
+bool SecondHub = false;
+bool HubBridge = false;
 
 /************************************************************/
 // PREFERENCES FILES
@@ -186,6 +187,8 @@ std::vector<RunningAverage<int>*> RA_vector; // Running average vector, hold the
 
 void initSensors(); // Initialises the moving average and sensor task related variables
 void readSensors(); // Read each sensor port of the Hub I2C
+void initFakeSensors();
+void readFakeSensors();
 
 void setDisplayFromSensors();
 
@@ -347,6 +350,20 @@ void readSensors() {
   }
 }
 
+void initFakeSensors() {
+  for (int i = 0; i < NUMBER_OF_SENSORS; i++) {
+    RA_vector.push_back(new RunningAverage<int>(RA_SIZE));
+    lastDistance.push_back(80);
+    RA_vector[i]->fillValue(80, RA_SIZE);
+  }
+}
+void readFakeSensors() {
+  for(int i = 0; i < NUMBER_OF_SENSORS; i++) {
+    
+    RA_vector[i]->addValue(20+5*i);
+  } 
+  
+}
 void setDisplayFromSensors(){
   if(BluetoothEnable){
     M5.dis.fillpix(BLUE);
@@ -552,8 +569,9 @@ void initProfile() {
     Serial.println("SPIFFS format finish");
   }
   // for debugging only
-      // dataFile = SPIFFS.open(filename, "w");
+      // File dataFile = SPIFFS.open(filename, "w");
       // dataFile.printf("");
+      // dataFile.close();
 
   if(SPIFFS.begin()){
     Serial.println("SPIFFS Begin.");
