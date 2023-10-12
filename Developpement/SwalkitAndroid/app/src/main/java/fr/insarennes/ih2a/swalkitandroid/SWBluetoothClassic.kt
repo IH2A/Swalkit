@@ -27,7 +27,7 @@ import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import java.util.UUID
 
-enum class BluetoothStatus {
+enum class BluetoothClassicStatus {
     UNKNOWN,
     NO_BLUETOOTH,
     PERMISSION_REQUIRED,
@@ -43,7 +43,7 @@ make sure we properly handle application suspend/resume or start/stop
  */
 
 @SuppressLint("MissingPermission")
-class SWBluetooth(private val activity: ComponentActivity) : BroadcastReceiver() {
+class SWBluetoothClassic(protected val activity: ComponentActivity) : BroadcastReceiver() {
     var status: MutableState<BluetoothStatus> = mutableStateOf(BluetoothStatus.UNKNOWN)
 
     // UUID for bluetooth serial port profile

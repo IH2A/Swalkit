@@ -21,11 +21,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
 import java.text.Format
 
+typealias BluetoothStatus = BluetoothLEStatus
+
 @SuppressLint("MissingPermission")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BlueToothStatus(swBluetooth: SWBluetooth) {
+fun BlueToothStatus() {
     // Use bluetooth status in State
+    val swBluetooth = SWBluetoothLE.getInstance()
     val status by remember { swBluetooth.status }
 
     // Selected device
@@ -61,7 +64,10 @@ fun BlueToothStatus(swBluetooth: SWBluetooth) {
         BluetoothStatus.NO_DEVICE_SELECTED -> {
             title = stringResource(id = R.string.no_device_selected)
             iconId = R.drawable.baseline_bluetooth_24
-            action = { deviceMenuExpanded = !deviceMenuExpanded }
+            action = {
+                swBluetooth.startScanningForDevices()
+                deviceMenuExpanded = !deviceMenuExpanded
+            }
         }
         BluetoothStatus.NOT_CONNECTED_TO_DEVICE -> {
             title = String.format(stringResource(R.string.device_not_found), selectedDeviceName)
@@ -86,19 +92,18 @@ fun BlueToothStatus(swBluetooth: SWBluetooth) {
                     contentDescription = title
                 )
             }
-            val bondedDevices = swBluetooth.getBondedDevices()
-            if (bondedDevices != null) {
+            if (swBluetooth.bluetoothEnabled.value) {
                 DropdownMenu(
                     expanded = deviceMenuExpanded,
                     onDismissRequest = { deviceMenuExpanded = false }) {
-                    bondedDevices.forEach {
+                    swBluetooth.bluetoothDevices.forEach {
                         DropdownMenuItem(
                             text = { Text(it.name) },
                             onClick = {
-                                selectedDeviceMAC = it.address
+                                selectedDeviceMAC = it.device.address
                                 selectedDeviceName = it.name
                                 deviceMenuExpanded = false
-                                swBluetooth.connectToDevice(selectedDeviceMAC)
+                                swBluetooth.connectToDevice(it.device)
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                         )

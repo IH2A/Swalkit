@@ -17,12 +17,13 @@ import androidx.navigation.compose.rememberNavController
 import fr.insarennes.ih2a.swalkitandroid.ui.theme.SwalkitAndroidTheme
 
 
+const val LOG_TAG = "SWALKIT_APP"
 class MainActivity : ComponentActivity() {
-    private lateinit var swBluetooth:SWBluetooth
+    private lateinit var swBluetooth:SWBluetoothLE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        swBluetooth = SWBluetooth(this)
+        swBluetooth = SWBluetoothLE(this)
         setContent {
             MainComposable()
         }
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
         SwalkitAndroidTheme {
             val navController = rememberNavController()
             Scaffold(
-                topBar = { BlueToothStatus(swBluetooth) },
+                topBar = { BlueToothStatus() },
                 bottomBar = {
                     BottomAppBar(
                         actions = {
