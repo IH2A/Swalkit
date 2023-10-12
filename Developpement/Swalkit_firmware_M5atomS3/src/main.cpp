@@ -19,7 +19,6 @@ Bluetooth_serial BT_serial;
 Motors motors;
 float ax, ay, az;
 void sense_and_drive_task(void *pvParameters);
-void bluetooth_profile_task(void *pvParameters);
 void screen_update_task(void *pvParameters);
 void set_display_from_sensors();
 
@@ -30,9 +29,6 @@ void setup()
     M5.begin(true, true, true, true);
     USBSerial.println("Starting...");
 
-    //BLE
-    // BT_serial.begin();
-    
     // Init. de la centrale inertielle pour la detection de mouvement
     // if (imu_enable)
     // {
@@ -75,18 +71,6 @@ void sense_and_drive_task(void *pvParameters)
     }
 }
 
-// void bluetooth_profile_task(void *pvParameters)
-// {
-//     while (1)
-//     {
-//         if (bluetooth_enable)
-//         {
-//             BT_serial.task();
-//         }
-//         delay(200);
-//     }
-// }
-
 void screen_update_task(void *pvParameters)
 {
     while (1)
@@ -102,30 +86,33 @@ void screen_update_task(void *pvParameters)
 
 void loop()
 {
-    motors.write();
-    // delay(10);
-    // delay(100);
-    // USBSerial.println(motors.driver.getAnalogInput(_12bit)/ 4095.0f * 3.3f / 0.09f);
-}
-
-void set_display_from_sensors()
-{
     M5.update(); //Btn read
     if (M5.Btn.wasPressed())
     {
         bluetooth_enable = !bluetooth_enable;
         if (bluetooth_enable)
         {
+            BT_serial.start();
             USBSerial.print("Bluetooth enabled\n");
             M5.Lcd.fillScreen(BLUE);
         }
         else
         {
+            BT_serial.stop();
             USBSerial.print("Bluetooth disabled\n");
             M5.Lcd.fillScreen(YELLOW);
         }
     }
 
+
+    motors.write();
+    // delay(10);
+    delay(200);
+    // USBSerial.println(motors.driver.getAnalogInput(_12bit)/ 4095.0f * 3.3f / 0.09f);
+}
+
+void set_display_from_sensors()
+{
     if(imu_enable)
     {
         M5.IMU.getAccel(&ax,&ay,&az);

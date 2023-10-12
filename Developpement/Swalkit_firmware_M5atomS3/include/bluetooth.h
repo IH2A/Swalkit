@@ -5,33 +5,31 @@
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
-#include <BLE2902.h>
 
-#define SERVICE_UUID           "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" // UART service UUID
-#define CHARACTERISTIC_UUID_RX "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
-#define CHARACTERISTIC_UUID_TX "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
+#define SERVICE_UUID "07632d2a-6284-4cdf-82ee-f6a70b627c61"
+#define REQUEST_CHARACTERISTIC_UUID "c9f2218b-a76a-4643-b567-296dc58bffd7"
+#define CONFIGURATION_CHARACTERISTIC_UUID "7027e0e3-e02a-4346-9d4f-826bf6db7772"
 
-class Bluetooth_serial
-{
+class Bluetooth_serial {
 public:
     Bluetooth_serial();
     ~Bluetooth_serial();
-    void begin();
-    void task();
+    void start();
+    void stop();
 
     BLEServer *pServer;
-    BLECharacteristic *pTxCharacteristic;
+    BLEService *pService;
+
+    BLECharacteristic *pRequestCharacteristic;
+    BLECharacteristic *pConfigurationCharacteristic;
     bool deviceConnected;
     bool oldDeviceConnected;
-    uint8_t txValue;
-    std::string last_rx_value;
     std::string BLUETOOTH_DEVICE_NAME;
 
 private:
-    class MyServerCallbacks : public BLEServerCallbacks
-    {
+    class ServerCallbacks : public BLEServerCallbacks {
     public:
-        MyServerCallbacks(Bluetooth_serial &_BT_serial);
+        ServerCallbacks(Bluetooth_serial &_BT_serial);
         void onConnect(BLEServer *pServer);
         void onDisconnect(BLEServer *pServer);
 
@@ -39,18 +37,21 @@ private:
         Bluetooth_serial &BT_serial;
     };
 
-    class MyCallbacks : public BLECharacteristicCallbacks
-    {
+    class RequestCallbacks : public BLECharacteristicCallbacks {
     public:
-        MyCallbacks(Bluetooth_serial &_BT_serial);
-        void onWrite(BLECharacteristic *pCharacteristic);
-
-    private:
-        Bluetooth_serial &BT_serial;
+        void onWrite(BLECharacteristic *pCharacteristic) override;
     };
 
-    MyServerCallbacks *pServerCallback;
-    MyCallbacks *pCallback;
+    class ConfigurationCallbacks : public BLECharacteristicCallbacks {
+    public:
+        void onRead(BLECharacteristic *pCharacteristic) override;
+        void onWrite(BLECharacteristic *pCharacteristic) override;
+   };
+
+
+    ServerCallbacks *pServerCB;
+    RequestCallbacks *pRequestCB;
+    ConfigurationCallbacks *pConfigurationCB;
 };
 
 #endif // bluetooth_h
