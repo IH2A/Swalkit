@@ -50,6 +50,12 @@ android {
 }
 
 dependencies {
+    implementation("androidx.room:room-common:2.5.2")
+    val roomVersion = "2.5.2"
+
+    // Room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

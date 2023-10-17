@@ -46,7 +46,7 @@ enum class BluetoothLEStatus {
 
 enum class SwalkitCharacteristic {
     REQUEST,
-    CONFIGURATION,
+    PROFILE,
 }
 
 /* TODO :
@@ -63,7 +63,7 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
 
     private val SWALKITSERVICEUUID = UUID.fromString("07632d2a-6284-4cdf-82ee-f6a70b627c61")
     private val SWALKITREQUESTCHARACTERISTICUUID = UUID.fromString("c9f2218b-a76a-4643-b567-296dc58bffd7")
-    private val SWALKITCONFIGURATIONCHARACTERISTICUUID = UUID.fromString("7027e0e3-e02a-4346-9d4f-826bf6db7772")
+    private val SWALKITPROFILECHARACTERISTICUUID = UUID.fromString("7027e0e3-e02a-4346-9d4f-826bf6db7772")
 
     private val bluetoothPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         android.Manifest.permission.BLUETOOTH_CONNECT
@@ -78,10 +78,10 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
     private var bluetoothDevice: BluetoothDevice? = null
     private var bluetoothGatt: BluetoothGatt? = null
     private var bluetoothGattService: BluetoothGattService? = null
+    private val gattReadCallbacks = HashMap<UUID, (ByteArray) -> Unit>()
 
     private var scanningForDevices = false
     private val stopScanHandler = Handler(Looper.getMainLooper())
-    private val updateNameHandler = Handler(Looper.getMainLooper())
 
     private val requestPermissionLauncher: ActivityResultLauncher<String>
 
@@ -91,8 +91,6 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
     var bluetoothDevices = mutableStateListOf<BLEDevice>()
     var bluetoothConnected = mutableStateOf(false)
     var status: MutableState<BluetoothLEStatus> = mutableStateOf(BluetoothLEStatus.UNKNOWN)
-    var requestValue = mutableStateOf("")
-    var configurationValue = mutableStateOf("")
 
     init {
         instance = this
@@ -189,10 +187,7 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
             }
 
             private fun characteristicRead(characteristic:BluetoothGattCharacteristic, value:ByteArray) {
-                when(characteristic.uuid) {
-                    SWALKITREQUESTCHARACTERISTICUUID -> requestValue.value = value.toString(Charsets.UTF_8)
-                    SWALKITCONFIGURATIONCHARACTERISTICUUID -> configurationValue.value = value.toString(Charsets.UTF_8)
-                }
+                gattReadCallbacks[characteristic.uuid]?.invoke(value)
             }
         }
         checkedBTConnectPermission { bluetoothGatt = bluetoothDevice?.connectGatt(activity, false, gattCallback) }
@@ -210,20 +205,19 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
         }
     }
 
-    fun writeCharacteristic(characteristicId:SwalkitCharacteristic, value:String) {
+    fun writeCharacteristic(characteristicId:SwalkitCharacteristic, value:ByteArray) {
         bluetoothGatt?.let { gatt ->
             bluetoothGattService?.getCharacteristic(getCharacteristicUUID(characteristicId))
                 ?.let { characteristic ->
-                    val byteArrayValue = value.toByteArray()
                     checkedBTConnectPermission {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                             gatt.writeCharacteristic(
                                 characteristic,
-                                byteArrayValue,
+                                value,
                                 BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
                             )
                         } else {
-                            characteristic.value = byteArrayValue
+                            characteristic.value = value
                             gatt.writeCharacteristic(characteristic)
                         }
                     }
@@ -231,11 +225,12 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
         }
     }
 
-    fun readCharacteristic(characteristicId: SwalkitCharacteristic) {
+    fun readCharacteristic(characteristicId: SwalkitCharacteristic, callback: (ByteArray) -> Unit) {
         bluetoothGatt?.let { gatt ->
             bluetoothGattService?.getCharacteristic(getCharacteristicUUID(characteristicId))
                 ?.let { characteristic ->
                     checkedBTConnectPermission {
+                        gattReadCallbacks[getCharacteristicUUID(characteristicId)] = callback
                         gatt.readCharacteristic(characteristic)
                     }
                 }
@@ -245,7 +240,7 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
     private fun getCharacteristicUUID(characteristic:SwalkitCharacteristic): UUID {
         return when(characteristic) {
             SwalkitCharacteristic.REQUEST -> SWALKITREQUESTCHARACTERISTICUUID
-            SwalkitCharacteristic.CONFIGURATION -> SWALKITCONFIGURATIONCHARACTERISTICUUID
+            SwalkitCharacteristic.PROFILE -> SWALKITPROFILECHARACTERISTICUUID
         }
     }
 

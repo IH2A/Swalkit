@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <M5AtomS3.h>
 // #include <Preferences.h>
-#include "bluetooth.h"
-// #include "profile.h"
+#include "SwalkitBle.h"
+#include "SwalkitProfile.h"
 // #include "sensors.h"
 #include "motors.h"
 
@@ -12,7 +12,8 @@ bool imu_enable = true;
 bool bluetooth_enable = false;
 
 // Configuration Bluetooth
-Bluetooth_serial BT_serial;
+SwalkitProfile swalkitProfile;
+SwalkitBLE swalkitBLE(swalkitProfile);
 
 // Déclarations
 // Sensors sensors;
@@ -92,13 +93,13 @@ void loop()
         bluetooth_enable = !bluetooth_enable;
         if (bluetooth_enable)
         {
-            BT_serial.start();
+            swalkitBLE.start();
             USBSerial.print("Bluetooth enabled\n");
             M5.Lcd.fillScreen(BLUE);
         }
         else
         {
-            BT_serial.stop();
+            swalkitBLE.stop();
             USBSerial.print("Bluetooth disabled\n");
             M5.Lcd.fillScreen(YELLOW);
         }
@@ -107,7 +108,7 @@ void loop()
 
     motors.write();
     // delay(10);
-    delay(200);
+    delay(100);
     // USBSerial.println(motors.driver.getAnalogInput(_12bit)/ 4095.0f * 3.3f / 0.09f);
 }
 

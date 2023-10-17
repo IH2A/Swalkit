@@ -20,6 +20,7 @@ import fr.insarennes.ih2a.swalkitandroid.ui.theme.SwalkitAndroidTheme
 const val LOG_TAG = "SWALKIT_APP"
 class MainActivity : ComponentActivity() {
     private lateinit var swBluetooth:SWBluetoothLE
+    private val currentConfig = SwalkitConfig()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,13 +63,13 @@ class MainActivity : ComponentActivity() {
             ) { innerPadding ->
                 NavHost(navController = navController, startDestination = ProfilesDestination.route, modifier = Modifier.padding(innerPadding)) {
                     composable(route = ProfilesDestination.route) {
-                        ProfilesDestination.screen()
+                        ProfilesDestination.screen(currentConfig)
                     }
                     composable(route = MotorsDestination.route) {
-                        MotorsDestination.screen()
+                        MotorsDestination.screen(currentConfig)
                     }
                     composable(route = SensorsDestination.route) {
-                        SensorsDestination.screen()
+                        SensorsDestination.screen(currentConfig)
                     }
                 }
             }

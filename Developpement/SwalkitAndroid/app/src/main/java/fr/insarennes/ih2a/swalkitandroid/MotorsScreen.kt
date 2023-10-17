@@ -24,94 +24,75 @@ import fr.insarennes.ih2a.swalkitandroid.ui.theme.SwalkitAndroidTheme
 
 object Motors {
     private val frequencyList: List<Int> = mutableListOf(0) + (30..95 step 5).toList()
-    private val frequencyMap = frequencyList.associateWith { MotorsSetup.frequencyString(it) }
+    private val frequencyMap = frequencyList.associateWith { SignalSetup.frequencyString(it) }
 
     private val pulseFrequencyList: List<Int> = (0..500 step 100).toList()
-    private val pulseFrequencyMap = pulseFrequencyList.associateWith { MotorsSetup.pulseString(it) }
+    private val pulseFrequencyMap = pulseFrequencyList.associateWith { SignalSetup.pulseString(it) }
 
     private val distanceList: List<Int> = (0..115 step 5).toList()
-    private val distanceMap = distanceList.associateWith { MotorsSetup.distanceString(it) }
+    private val distanceMap = distanceList.associateWith { SignalSetup.distanceString(it) }
 
     @Composable
-    fun MotorsScreen(motors: List<MotorsSetup>) {
+    fun ResourceTextCell(id:Int, modifier:Modifier) {
+        Text(
+            modifier = modifier.wrapContentHeight(), text = stringResource(id = id)
+        )
+    }
+    @Composable
+    fun ComboCell(value:Int, values:Map<Int, String>, modifier:Modifier) {
+        ComboText(
+            value = value,
+            values = values,
+            modifier = modifier.wrapContentHeight()
+        )
+    }
+
+    @Composable
+    fun MotorsScreen(swalkitConfig: SwalkitConfig) {
         Row(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentWidth()
             ) {
-                Text(
-                    modifier = Modifier
-                        .weight(1f)
-                        .wrapContentHeight(), text = stringResource(id = R.string.motors_motors)
-                )
-                for (m in motors) {
-                    Text(
-                        modifier = Modifier
-                            .weight(1f)
-                            .wrapContentHeight(), text = stringResource(id = m.motors)
-                    )
-                }
+                ResourceTextCell(R.string.motors_motors, Modifier.weight(1f))
+                ResourceTextCell(R.string.motors_front, Modifier.weight(1f))
+                ResourceTextCell(R.string.motors_danger, Modifier.weight(1f))
+                ResourceTextCell(R.string.motors_near, Modifier.weight(1f))
+                ResourceTextCell(R.string.motors_far, Modifier.weight(1f))
             }
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentWidth()
             ) {
-                Text(
-                    modifier = Modifier
-                        .weight(1f)
-                        .wrapContentHeight(), text = stringResource(id = R.string.motors_frequency)
-                )
-                for (m in motors) {
-                    ComboText(
-                        value = m.frequency,
-                        values = frequencyMap,
-                        modifier = Modifier
-                            .weight(1f)
-                            .wrapContentHeight()
-                    )
-                }
+                ResourceTextCell(R.string.motors_frequency, Modifier.weight(1f))
+                ComboCell(swalkitConfig.frontSignal.frequency, frequencyMap, Modifier.weight(1f))
+                ComboCell(swalkitConfig.dangerSignal.frequency, frequencyMap, Modifier.weight(1f))
+                ComboCell(swalkitConfig.nearSignal.frequency, frequencyMap, Modifier.weight(1f))
+                ComboCell(swalkitConfig.farSignal.frequency, frequencyMap, Modifier.weight(1f))
             }
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentWidth()
             ) {
-                Text(
-                    modifier = Modifier
-                        .weight(1f)
-                        .wrapContentHeight(), text = stringResource(id = R.string.motors_pulse)
-                )
-                for (m in motors) {
-                    ComboText(
-                        value = m.pulse,
-                        values = pulseFrequencyMap,
-                        modifier = Modifier
-                            .weight(1f)
-                            .wrapContentHeight()
-                    )
-                }
+                ResourceTextCell(R.string.motors_pulse, Modifier.weight(1f))
+                ComboCell(swalkitConfig.frontSignal.pulse, pulseFrequencyMap, Modifier.weight(1f))
+                ComboCell(swalkitConfig.dangerSignal.pulse, pulseFrequencyMap, Modifier.weight(1f))
+                ComboCell(swalkitConfig.nearSignal.pulse, pulseFrequencyMap, Modifier.weight(1f))
+                ComboCell(swalkitConfig.farSignal.pulse, pulseFrequencyMap, Modifier.weight(1f))
             }
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentWidth()
             ) {
-                Text(
-                    modifier = Modifier
-                        .weight(1f)
-                        .wrapContentHeight(), text = stringResource(id = R.string.motors_distance)
-                )
-                for (m in motors) {
-                    ComboText(
-                        value = m.distance,
-                        values = distanceMap,
-                        modifier = Modifier
-                            .weight(1f)
-                            .wrapContentHeight()
-                    )
-                }
+                ResourceTextCell(R.string.motors_distance, Modifier.weight(1f))
+                ComboCell(swalkitConfig.frontSignal.distance, distanceMap, Modifier.weight(1f))
+                ComboCell(swalkitConfig.dangerSignal.distance, distanceMap, Modifier.weight(1f))
+                ComboCell(swalkitConfig.nearSignal.distance, distanceMap, Modifier.weight(1f))
+                ComboCell(swalkitConfig.farSignal.distance, distanceMap, Modifier.weight(1f))
             }
         }
     }
@@ -156,6 +137,6 @@ object Motors {
 @Composable
 fun Preview() {
     SwalkitAndroidTheme {
-        Motors.MotorsScreen(MotorsSetup.default)
+        Motors.MotorsScreen(SwalkitConfig())
     }
 }

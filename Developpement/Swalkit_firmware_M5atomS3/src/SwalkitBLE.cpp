@@ -1,19 +1,21 @@
 #include <Arduino.h> // for Serial
-#include "bluetooth.h"
+#include "SwalkitBLE.h"
 #include <WiFi.h> // only to have unique id from mac address
 
-Bluetooth_serial::Bluetooth_serial(): pServer(nullptr),
+SwalkitBLE::SwalkitBLE(SwalkitProfile &profile): 
+                profileRef(profile),
+                pServer(nullptr),
                 pService(nullptr),
                 pRequestCharacteristic(nullptr),
-                pConfigurationCharacteristic(nullptr),
+                pProfileCharacteristic(nullptr),
                 deviceConnected(false),
                 oldDeviceConnected(false),
                 pServerCB(nullptr), 
                 pRequestCB(nullptr),
-                pConfigurationCB(nullptr)
+                pProfileCB(nullptr)
 {}
 
-void Bluetooth_serial::start() {
+void SwalkitBLE::start() {
     if (pServer == nullptr) {
         BLUETOOTH_DEVICE_NAME = "Swalkit " + std::string(WiFi.macAddress().c_str());
 
@@ -29,13 +31,13 @@ void Bluetooth_serial::start() {
         pService = pServer->createService(SERVICE_UUID);
 
         // Create BLE Characteristics
-        pRequestCharacteristic = pService->createCharacteristic(REQUEST_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_WRITE);
+        pRequestCharacteristic = pService->createCharacteristic(REQUEST_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE);
         pRequestCB = new RequestCallbacks();
         pRequestCharacteristic->setCallbacks(pRequestCB);
 
-        pConfigurationCharacteristic = pService->createCharacteristic(CONFIGURATION_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE);
-        pConfigurationCB = new ConfigurationCallbacks();
-        pConfigurationCharacteristic->setCallbacks(pConfigurationCB);
+        pProfileCharacteristic = pService->createCharacteristic(PROFILE_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE);
+        pProfileCB = new ProfileCallbacks(profileRef);
+        pProfileCharacteristic->setCallbacks(pProfileCB);
 
         // Add advertising
         BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
@@ -53,7 +55,7 @@ void Bluetooth_serial::start() {
     USBSerial.println("BLE: Server started");
 }
 
-void Bluetooth_serial::stop() {
+void SwalkitBLE::stop() {
     // don't delete everything here, the library is not meant to be used that way. just stop what's running.
     if (pService != nullptr) {
         BLEDevice::stopAdvertising();
@@ -71,26 +73,26 @@ void Bluetooth_serial::stop() {
 }
 
 
-Bluetooth_serial::~Bluetooth_serial() {
+SwalkitBLE::~SwalkitBLE() {
     stop();
     delete pServer;
     delete pServerCB;
     delete pRequestCB;
-    delete pConfigurationCB;
+    delete pProfileCB;
 }
 
 
 #pragma region Server Callbacks
 
-Bluetooth_serial::ServerCallbacks::ServerCallbacks(Bluetooth_serial& _BT_serial) : BT_serial(_BT_serial){}
+SwalkitBLE::ServerCallbacks::ServerCallbacks(SwalkitBLE& _BT_serial) : BT_serial(_BT_serial){}
 
-void Bluetooth_serial::ServerCallbacks::onConnect(BLEServer *pServer) {
+void SwalkitBLE::ServerCallbacks::onConnect(BLEServer *pServer) {
     USBSerial.println("Server connected");
     BT_serial.deviceConnected = true;
     BLEDevice::stopAdvertising();
 }
 
-void Bluetooth_serial::ServerCallbacks::onDisconnect(BLEServer *pServer) {
+void SwalkitBLE::ServerCallbacks::onDisconnect(BLEServer *pServer) {
     USBSerial.println("Server disconnected");
     BT_serial.deviceConnected = false;
 }
@@ -99,38 +101,82 @@ void Bluetooth_serial::ServerCallbacks::onDisconnect(BLEServer *pServer) {
 
 
 #pragma region Request Callbacks
-void Bluetooth_serial::RequestCallbacks::onWrite(BLECharacteristic *pCharacteristic) {
-    std::string value = pCharacteristic->getValue();
-    if (value.length() > 0) {
-        USBSerial.print("Received Value: ");
-        USBSerial.println(value.c_str());
+void setIntValue(int32_t value, uint8_t data[4]) {
+    data[0] = value & 0xff;
+    data[1] = (value >> 8) & 0xff;
+    data[2] = (value >> 16) & 0xff;
+    data[3] = (value >> 24) & 0xff;
+}
+int getIntValue(const uint8_t *data) {
+    return data[0] | data[1] << 8 | data[2] << 16 | data[3] << 24;
+}
+
+void SwalkitBLE::RequestCallbacks::onRead(BLECharacteristic *pCharacteristic) {
+    uint8_t data[4];
+    setIntValue(requestValue, data);
+    pCharacteristic->setValue(data, 4);
+
+    USBSerial.print("Sending Request value : ");
+    for (int i = 0; i < 4; i++) {
+        USBSerial.print(data[i]);
+        USBSerial.print(" ");
+    }
+    USBSerial.println();
+    USBSerial.println(requestValue);
+    USBSerial.println("*********");
+}
+
+
+void SwalkitBLE::RequestCallbacks::onWrite(BLECharacteristic *pCharacteristic) {
+    if (pCharacteristic->getLength() == 4) {
+        uint8_t *data = pCharacteristic->getData();
+        requestValue = getIntValue(data);
+        USBSerial.print("Received Request Value: ");
+        for (int i = 0; i < 4; i++) {
+            USBSerial.print(data[i]);
+            USBSerial.print(" ");
+        }
+        USBSerial.println();
+        USBSerial.println(requestValue);
         USBSerial.println("*********");
+    } else {
+        USBSerial.print("Unexpected request data length : ");
+        USBSerial.println(pCharacteristic->getLength());
+    USBSerial.println("*********");
     }
 }
 #pragma endregion
 
-#pragma region Request Callbacks
-void Bluetooth_serial::ConfigurationCallbacks::onWrite(BLECharacteristic *pCharacteristic) {
-    std::string value = pCharacteristic->getValue();
-    if (value.length() > 0) {
-        USBSerial.print("Received Value: ");
-        for (int i = 0; i < value.length(); i++)
-            USBSerial.print(value[i]);
+#pragma region Profile Callbacks
+SwalkitBLE::ProfileCallbacks::ProfileCallbacks(SwalkitProfile &profile) : profileRef(profile) {}
 
+void SwalkitBLE::ProfileCallbacks::onWrite(BLECharacteristic *pCharacteristic) {
+    size_t data_length = pCharacteristic->getLength();
+    uint8_t *data = pCharacteristic->getData();
+    if (data_length > 0) {
+        profileRef.fromBytes(data, data_length);
+        USBSerial.print("Received profile: ");
+        for (int i = 0; i < data_length; i++) {
+            USBSerial.print(data[i]);
+            USBSerial.print(" ");
+        }
         USBSerial.println();
+        USBSerial.println(profileRef.toString().c_str());
         USBSerial.println("*********");
     }
 }
 
-void Bluetooth_serial::ConfigurationCallbacks::onRead(BLECharacteristic *pCharacteristic) {
-    std::string value = pCharacteristic->getValue();
-    for(auto it = value.begin(); it != value.end(); ++it) {
-        ++*it;
-    }
-    USBSerial.print("Sending value : ");
-        USBSerial.println(value.c_str());
+void SwalkitBLE::ProfileCallbacks::onRead(BLECharacteristic *pCharacteristic) {
+    uint8_t *data = nullptr;
+    size_t data_length;
+    profileRef.toBytes(data, data_length);
+    pCharacteristic->setValue(data, data_length);
+    USBSerial.print("Sending profile : ");
+        for (int i = 0; i < data_length; i++)
+            USBSerial.print(data[i]);
+        USBSerial.println();
+    USBSerial.println(profileRef.toString().c_str());
     USBSerial.println("*********");
-    pCharacteristic->setValue(value);
 }
 #pragma endregion
 
