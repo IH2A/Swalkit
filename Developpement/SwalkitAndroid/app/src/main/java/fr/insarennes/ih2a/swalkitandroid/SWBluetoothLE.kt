@@ -1,6 +1,5 @@
 package fr.insarennes.ih2a.swalkitandroid
 
-import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
@@ -27,7 +26,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,31 +43,25 @@ enum class BluetoothLEStatus {
 }
 
 enum class SwalkitCharacteristic {
-    REQUEST,
+    SENSOR_VALUES,
     PROFILE,
 }
 
 /* TODO :
-check whether lifecyclescope is appropriate or should be replaced by a custom one
 make sure we properly handle application suspend/resume or start/stop
 check on android S+
  */
 
-class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiver() {
+class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver() {
     companion object {
         private lateinit var instance: SWBluetoothLE
-        public fun getInstance() = instance
+        fun getInstance() = instance
     }
 
     private val SWALKITSERVICEUUID = UUID.fromString("07632d2a-6284-4cdf-82ee-f6a70b627c61")
-    private val SWALKITREQUESTCHARACTERISTICUUID = UUID.fromString("c9f2218b-a76a-4643-b567-296dc58bffd7")
+    private val SWALKITSENSORVALUESCHARACTERISTICUUID = UUID.fromString("c9f2218b-a76a-4643-b567-296dc58bffd7")
     private val SWALKITPROFILECHARACTERISTICUUID = UUID.fromString("7027e0e3-e02a-4346-9d4f-826bf6db7772")
 
-    private val bluetoothPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        android.Manifest.permission.BLUETOOTH_CONNECT
-    } else {
-        android.Manifest.permission.BLUETOOTH
-    }
     private val SCANMAXDURATION: Long = 10000
 
     private val bluetoothManager: BluetoothManager = activity.getSystemService(BluetoothManager::class.java)
@@ -121,12 +113,12 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
                 when (p1.extras?.getInt(BluetoothAdapter.EXTRA_STATE)) {
                     BluetoothAdapter.STATE_OFF -> {
                         Log.i(LOG_TAG, "Bluetooth disabled")
-                        bluetoothEnabled.value = false;
+                        bluetoothEnabled.value = false
                         updateStatus()
                     }
                     BluetoothAdapter.STATE_ON -> {
                         Log.i(LOG_TAG, "Bluetooth enabled")
-                        bluetoothEnabled.value = true;
+                        bluetoothEnabled.value = true
                         updateStatus()
                     }
                 }
@@ -154,7 +146,7 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
                 super.onConnectionStateChange(gatt, status, newState)
                 when(newState) {
                     BluetoothProfile.STATE_CONNECTED -> {
-                        bluetoothConnected.value = true;
+                        bluetoothConnected.value = true
                         checkedBTConnectPermission { gatt?.discoverServices() }
                         updateStatus()
                     }
@@ -172,6 +164,8 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
                 }
             }
 
+            // this one is needed for older devices
+            @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
             override fun onCharacteristicRead(
                 gatt: BluetoothGatt?,
                 characteristic: BluetoothGattCharacteristic?,
@@ -205,6 +199,8 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
         }
     }
 
+    // the deprecated part is needed for older devices
+    @Suppress("DEPRECATION")
     fun writeCharacteristic(characteristicId:SwalkitCharacteristic, value:ByteArray) {
         bluetoothGatt?.let { gatt ->
             bluetoothGattService?.getCharacteristic(getCharacteristicUUID(characteristicId))
@@ -239,7 +235,7 @@ class SWBluetoothLE(protected val activity: ComponentActivity) : BroadcastReceiv
 
     private fun getCharacteristicUUID(characteristic:SwalkitCharacteristic): UUID {
         return when(characteristic) {
-            SwalkitCharacteristic.REQUEST -> SWALKITREQUESTCHARACTERISTICUUID
+            SwalkitCharacteristic.SENSOR_VALUES -> SWALKITSENSORVALUESCHARACTERISTICUUID
             SwalkitCharacteristic.PROFILE -> SWALKITPROFILECHARACTERISTICUUID
         }
     }

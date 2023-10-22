@@ -17,4 +17,6 @@
     <string name="motors_frequency">Frequency</string>
     <string name="motors_pulse">Pulse</string>
     <string name="motors_distance">Distance</string>
+    <string name="read_sensors_value">Read sensors value</string>
+    <string name="sensors_value">Sensors value</string>
 </resources>

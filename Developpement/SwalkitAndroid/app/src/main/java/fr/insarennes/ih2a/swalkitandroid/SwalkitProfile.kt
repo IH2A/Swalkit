@@ -1,15 +1,26 @@
 package fr.insarennes.ih2a.swalkitandroid
 
+import fr.insarennes.ih2a.swalkitandroid.data.DataProfile
 
-class SwalkitConfig() {
+
+class SwalkitProfile() {
     var name:String = "default"
-    var frontSignal:SignalSetup = SignalSetup(SignalSetup.SwalkitSignals.FRONT, 55, 100, 20)
-    var dangerSignal:SignalSetup = SignalSetup(SignalSetup.SwalkitSignals.FRONT, 45, 200, 30)
-    var nearSignal:SignalSetup = SignalSetup(SignalSetup.SwalkitSignals.FRONT, 55, 0, 40)
-    var farSignal:SignalSetup = SignalSetup(SignalSetup.SwalkitSignals.FRONT, 90, 0, 50)
+    var frontSignal:SwalkitSignal = SwalkitSignal(SwalkitSignal.SwalkitSignals.FRONT, 55, 100, 20)
+    var dangerSignal:SwalkitSignal = SwalkitSignal(SwalkitSignal.SwalkitSignals.FRONT, 45, 200, 30)
+    var nearSignal:SwalkitSignal = SwalkitSignal(SwalkitSignal.SwalkitSignals.FRONT, 55, 0, 40)
+    var farSignal:SwalkitSignal = SwalkitSignal(SwalkitSignal.SwalkitSignals.FRONT, 90, 0, 50)
 
     override fun toString() : String {
         return "$name - Front : $frontSignal, Danger : $dangerSignal, Near : $nearSignal, Far : $farSignal"
+    }
+
+    fun toDataProfile() : DataProfile = DataProfile(name, frontSignal.toDataSignal(), dangerSignal.toDataSignal(), nearSignal.toDataSignal(), farSignal.toDataSignal())
+    fun fromDataProfile(dataProfile:DataProfile) {
+        name = dataProfile.name
+        frontSignal.fromDataSignal(dataProfile.signalFront)
+        dangerSignal.fromDataSignal(dataProfile.signalDanger)
+        nearSignal.fromDataSignal(dataProfile.signalNear)
+        farSignal.fromDataSignal(dataProfile.signalFar)
     }
 
     fun toByteArray() : ByteArray {

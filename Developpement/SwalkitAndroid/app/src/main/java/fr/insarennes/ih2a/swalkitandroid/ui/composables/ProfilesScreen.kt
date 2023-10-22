@@ -1,24 +1,17 @@
-package fr.insarennes.ih2a.swalkitandroid
+package fr.insarennes.ih2a.swalkitandroid.ui.composables
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import fr.insarennes.ih2a.swalkitandroid.SwalkitProfile
+import fr.insarennes.ih2a.swalkitandroid.SwalkitViewModel
 
 object Profiles {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun ProfilesScreen(config: SwalkitConfig) {
+    fun ProfilesScreen(viewModel: SwalkitViewModel) {
         Column(modifier = Modifier.fillMaxSize()) {
 /*
     TextField(value = request, onValueChange = {request = it}, label = { Text("Request")} )

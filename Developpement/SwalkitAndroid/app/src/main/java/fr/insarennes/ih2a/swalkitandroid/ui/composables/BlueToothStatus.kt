@@ -1,4 +1,4 @@
-package fr.insarennes.ih2a.swalkitandroid
+package fr.insarennes.ih2a.swalkitandroid.ui.composables
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.text.ClickableText
@@ -19,7 +19,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
-import java.text.Format
+import fr.insarennes.ih2a.swalkitandroid.BluetoothLEStatus
+import fr.insarennes.ih2a.swalkitandroid.R
+import fr.insarennes.ih2a.swalkitandroid.SWBluetoothLE
 
 typealias BluetoothStatus = BluetoothLEStatus
 
@@ -43,25 +45,25 @@ fun BlueToothStatus() {
 
     // Bluetooth
     when(status) {
-        BluetoothStatus.UNKNOWN -> {
+        BluetoothLEStatus.UNKNOWN -> {
             title = ""
             iconId = R.drawable.baseline_bluetooth_disabled_24
         }
-        BluetoothStatus.NO_BLUETOOTH -> {
+        BluetoothLEStatus.NO_BLUETOOTH -> {
             title = stringResource(id = R.string.no_bluetooth_adapter)
             iconId = R.drawable.baseline_bluetooth_disabled_24
         }
-        BluetoothStatus.PERMISSION_REQUIRED -> {
+        BluetoothLEStatus.PERMISSION_REQUIRED -> {
             title = stringResource(id = R.string.permission_required)
             iconId = R.drawable.baseline_bluetooth_disabled_24
             action = { swBluetooth.enableBluetooth() }
         }
-        BluetoothStatus.BLUETOOTH_DISABLED -> {
+        BluetoothLEStatus.BLUETOOTH_DISABLED -> {
             title = stringResource(id = R.string.bluetooth_disabled)
             iconId = R.drawable.baseline_bluetooth_disabled_24
             action = { swBluetooth.enableBluetooth() }
         }
-        BluetoothStatus.NO_DEVICE_SELECTED -> {
+        BluetoothLEStatus.NO_DEVICE_SELECTED -> {
             title = stringResource(id = R.string.no_device_selected)
             iconId = R.drawable.baseline_bluetooth_24
             action = {
@@ -69,12 +71,12 @@ fun BlueToothStatus() {
                 deviceMenuExpanded = !deviceMenuExpanded
             }
         }
-        BluetoothStatus.NOT_CONNECTED_TO_DEVICE -> {
+        BluetoothLEStatus.NOT_CONNECTED_TO_DEVICE -> {
             title = String.format(stringResource(R.string.device_not_found), selectedDeviceName)
             iconId = R.drawable.baseline_perm_device_information_24
             action = { deviceMenuExpanded = !deviceMenuExpanded }
         }
-        BluetoothStatus.CONNECTED_TO_DEVICE -> {
+        BluetoothLEStatus.CONNECTED_TO_DEVICE -> {
             title = selectedDeviceName
             iconId = R.drawable.baseline_perm_device_information_24
         }

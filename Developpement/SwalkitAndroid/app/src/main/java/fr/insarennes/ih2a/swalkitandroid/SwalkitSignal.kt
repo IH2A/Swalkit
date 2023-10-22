@@ -1,6 +1,8 @@
 package fr.insarennes.ih2a.swalkitandroid
 
-data class SignalSetup(var motors:SwalkitSignals, var frequency:Int, var pulse:Int, var distance:Int) {
+import fr.insarennes.ih2a.swalkitandroid.data.DataSignal
+
+data class SwalkitSignal(var motors:SwalkitSignals, var frequency:Int, var pulse:Int, var distance:Int) {
     enum class SwalkitSignals {
         FRONT,
         DANGER,
@@ -19,11 +21,11 @@ data class SignalSetup(var motors:SwalkitSignals, var frequency:Int, var pulse:I
         fun pulseString(value:Int) = if (value > 0) "${value}ms" else "OFF"
         fun distanceString(value:Int) = "${value}cm"
 
-        val default: List<SignalSetup> = listOf(
-            SignalSetup(SwalkitSignals.FRONT, 55, 100, 20),
-            SignalSetup(SwalkitSignals.DANGER, 45, 200, 30),
-            SignalSetup(SwalkitSignals.NEAR, 55, 0, 40),
-            SignalSetup(SwalkitSignals.FAR, 90, 0, 50),
+        val default: List<SwalkitSignal> = listOf(
+            SwalkitSignal(SwalkitSignals.FRONT, 55, 100, 20),
+            SwalkitSignal(SwalkitSignals.DANGER, 45, 200, 30),
+            SwalkitSignal(SwalkitSignals.NEAR, 55, 0, 40),
+            SwalkitSignal(SwalkitSignals.FAR, 90, 0, 50),
         )
     }
 
@@ -33,5 +35,12 @@ data class SignalSetup(var motors:SwalkitSignals, var frequency:Int, var pulse:I
 
     override fun toString(): String {
         return "${frequencyString()}, ${pulseString()}, ${distanceString()}"
+    }
+
+    fun toDataSignal() : DataSignal = DataSignal(frequency, pulse, distance)
+    fun fromDataSignal(dataSignal:DataSignal) {
+        frequency = dataSignal.frequency
+        pulse = dataSignal.pulse
+        distance = dataSignal.distance
     }
 }
