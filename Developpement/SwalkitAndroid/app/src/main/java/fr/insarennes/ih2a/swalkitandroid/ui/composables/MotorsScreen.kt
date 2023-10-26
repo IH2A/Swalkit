@@ -13,8 +13,6 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -22,14 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.insarennes.ih2a.swalkitandroid.R
-import fr.insarennes.ih2a.swalkitandroid.SwalkitProfile
 import fr.insarennes.ih2a.swalkitandroid.SwalkitSignal
 import fr.insarennes.ih2a.swalkitandroid.SwalkitViewModel
-import fr.insarennes.ih2a.swalkitandroid.data.SwalkitDatabase
-import fr.insarennes.ih2a.swalkitandroid.ui.theme.SwalkitAndroidTheme
 
 object Motors {
     private val frequencyList: List<Int> = mutableListOf(0) + (30..95 step 5).toList()
@@ -41,31 +35,18 @@ object Motors {
     private val distanceList: List<Int> = (0..115 step 5).toList()
     private val distanceMap = distanceList.associateWith { SwalkitSignal.distanceString(it) }
 
-    @Composable
-    fun ResourceTextCell(id:Int, modifier:Modifier) {
-        Text(
-            modifier = modifier.wrapContentHeight(), text = stringResource(id = id)
-        )
-    }
-    @Composable
-    fun ComboCell(value:Int, values:Map<Int, String>, modifier:Modifier) {
-        ComboText(
-            value = value,
-            values = values,
-            modifier = modifier.wrapContentHeight()
-        )
-    }
-
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun MotorsScreen(viewModel: SwalkitViewModel) {
-        val currentProfileState by viewModel.currentProfile.collectAsState()
+        val currentProfileState by viewModel.currentProfile.collectAsStateWithLifecycle()
 
         Column {
-            Text(
-                text = currentProfileState.name,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(1f)
-            )
+            TextField(
+                modifier = Modifier.fillMaxWidth(1f),
+                value = currentProfileState.name,
+                onValueChange = {
+                    viewModel.updateCurrentProfile(currentProfileState.copy(name = it))
+                })
             Row(modifier = Modifier.fillMaxSize()) {
                 Column(
                     modifier = Modifier
@@ -88,22 +69,38 @@ object Motors {
                         currentProfileState.frontSignal.frequency,
                         frequencyMap,
                         Modifier.weight(1f)
-                    )
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(frontSignal = currentProfileState.frontSignal.copy(frequency = it) )
+                        )
+                    }
                     ComboCell(
                         currentProfileState.dangerSignal.frequency,
                         frequencyMap,
                         Modifier.weight(1f)
-                    )
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(dangerSignal = currentProfileState.dangerSignal.copy(frequency = it) )
+                        )
+                    }
                     ComboCell(
                         currentProfileState.nearSignal.frequency,
                         frequencyMap,
                         Modifier.weight(1f)
-                    )
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(nearSignal = currentProfileState.nearSignal.copy(frequency = it) )
+                        )
+                    }
                     ComboCell(
                         currentProfileState.farSignal.frequency,
                         frequencyMap,
                         Modifier.weight(1f)
-                    )
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(farSignal = currentProfileState.farSignal.copy(frequency = it) )
+                        )
+                    }
                 }
                 Column(
                     modifier = Modifier
@@ -115,18 +112,38 @@ object Motors {
                         currentProfileState.frontSignal.pulse,
                         pulseFrequencyMap,
                         Modifier.weight(1f)
-                    )
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(frontSignal = currentProfileState.frontSignal.copy(pulse = it) )
+                        )
+                    }
                     ComboCell(
                         currentProfileState.dangerSignal.pulse,
                         pulseFrequencyMap,
                         Modifier.weight(1f)
-                    )
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(dangerSignal = currentProfileState.dangerSignal.copy(pulse = it) )
+                        )
+                    }
                     ComboCell(
                         currentProfileState.nearSignal.pulse,
                         pulseFrequencyMap,
                         Modifier.weight(1f)
-                    )
-                    ComboCell(currentProfileState.farSignal.pulse, pulseFrequencyMap, Modifier.weight(1f))
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(nearSignal = currentProfileState.nearSignal.copy(pulse = it) )
+                        )
+                    }
+                    ComboCell(
+                        currentProfileState.farSignal.pulse,
+                        pulseFrequencyMap,
+                        Modifier.weight(1f)
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(farSignal = currentProfileState.farSignal.copy(pulse = it) )
+                        )
+                    }
                 }
                 Column(
                     modifier = Modifier
@@ -134,24 +151,63 @@ object Motors {
                         .wrapContentWidth()
                 ) {
                     ResourceTextCell(R.string.motors_distance, Modifier)
-                    ComboCell(currentProfileState.frontSignal.distance, distanceMap, Modifier.weight(1f))
-                    ComboCell(currentProfileState.dangerSignal.distance, distanceMap, Modifier.weight(1f))
-                    ComboCell(currentProfileState.nearSignal.distance, distanceMap, Modifier.weight(1f))
-                    ComboCell(currentProfileState.farSignal.distance, distanceMap, Modifier.weight(1f))
+                    ComboCell(
+                        currentProfileState.frontSignal.distance,
+                        distanceMap,
+                        Modifier.weight(1f)
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(frontSignal = currentProfileState.frontSignal.copy(distance = it) )
+                        )
+                    }
+                    ComboCell(
+                        currentProfileState.dangerSignal.distance,
+                        distanceMap,
+                        Modifier.weight(1f)
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(dangerSignal = currentProfileState.dangerSignal.copy(distance = it) )
+                        )
+                    }
+                    ComboCell(
+                        currentProfileState.nearSignal.distance,
+                        distanceMap,
+                        Modifier.weight(1f)
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(nearSignal = currentProfileState.nearSignal.copy(distance = it) )
+                        )
+                    }
+                    ComboCell(
+                        currentProfileState.farSignal.distance,
+                        distanceMap,
+                        Modifier.weight(1f)
+                    ) {
+                        viewModel.updateCurrentProfile(
+                            currentProfileState.copy(farSignal = currentProfileState.farSignal.copy(distance = it) )
+                        )
+                    }
                 }
             }
         }
     }
 
+    @Composable
+    fun ResourceTextCell(id:Int, modifier:Modifier) {
+        Text(
+            modifier = modifier.wrapContentHeight(), text = stringResource(id = id)
+        )
+    }
+
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun ComboText(value: Int, values: Map<Int, String>, modifier: Modifier) {
+    fun ComboCell(value: Int, values: Map<Int, String>, modifier: Modifier, valueChanged:(Int) -> Unit) {
         var expanded by remember { mutableStateOf(false) }
         var selectedText by remember { mutableStateOf(values.getOrDefault(value, "")) }
         var selectedValue by remember { mutableIntStateOf(value) }
 
         ExposedDropdownMenuBox(
-            modifier = modifier,
+            modifier = modifier.wrapContentHeight(),
             expanded = expanded,
             onExpandedChange = { expanded = !expanded }) {
             TextField(
@@ -167,6 +223,7 @@ object Motors {
                     DropdownMenuItem(
                         text = { Text(it.value) },
                         onClick = {
+                            valueChanged(it.key)
                             selectedValue = it.key
                             selectedText = it.value
                             expanded = false

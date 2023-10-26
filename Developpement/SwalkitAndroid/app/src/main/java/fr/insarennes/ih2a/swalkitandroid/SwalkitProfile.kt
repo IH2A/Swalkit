@@ -14,6 +14,21 @@ class SwalkitProfile() {
         return "$name - Front : $frontSignal, Danger : $dangerSignal, Near : $nearSignal, Far : $farSignal"
     }
 
+    fun copy(name:String = this.name,
+             frontSignal:SwalkitSignal = this.frontSignal.copy(),
+             dangerSignal:SwalkitSignal = this.dangerSignal.copy(),
+             nearSignal:SwalkitSignal = this.nearSignal.copy(),
+             farSignal:SwalkitSignal = this.farSignal.copy()
+             ):SwalkitProfile {
+        var result = SwalkitProfile()
+        result.name = name
+        result.frontSignal = frontSignal
+        result.dangerSignal = dangerSignal
+        result.nearSignal = nearSignal
+        result.farSignal = farSignal
+        return result
+    }
+
     fun toDataProfile() : DataProfile = DataProfile(name, frontSignal.toDataSignal(), dangerSignal.toDataSignal(), nearSignal.toDataSignal(), farSignal.toDataSignal())
     fun fromDataProfile(dataProfile:DataProfile) {
         name = dataProfile.name

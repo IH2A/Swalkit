@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [DataProfile::class], version = 1)
+@Database(entities = [DataProfile::class], version = 1, exportSchema = false)
 abstract class SwalkitDatabase : RoomDatabase() {
     abstract fun profileDAO():ProfileDAO
 

@@ -9,25 +9,25 @@ interface SwalkitDestination {
 //    val icon:ImageVector
     val route:String
     val textId:Int
-    val screen:@Composable (viewModel: SwalkitViewModel) -> Unit
+    val screen:@Composable (SwalkitViewModel) -> Unit
 }
 
 object ProfilesDestination : SwalkitDestination {
     override val route = "profiles"
     override val textId = R.string.profiles_screen_title
-    override val screen: @Composable (viewModel: SwalkitViewModel) -> Unit =  { Profiles.ProfilesScreen(it) }
+    override val screen: @Composable (vm:SwalkitViewModel) -> Unit =  { Profiles.ProfilesScreen(it) }
 }
 
 object MotorsDestination : SwalkitDestination {
     override val route = "motors"
     override val textId = R.string.motors_screen_title
-    override val screen: @Composable (viewModel: SwalkitViewModel) -> Unit = { Motors.MotorsScreen(it) }
+    override val screen: @Composable (vm:SwalkitViewModel) -> Unit = { Motors.MotorsScreen(it) }
 }
 
 object SensorsDestination : SwalkitDestination {
     override val route = "sensors"
     override val textId = R.string.sensors_screen_title
-    override val screen: @Composable (viewModel: SwalkitViewModel) -> Unit =  { Sensors.SensorsScreen(it) }
+    override val screen: @Composable (vm:SwalkitViewModel) -> Unit =  { Sensors.SensorsScreen(it) }
 }
 
 val bottomBarDestinations = listOf(ProfilesDestination, MotorsDestination, SensorsDestination)

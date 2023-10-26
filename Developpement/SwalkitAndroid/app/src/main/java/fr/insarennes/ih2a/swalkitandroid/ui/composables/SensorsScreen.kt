@@ -14,6 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import fr.insarennes.ih2a.swalkitandroid.R
 import fr.insarennes.ih2a.swalkitandroid.SWBluetoothLE
 import fr.insarennes.ih2a.swalkitandroid.SwalkitCharacteristic
@@ -25,9 +27,8 @@ object Sensors {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun SensorsScreen(viewModel: SwalkitViewModel) {
-        val swBluetooth = SWBluetoothLE.getInstance()
-        val sensorValuesState by viewModel.sensorValues.collectAsState()
-        val currentProfileState by viewModel.currentProfile.collectAsState()
+        val sensorValuesState by viewModel.sensorValues.collectAsStateWithLifecycle()
+        val currentProfileState by viewModel.currentProfile.collectAsStateWithLifecycle()
         Column(modifier = Modifier.fillMaxSize()) {
             Text(text = stringResource(id = R.string.sensors_value))
             sensorValuesState.forEach { Text(text = it.toString()) }
@@ -35,7 +36,7 @@ object Sensors {
                 Text(text = stringResource(id = R.string.read_sensors_value))
             }
 
-            Text(text = viewModel.currentProfile.toString())
+            Text(text = currentProfileState.toString())
             Button(onClick = { viewModel.sendProfileToDevice(currentProfileState) }) {
                 Text(text = "Send configuration")
             }

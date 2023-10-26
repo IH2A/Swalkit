@@ -80,10 +80,6 @@ fun BlueToothStatus() {
             title = selectedDeviceName
             iconId = R.drawable.baseline_perm_device_information_24
         }
-        else -> {
-            title = ""
-            iconId = R.drawable.baseline_bluetooth_disabled_24
-        }
     }
 
     CenterAlignedTopAppBar(title = { ClickableText(text = AnnotatedString(title), onClick = { _ -> action()}) },

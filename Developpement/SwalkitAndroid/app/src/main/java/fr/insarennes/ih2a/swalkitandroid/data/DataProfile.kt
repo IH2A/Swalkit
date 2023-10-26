@@ -13,8 +13,8 @@ data class DataSignal(
 @Entity
 data class DataProfile(
     @PrimaryKey val name:String,
-    @Embedded val signalFront:DataSignal,
-    @Embedded val signalDanger:DataSignal,
-    @Embedded val signalNear:DataSignal,
-    @Embedded val signalFar: DataSignal
+    @Embedded(prefix = "front_") val signalFront:DataSignal,
+    @Embedded(prefix = "danger_") val signalDanger:DataSignal,
+    @Embedded(prefix = "near_") val signalNear:DataSignal,
+    @Embedded(prefix = "far_") val signalFar: DataSignal
 )
