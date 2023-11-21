@@ -134,18 +134,18 @@ bool lastLeft = false;
 // ushort FRONTAL_DANGER_VALUE_LEVEL = 90;
 ushort FRONTAL_DANGER_VALUE_LEVEL = 100;
 ushort FRONTAL_PULSE_VALUE_LEVEL = 50;
-ushort DISTANCE_FORWARD_DANGER = 75; // cm
+ushort DISTANCE_FORWARD_DANGER = 55; // cm
 
 // ushort STEP_LEVELS[3] = {90, // Frequencies
 //                          65,
 //                          0};
 ushort STEP_LEVELS[3] = {100, // % of duty
                          80,
-                         65};
+                         0};
 #define OFF 0
 std::vector<uint16_t> DISTANCES_LEVELS = {25,  // Danger
-                                          55,  // Near
-                                          75}; // Far
+                                          35,  // Near
+                                          55}; // Far
 
 ushort PULSE_LEVELS[3] = {0, 0, 0};
 
