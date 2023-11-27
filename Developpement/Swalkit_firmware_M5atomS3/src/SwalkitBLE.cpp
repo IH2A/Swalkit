@@ -17,7 +17,7 @@ SwalkitBLE::SwalkitBLE(SwalkitProfile &profile):
 
 void SwalkitBLE::start() {
     if (pServer == nullptr) {
-        BLUETOOTH_DEVICE_NAME = "Swalkit " + std::string(WiFi.macAddress().c_str());
+        BLUETOOTH_DEVICE_NAME = "Swalkit " + std::string(WiFi.macAddress().substring(0, 8).c_str());
 
         // Create the BLE Device
         BLEDevice::init(BLUETOOTH_DEVICE_NAME);
