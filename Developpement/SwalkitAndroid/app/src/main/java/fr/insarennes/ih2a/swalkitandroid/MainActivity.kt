@@ -11,18 +11,28 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import fr.insarennes.ih2a.swalkitandroid.data.SwalkitDatabase
+import fr.insarennes.ih2a.swalkitandroid.ui.composables.BlueToothStatus
 import fr.insarennes.ih2a.swalkitandroid.ui.theme.SwalkitAndroidTheme
 
 
+const val LOG_TAG = "SWALKIT_APP"
 class MainActivity : ComponentActivity() {
-    private lateinit var swBluetooth:SWBluetooth
+    private lateinit var swBluetooth:SWBluetoothLE
+    private lateinit var swViewModel:SwalkitViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        swBluetooth = SWBluetooth(this)
+        if (!this::swBluetooth.isInitialized) {
+            swBluetooth = SWBluetoothLE(this)
+        }
+        if (!this::swViewModel.isInitialized) {
+            swViewModel = SwalkitViewModel(SwalkitDatabase.getInstance(this))
+        }
         setContent {
             MainComposable()
         }
@@ -44,7 +54,7 @@ class MainActivity : ComponentActivity() {
         SwalkitAndroidTheme {
             val navController = rememberNavController()
             Scaffold(
-                topBar = { BlueToothStatus(swBluetooth) },
+                topBar = { BlueToothStatus() },
                 bottomBar = {
                     BottomAppBar(
                         actions = {
@@ -61,13 +71,13 @@ class MainActivity : ComponentActivity() {
             ) { innerPadding ->
                 NavHost(navController = navController, startDestination = ProfilesDestination.route, modifier = Modifier.padding(innerPadding)) {
                     composable(route = ProfilesDestination.route) {
-                        ProfilesDestination.screen()
+                        ProfilesDestination.screen(swViewModel)
                     }
                     composable(route = MotorsDestination.route) {
-                        MotorsDestination.screen()
+                        MotorsDestination.screen(swViewModel)
                     }
                     composable(route = SensorsDestination.route) {
-                        SensorsDestination.screen()
+                        SensorsDestination.screen(swViewModel)
                     }
                 }
             }

@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <M5AtomS3.h>
 // #include <Preferences.h>
-// #include "bluetooth.h"
-// #include "profile.h"
+#include "SwalkitBle.h"
+#include "SwalkitProfile.h"
 // #include "sensors.h"
 #include "LMA.h"
 
@@ -12,7 +12,8 @@ bool imu_enable = true;
 bool bluetooth_enable = false;
 
 // Configuration Bluetooth
-// Bluetooth_serial BT_serial;
+SwalkitProfile swalkitProfile;
+SwalkitBLE swalkitBLE(swalkitProfile);
 
 // Déclarations
 // Sensors sensors;
@@ -28,7 +29,12 @@ void setup()
     // Initialisation du M5stack
     M5.begin(true, true, true, true);
     USBSerial.println("Starting...");
-    if(imu_enable) M5.IMU.begin();
+
+    // Init. de la centrale inertielle pour la detection de mouvement
+    // if (imu_enable)
+    // {
+    //     M5.IMU.begin();
+    // }
 
     // Init LCD
     if (display_enable)
@@ -76,16 +82,35 @@ void screen_update_task(void *pvParameters)
 }
 
 
-void loop() {}
-
-void set_display_from_sensors()
+void loop()
 {
     M5.update(); //Btn read
     if (M5.Btn.wasPressed())
     {
-        M5.Lcd.fillScreen(M5.Lcd.color16to24(random16()));
+        bluetooth_enable = !bluetooth_enable;
+        if (bluetooth_enable)
+        {
+            swalkitBLE.start();
+            USBSerial.print("Bluetooth enabled\n");
+            M5.Lcd.fillScreen(BLUE);
+        }
+        else
+        {
+            swalkitBLE.stop();
+            USBSerial.print("Bluetooth disabled\n");
+            M5.Lcd.fillScreen(YELLOW);
+        }
     }
 
+
+    motors.write();
+    // delay(10);
+    delay(100);
+    // USBSerial.println(motors.driver.getAnalogInput(_12bit)/ 4095.0f * 3.3f / 0.09f);
+}
+
+void set_display_from_sensors()
+{
     if(imu_enable)
     {
         M5.IMU.getAccel(&ax,&ay,&az);

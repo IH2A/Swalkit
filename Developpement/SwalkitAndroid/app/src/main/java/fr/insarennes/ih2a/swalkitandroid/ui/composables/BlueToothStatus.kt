@@ -1,4 +1,4 @@
-package fr.insarennes.ih2a.swalkitandroid
+package fr.insarennes.ih2a.swalkitandroid.ui.composables
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.text.ClickableText
@@ -19,13 +19,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.AnnotatedString
-import java.text.Format
+import fr.insarennes.ih2a.swalkitandroid.BluetoothLEStatus
+import fr.insarennes.ih2a.swalkitandroid.R
+import fr.insarennes.ih2a.swalkitandroid.SWBluetoothLE
+
+typealias BluetoothStatus = BluetoothLEStatus
 
 @SuppressLint("MissingPermission")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BlueToothStatus(swBluetooth: SWBluetooth) {
+fun BlueToothStatus() {
     // Use bluetooth status in State
+    val swBluetooth = SWBluetoothLE.getInstance()
     val status by remember { swBluetooth.status }
 
     // Selected device
@@ -40,41 +45,40 @@ fun BlueToothStatus(swBluetooth: SWBluetooth) {
 
     // Bluetooth
     when(status) {
-        BluetoothStatus.UNKNOWN -> {
+        BluetoothLEStatus.UNKNOWN -> {
             title = ""
             iconId = R.drawable.baseline_bluetooth_disabled_24
         }
-        BluetoothStatus.NO_BLUETOOTH -> {
+        BluetoothLEStatus.NO_BLUETOOTH -> {
             title = stringResource(id = R.string.no_bluetooth_adapter)
             iconId = R.drawable.baseline_bluetooth_disabled_24
         }
-        BluetoothStatus.PERMISSION_REQUIRED -> {
+        BluetoothLEStatus.PERMISSION_REQUIRED -> {
             title = stringResource(id = R.string.permission_required)
             iconId = R.drawable.baseline_bluetooth_disabled_24
             action = { swBluetooth.enableBluetooth() }
         }
-        BluetoothStatus.BLUETOOTH_DISABLED -> {
+        BluetoothLEStatus.BLUETOOTH_DISABLED -> {
             title = stringResource(id = R.string.bluetooth_disabled)
             iconId = R.drawable.baseline_bluetooth_disabled_24
             action = { swBluetooth.enableBluetooth() }
         }
-        BluetoothStatus.NO_DEVICE_SELECTED -> {
+        BluetoothLEStatus.NO_DEVICE_SELECTED -> {
             title = stringResource(id = R.string.no_device_selected)
             iconId = R.drawable.baseline_bluetooth_24
-            action = { deviceMenuExpanded = !deviceMenuExpanded }
+            action = {
+                swBluetooth.startScanningForDevices()
+                deviceMenuExpanded = !deviceMenuExpanded
+            }
         }
-        BluetoothStatus.NOT_CONNECTED_TO_DEVICE -> {
+        BluetoothLEStatus.NOT_CONNECTED_TO_DEVICE -> {
             title = String.format(stringResource(R.string.device_not_found), selectedDeviceName)
             iconId = R.drawable.baseline_perm_device_information_24
             action = { deviceMenuExpanded = !deviceMenuExpanded }
         }
-        BluetoothStatus.CONNECTED_TO_DEVICE -> {
+        BluetoothLEStatus.CONNECTED_TO_DEVICE -> {
             title = selectedDeviceName
             iconId = R.drawable.baseline_perm_device_information_24
-        }
-        else -> {
-            title = ""
-            iconId = R.drawable.baseline_bluetooth_disabled_24
         }
     }
 
@@ -86,19 +90,18 @@ fun BlueToothStatus(swBluetooth: SWBluetooth) {
                     contentDescription = title
                 )
             }
-            val bondedDevices = swBluetooth.getBondedDevices()
-            if (bondedDevices != null) {
+            if (swBluetooth.bluetoothEnabled.value) {
                 DropdownMenu(
                     expanded = deviceMenuExpanded,
                     onDismissRequest = { deviceMenuExpanded = false }) {
-                    bondedDevices.forEach {
+                    swBluetooth.bluetoothDevices.forEach {
                         DropdownMenuItem(
                             text = { Text(it.name) },
                             onClick = {
-                                selectedDeviceMAC = it.address
+                                selectedDeviceMAC = it.device.address
                                 selectedDeviceName = it.name
                                 deviceMenuExpanded = false
-                                swBluetooth.connectToDevice(selectedDeviceMAC)
+                                swBluetooth.connectToDevice(it.device)
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                         )
