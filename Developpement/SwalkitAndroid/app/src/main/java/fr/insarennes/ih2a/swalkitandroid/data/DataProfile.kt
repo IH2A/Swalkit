@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 data class DataSignal(
-    val frequency:Int,
+    val intensity:Int,
     val pulse:Int,
     val distance:Int
 )

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.DropdownMenuItem
@@ -18,16 +19,18 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.insarennes.ih2a.swalkitandroid.R
 import fr.insarennes.ih2a.swalkitandroid.SwalkitSignal
 import fr.insarennes.ih2a.swalkitandroid.SwalkitViewModel
 
 object Motors {
-    private val frequencyList: List<Int> = mutableListOf(0) + (30..95 step 5).toList()
-    private val frequencyMap = frequencyList.associateWith { SwalkitSignal.frequencyString(it) }
+    private val intensityList: List<Int> =  (0..100 step 5).toList()
+    private val intensityMap = intensityList.associateWith { SwalkitSignal.intensityString(it) }
 
     private val pulseFrequencyList: List<Int> = (0..500 step 100).toList()
     private val pulseFrequencyMap = pulseFrequencyList.associateWith { SwalkitSignal.pulseString(it) }
@@ -40,13 +43,16 @@ object Motors {
     fun MotorsScreen(viewModel: SwalkitViewModel) {
         val currentProfileState by viewModel.currentProfile.collectAsStateWithLifecycle()
 
-        Column {
-            TextField(
-                modifier = Modifier.fillMaxWidth(1f),
-                value = currentProfileState.name,
-                onValueChange = {
-                    viewModel.updateCurrentProfile(currentProfileState.copy(name = it))
-                })
+        Column(Modifier.padding(8.dp)) {
+            Row(modifier = Modifier.fillMaxWidth(1f)) {
+                Text(text = stringResource(id = R.string.profile), modifier = Modifier.align(Alignment.CenterVertically))
+                TextField(
+                    modifier = Modifier.align(Alignment.CenterVertically).fillMaxWidth(1f),
+                    value = currentProfileState.name,
+                    onValueChange = {
+                        viewModel.updateCurrentProfile(currentProfileState.copy(name = it))
+                    })
+            }
             Row(modifier = Modifier.fillMaxSize()) {
                 Column(
                     modifier = Modifier
@@ -64,41 +70,41 @@ object Motors {
                         .weight(1f)
                         .wrapContentWidth()
                 ) {
-                    ResourceTextCell(R.string.motors_frequency, Modifier)
+                    ResourceTextCell(R.string.motors_intensity, Modifier)
                     ComboCell(
-                        currentProfileState.frontSignal.frequency,
-                        frequencyMap,
+                        currentProfileState.frontSignal.intensity,
+                        intensityMap,
                         Modifier.weight(1f)
                     ) {
                         viewModel.updateCurrentProfile(
-                            currentProfileState.copy(frontSignal = currentProfileState.frontSignal.copy(frequency = it) )
+                            currentProfileState.copy(frontSignal = currentProfileState.frontSignal.copy(intensity = it) )
                         )
                     }
                     ComboCell(
-                        currentProfileState.dangerSignal.frequency,
-                        frequencyMap,
+                        currentProfileState.dangerSignal.intensity,
+                        intensityMap,
                         Modifier.weight(1f)
                     ) {
                         viewModel.updateCurrentProfile(
-                            currentProfileState.copy(dangerSignal = currentProfileState.dangerSignal.copy(frequency = it) )
+                            currentProfileState.copy(dangerSignal = currentProfileState.dangerSignal.copy(intensity = it) )
                         )
                     }
                     ComboCell(
-                        currentProfileState.nearSignal.frequency,
-                        frequencyMap,
+                        currentProfileState.nearSignal.intensity,
+                        intensityMap,
                         Modifier.weight(1f)
                     ) {
                         viewModel.updateCurrentProfile(
-                            currentProfileState.copy(nearSignal = currentProfileState.nearSignal.copy(frequency = it) )
+                            currentProfileState.copy(nearSignal = currentProfileState.nearSignal.copy(intensity = it) )
                         )
                     }
                     ComboCell(
-                        currentProfileState.farSignal.frequency,
-                        frequencyMap,
+                        currentProfileState.farSignal.intensity,
+                        intensityMap,
                         Modifier.weight(1f)
                     ) {
                         viewModel.updateCurrentProfile(
-                            currentProfileState.copy(farSignal = currentProfileState.farSignal.copy(frequency = it) )
+                            currentProfileState.copy(farSignal = currentProfileState.farSignal.copy(intensity = it) )
                         )
                     }
                 }
