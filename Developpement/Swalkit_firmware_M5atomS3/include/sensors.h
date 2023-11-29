@@ -9,6 +9,7 @@
 #include "VL53L0X.h"
 
 #define NUMBER_OF_SENSORS 8
+
 class Sensors
 {
 public:

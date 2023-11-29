@@ -1,7 +1,7 @@
 #include "sensors.h"
 
 const unsigned char RA_SIZE = 4;  //RunningAverage size for the sensors
-const unsigned char SENSOR_MAX_VALUE =  80;
+const unsigned int SENSOR_MAX_VALUE =  80;
 
 #define VL53L0X_ADDRESS_DEFAULT 0b0101001
 
@@ -100,13 +100,17 @@ void Sensors::read()
       measure = sensor[i]->readRangeSingleMillimeters();
       if(_debug) USBSerial.print(i);
       if(_debug) USBSerial.print("...");
-      if(_debug) USBSerial.println(measure);
+      if(_debug) USBSerial.print(measure);
+      if(_debug) USBSerial.print("...");
 
-      if (sensor[i]->timeoutOccurred()) {  // phase failures have incorrect data
+      if (!sensor[i]->timeoutOccurred()) {  // phase failures have incorrect data
+
+        if(_debug) USBSerial.println("OK");
         sensor_average[i]->addValue(measure<SENSOR_MAX_VALUE*10?
                           measure/10 :
                           SENSOR_MAX_VALUE);
       } else {
+        if(_debug) USBSerial.println("NOK");
         sensor_average[i]->addValue(SENSOR_MAX_VALUE);
       } 
     } 

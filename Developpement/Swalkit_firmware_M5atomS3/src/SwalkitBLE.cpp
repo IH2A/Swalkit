@@ -106,12 +106,12 @@ void SwalkitBLE::ServerCallbacks::onDisconnect(BLEServer *pServer) {
 SwalkitBLE::RequestCallbacks::RequestCallbacks(Sensors &sensors) : sensors(sensors) {}
 
 void SwalkitBLE::RequestCallbacks::onRead(BLECharacteristic *pCharacteristic) {
-    uint8_t data[8];
-    for( int i = 0 ; i < 8; i++) data[i] = (uint8_t)(sensors.sensor_average[i]->getAverage());
-    pCharacteristic->setValue(data, 4);
+    uint8_t data[NUMBER_OF_SENSORS];
+    for( int i = 0 ; i < NUMBER_OF_SENSORS; i++) data[i] = (uint8_t)(sensors.sensor_average[i]->getAverage());
+    pCharacteristic->setValue(data, NUMBER_OF_SENSORS);
 
     USBSerial.print("Sending Request value : ");
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < NUMBER_OF_SENSORS; i++) {
         USBSerial.print(data[i]);
         USBSerial.print(" ");
     }
