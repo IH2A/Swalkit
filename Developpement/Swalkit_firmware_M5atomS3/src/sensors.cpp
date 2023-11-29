@@ -33,7 +33,7 @@ Sensors::Sensors() : _debug(false){
     }
 
     for (int i = 0; i < NUMBER_OF_SENSORS; i ++) {
-        sensor[i] = new VL53L0X();  
+        sensor[i] = new Adafruit_VL53L0X();  
     }
 }
 
@@ -52,18 +52,21 @@ void Sensors::begin(bool debug)
       Wire.beginTransmission(VL53L0X_ADDRESS_DEFAULT);
       byte error = Wire.endTransmission();
 
-      sensor[i]->setTimeout(500);
       if(error == 0)
       {
-          sensor[i]->init();
+          sensor[i]->begin();
           sensor[i]->setAddress(HUB_1_SENSORS_ADDRS[i]);
       }
       else //RESET of the atoms3 case, sensors already init with new address
       {
-          sensor[i]->setAddressNoI2CSend(HUB_1_SENSORS_ADDRS[i]);
-          sensor[i]->init();
+          sensor[i]->begin(HUB_1_SENSORS_ADDRS[i]);
       }
-      if(_debug) USBSerial.println(sensor[i]->readRangeSingleMillimeters());
+      if(_debug)
+      {
+        VL53L0X_RangingMeasurementData_t m;
+        sensor[i]->getSingleRangingMeasurement(&m);
+        USBSerial.println(m.RangeMilliMeter);
+      }
     }   
     TCA_HUB_1.closeAll();
 
@@ -74,18 +77,21 @@ void Sensors::begin(bool debug)
 
       Wire.beginTransmission(VL53L0X_ADDRESS_DEFAULT);
       byte error = Wire.endTransmission();
-      sensor[i + NUMBER_OF_SENSORS/2]->setTimeout(500);
       if(error == 0)
       {
-          sensor[i+ NUMBER_OF_SENSORS/2]->init();
+          sensor[i+ NUMBER_OF_SENSORS/2]->begin();
           sensor[i+ NUMBER_OF_SENSORS/2]->setAddress(HUB_2_SENSORS_ADDRS[i]);
       }
       else //RESET of the atoms3 case, sensors already init with new address
       {
-          sensor[i+ NUMBER_OF_SENSORS/2]->setAddressNoI2CSend(HUB_2_SENSORS_ADDRS[i]);
-          sensor[i+ NUMBER_OF_SENSORS/2]->init();
+          sensor[i+ NUMBER_OF_SENSORS/2]->begin(HUB_2_SENSORS_ADDRS[i]);
       }
-      if(_debug) USBSerial.println(sensor[i+NUMBER_OF_SENSORS/2]->readRangeSingleMillimeters());
+      if(_debug)
+      {
+        VL53L0X_RangingMeasurementData_t m;
+        sensor[i+NUMBER_OF_SENSORS/2]->getSingleRangingMeasurement(&m);
+        USBSerial.println(m.RangeMilliMeter);
+      }
     }      
 
     TCA_HUB_1.openAll();
@@ -94,24 +100,25 @@ void Sensors::begin(bool debug)
 
 void Sensors::read()
 {
-    uint16_t measure;
+    VL53L0X_RangingMeasurementData_t m;
     for(int i = 0; i < NUMBER_OF_SENSORS; i++)
     {
-      measure = sensor[i]->readRangeSingleMillimeters();
-      if(_debug) USBSerial.print(i);
-      if(_debug) USBSerial.print("...");
-      if(_debug) USBSerial.print(measure);
-      if(_debug) USBSerial.print("...");
+        sensor[i]->getSingleRangingMeasurement(&m);
+        uint16_t measure = m.RangeMilliMeter;
+        if(_debug) USBSerial.print(i);
+        if(_debug) USBSerial.print("...");
+        if(_debug) USBSerial.print(measure);
+        if(_debug) USBSerial.print("...");
 
-      if (!sensor[i]->timeoutOccurred()) {  // phase failures have incorrect data
+        if (!sensor[i]->timeoutOccurred()) {  // phase failures have incorrect data
 
-        if(_debug) USBSerial.println("OK");
-        sensor_average[i]->addValue(measure<SENSOR_MAX_VALUE*10?
-                          measure/10 :
-                          SENSOR_MAX_VALUE);
-      } else {
-        if(_debug) USBSerial.println("NOK");
-        sensor_average[i]->addValue(SENSOR_MAX_VALUE);
-      } 
+            if(_debug) USBSerial.println("OK");
+            sensor_average[i]->addValue(measure<SENSOR_MAX_VALUE*10?
+                            measure/10 :
+                            SENSOR_MAX_VALUE);
+        } else {
+            if(_debug) USBSerial.println("NOK");
+            sensor_average[i]->addValue(SENSOR_MAX_VALUE);
+        } 
     } 
 }
