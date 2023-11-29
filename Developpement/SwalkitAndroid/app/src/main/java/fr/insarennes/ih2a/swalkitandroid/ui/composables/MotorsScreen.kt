@@ -35,7 +35,7 @@ object Motors {
     private val pulseFrequencyList: List<Int> = (0..500 step 100).toList()
     private val pulseFrequencyMap = pulseFrequencyList.associateWith { SwalkitSignal.pulseString(it) }
 
-    private val distanceList: List<Int> = (0..115 step 5).toList()
+    private val distanceList: List<Int> = (0..80 step 5).toList()
     private val distanceMap = distanceList.associateWith { SwalkitSignal.distanceString(it) }
 
     @OptIn(ExperimentalMaterial3Api::class)

@@ -5,10 +5,10 @@ import fr.insarennes.ih2a.swalkitandroid.data.DataProfile
 
 class SwalkitProfile() {
     var name:String = "default"
-    var frontSignal:SwalkitSignal = SwalkitSignal(SwalkitSignal.SwalkitSignals.FRONT, 100, 100, 20)
-    var dangerSignal:SwalkitSignal = SwalkitSignal(SwalkitSignal.SwalkitSignals.FRONT, 100, 200, 30)
-    var nearSignal:SwalkitSignal = SwalkitSignal(SwalkitSignal.SwalkitSignals.FRONT, 100, 0, 40)
-    var farSignal:SwalkitSignal = SwalkitSignal(SwalkitSignal.SwalkitSignals.FRONT, 100, 0, 50)
+    var frontSignal:SwalkitSignal = SwalkitSignal(100, 100, 20)
+    var dangerSignal:SwalkitSignal = SwalkitSignal(100, 200, 30)
+    var nearSignal:SwalkitSignal = SwalkitSignal(100, 0, 40)
+    var farSignal:SwalkitSignal = SwalkitSignal(100, 0, 50)
 
     override fun toString() : String {
         return "$name - Front : $frontSignal, Danger : $dangerSignal, Near : $nearSignal, Far : $farSignal"
