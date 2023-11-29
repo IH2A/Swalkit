@@ -6,7 +6,7 @@
 
 class SwalkitSignal {
 public:
-    int frequency;
+    int intensity;
     int pulse;
     int distance;
 

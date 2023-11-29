@@ -57,7 +57,6 @@ template<class T>
 void TCA9548A<T>::openChannel(uint8_t channel)
 {
     this->_channels |= channel;
-
     write(this->_channels);
 }
 

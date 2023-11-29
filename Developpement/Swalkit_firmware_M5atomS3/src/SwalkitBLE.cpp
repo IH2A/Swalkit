@@ -2,7 +2,8 @@
 #include "SwalkitBLE.h"
 #include <WiFi.h> // only to have unique id from mac address
 
-SwalkitBLE::SwalkitBLE(SwalkitProfile &profile): 
+SwalkitBLE::SwalkitBLE(SwalkitProfile &profile, Sensors &sensors):
+                sensors(sensors),
                 profileRef(profile),
                 pServer(nullptr),
                 pService(nullptr),
@@ -31,8 +32,8 @@ void SwalkitBLE::start() {
         pService = pServer->createService(SERVICE_UUID);
 
         // Create BLE Characteristics
-        pRequestCharacteristic = pService->createCharacteristic(REQUEST_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE);
-        pRequestCB = new RequestCallbacks();
+        pRequestCharacteristic = pService->createCharacteristic(REQUEST_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ);
+        pRequestCB = new RequestCallbacks(sensors);
         pRequestCharacteristic->setCallbacks(pRequestCB);
 
         pProfileCharacteristic = pService->createCharacteristic(PROFILE_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE);
@@ -101,19 +102,12 @@ void SwalkitBLE::ServerCallbacks::onDisconnect(BLEServer *pServer) {
 
 
 #pragma region Request Callbacks
-void setIntValue(int32_t value, uint8_t data[4]) {
-    data[0] = value & 0xff;
-    data[1] = (value >> 8) & 0xff;
-    data[2] = (value >> 16) & 0xff;
-    data[3] = (value >> 24) & 0xff;
-}
-int getIntValue(const uint8_t *data) {
-    return data[0] | data[1] << 8 | data[2] << 16 | data[3] << 24;
-}
+
+SwalkitBLE::RequestCallbacks::RequestCallbacks(Sensors &sensors) : sensors(sensors) {}
 
 void SwalkitBLE::RequestCallbacks::onRead(BLECharacteristic *pCharacteristic) {
-    uint8_t data[4];
-    setIntValue(requestValue, data);
+    uint8_t data[8];
+    for( int i = 0 ; i < 8; i++) data[i] = (uint8_t)(sensors.sensor_average[i]->getAverage());
     pCharacteristic->setValue(data, 4);
 
     USBSerial.print("Sending Request value : ");
@@ -122,29 +116,10 @@ void SwalkitBLE::RequestCallbacks::onRead(BLECharacteristic *pCharacteristic) {
         USBSerial.print(" ");
     }
     USBSerial.println();
-    USBSerial.println(requestValue);
     USBSerial.println("*********");
 }
 
 
-void SwalkitBLE::RequestCallbacks::onWrite(BLECharacteristic *pCharacteristic) {
-    if (pCharacteristic->getLength() == 4) {
-        uint8_t *data = pCharacteristic->getData();
-        requestValue = getIntValue(data);
-        USBSerial.print("Received Request Value: ");
-        for (int i = 0; i < 4; i++) {
-            USBSerial.print(data[i]);
-            USBSerial.print(" ");
-        }
-        USBSerial.println();
-        USBSerial.println(requestValue);
-        USBSerial.println("*********");
-    } else {
-        USBSerial.print("Unexpected request data length : ");
-        USBSerial.println(pCharacteristic->getLength());
-    USBSerial.println("*********");
-    }
-}
 #pragma endregion
 
 #pragma region Profile Callbacks

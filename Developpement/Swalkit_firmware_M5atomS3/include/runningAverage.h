@@ -32,6 +32,14 @@ template <typename T>
 T RunningAverage<T>::zero = static_cast<T>(0);
 
 template <typename T>
+RunningAverage<T>::RunningAverage()
+{
+  _size = 0;
+  _ar = nullptr;
+  clear();
+}
+
+template <typename T>
 RunningAverage<T>::RunningAverage(int n)
 {
   _size = n;

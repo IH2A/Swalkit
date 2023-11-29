@@ -1,71 +1,99 @@
 #include <Arduino.h>
 #include <M5AtomS3.h>
-// #include <Preferences.h>
+#include <Preferences.h>
 #include "SwalkitBle.h"
 #include "SwalkitProfile.h"
-// #include "sensors.h"
+#include "sensors.h"
 #include "LMA.h"
 
 // Configuration générale
 bool display_enable = true;
 bool imu_enable = true;
 bool bluetooth_enable = false;
+bool usb_serial_enable = true;
 
 // Configuration Bluetooth
 SwalkitProfile swalkitProfile;
-SwalkitBLE swalkitBLE(swalkitProfile);
+Sensors sensors;
+SwalkitBLE swalkitBLE(swalkitProfile, sensors);
 
 // Déclarations
-// Sensors sensors;
 LMA lma;
 float ax, ay, az;
 void sense_and_drive_task(void *pvParameters);
 void screen_update_task(void *pvParameters);
 void set_display_from_sensors();
 
-void setup()
+void display_circles()
 {
-    delay(100);
-    // Initialisation du M5stack
-    M5.begin(true, true, true, true);
-    USBSerial.println("Starting...");
-
-    // Init. de la centrale inertielle pour la detection de mouvement
-    // if (imu_enable)
-    // {
-    //     M5.IMU.begin();
-    // }
-
-    // Init LCD
     if (display_enable)
     {
         M5.Lcd.fillScreen(YELLOW);
+        delay(100);
         M5.lcd.drawSpot(0,0,160,M5.Lcd.color16to24(random16()));
+        delay(100);
         M5.lcd.drawSpot(0,0,140,M5.Lcd.color16to24(random16()));
+        delay(100);
         M5.lcd.drawSpot(0,0,120,M5.Lcd.color16to24(random16()));
+        delay(100);
         M5.lcd.drawSpot(0,0,100,M5.Lcd.color16to24(random16()));
+        delay(100);
         M5.lcd.drawSpot(0,0,80,M5.Lcd.color16to24(random16()));
+        delay(100);
         M5.lcd.drawSpot(0,0,60,M5.Lcd.color16to24(random16()));
+        delay(100);
         M5.lcd.drawSpot(0,0,40,M5.Lcd.color16to24(random16()));
+        delay(100);
         M5.lcd.drawSpot(0,0,20,M5.Lcd.color16to24(random16()));
-        xTaskCreatePinnedToCore(screen_update_task, "screen_update_task", 4096, NULL, 3, NULL, 0);
     }
+}
 
-    // Init. de la communication I2C
-    // sensors.begin();
+void setup()
+{
+    // Initialisation du M5stack
+    M5.begin(display_enable, usb_serial_enable, true, false); 
+    //default in M5atomS3 is Wire1, but we are also using Wire
+    Wire.begin();
+    // Init LCD
+    display_circles(); 
+
+    delay(1000);
+    if(usb_serial_enable) USBSerial.println("Starting...");
+
+    // Init. de la communication I2C avec les moteurs LMA
+    if(usb_serial_enable) USBSerial.println("Lma begin...");
     lma.begin();
+    // Init. de la centrale inertielle pour la detection de mouvement
+    if(imu_enable & usb_serial_enable) USBSerial.println("IMU begin...");
+
+    if (imu_enable) M5.IMU.begin();
+    
+    // Init. de la communication I2C avec les capteurs
+    if(usb_serial_enable) USBSerial.print("sensors begin...");
+    sensors.begin(true);
+    if(usb_serial_enable) USBSerial.println("done");
+
+    // Init. de la configuration les moteurs LMA
+    lma.on_off(false);
+    lma.set_duty_max(UINT16_MAX);
+    
+    // Init. des tâches multiples paralleles
+    if(display_enable) xTaskCreatePinnedToCore(screen_update_task, "screen_update_task", 4096, NULL, 3, NULL, 0);
     xTaskCreatePinnedToCore(sense_and_drive_task, "sense_and_drive_task", 4096, NULL, 1, NULL, 0);
     // TODO check stack size with uxTaskGetStackHighWaterMark https://www.freertos.org/uxTaskGetStackHighWaterMark.html
+
+    if(usb_serial_enable) USBSerial.println("Running...");
 }
 
 void sense_and_drive_task(void *pvParameters)
 {
     while (1)
     {
-        delay(100);
-        // sensors.read();
-        lma.write();
-        // M5.lcd.drawSpot(118,10,10,M5.Lcd.color16to24(random16()));
+        sensors.read();
+        
+        uint16_t left = UINT16_MAX * ( sin(float(millis())/1000 * 2 *3.141592 * 0.25)*0.1+0.9) ;
+        uint16_t right = ( (millis() / 1000)%2 > 0 ) ? UINT16_MAX : 0; 
+        lma.write(right, left); 
     }
 }
 
@@ -77,7 +105,7 @@ void screen_update_task(void *pvParameters)
         {
             set_display_from_sensors();
         }
-        delay(50);
+        delay(100);
     }
 }
 
@@ -91,22 +119,17 @@ void loop()
         if (bluetooth_enable)
         {
             swalkitBLE.start();
-            USBSerial.print("Bluetooth enabled\n");
+            if(usb_serial_enable) USBSerial.print("Bluetooth enabled\n");
             M5.Lcd.fillScreen(BLUE);
         }
         else
         {
             swalkitBLE.stop();
-            USBSerial.print("Bluetooth disabled\n");
-            M5.Lcd.fillScreen(YELLOW);
+            if(usb_serial_enable) USBSerial.print("Bluetooth disabled\n");
+            display_circles();
         }
     }
-
-
-    motors.write();
-    // delay(10);
     delay(100);
-    // USBSerial.println(motors.driver.getAnalogInput(_12bit)/ 4095.0f * 3.3f / 0.09f);
 }
 
 void set_display_from_sensors()
