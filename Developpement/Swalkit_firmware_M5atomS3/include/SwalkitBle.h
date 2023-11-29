@@ -6,6 +6,7 @@
 #include <BLEServer.h>
 #include <BLEUtils.h>
 #include "SwalkitProfile.h"
+#include "sensors.h"
 
 #define SERVICE_UUID "07632d2a-6284-4cdf-82ee-f6a70b627c61"
 #define REQUEST_CHARACTERISTIC_UUID "c9f2218b-a76a-4643-b567-296dc58bffd7"
@@ -13,7 +14,7 @@
 
 class SwalkitBLE {
 public:
-    SwalkitBLE(SwalkitProfile &profile);
+    SwalkitBLE(SwalkitProfile &profile, Sensors &sensors);
     ~SwalkitBLE();
     void start();
     void stop();
@@ -31,9 +32,10 @@ private:
 
     class RequestCallbacks : public BLECharacteristicCallbacks {
     public:
+        RequestCallbacks(Sensors &sensors);
         void onRead(BLECharacteristic *pCharacteristic) override;
-        void onWrite(BLECharacteristic *pCharacteristic) override;
-        int32_t requestValue;
+    private:
+        Sensors &sensors;
     };
 
     class ProfileCallbacks : public BLECharacteristicCallbacks {
@@ -46,6 +48,7 @@ private:
    };
 
     SwalkitProfile &profileRef;
+    Sensors &sensors;
 
     BLEServer *pServer;
     BLEService *pService;
