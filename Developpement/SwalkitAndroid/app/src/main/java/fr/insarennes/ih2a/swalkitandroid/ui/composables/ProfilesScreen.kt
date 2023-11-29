@@ -3,16 +3,26 @@ package fr.insarennes.ih2a.swalkitandroid.ui.composables
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import fr.insarennes.ih2a.swalkitandroid.R
 import fr.insarennes.ih2a.swalkitandroid.SwalkitViewModel
 
 object Profiles {
@@ -21,52 +31,65 @@ object Profiles {
     fun ProfilesScreen(viewModel: SwalkitViewModel) {
         val currentProfileState by viewModel.currentProfile.collectAsStateWithLifecycle()
         val profilesList by viewModel.profilesList.collectAsStateWithLifecycle()
+        val openAlertDialog = remember{mutableStateOf(false) }
 
-        Column(modifier = Modifier.fillMaxSize()) {
-            Button(onClick = { viewModel.zeroProfile() }) {
-                Text(text = "Zero configuration")
-            }
+        Column(modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()) {
             Text(text = currentProfileState.toString())
             Button(onClick = { viewModel.saveCurrentProfile() }) {
-                Text(text = "Save current profile (${currentProfileState.name})")
+                Text(text = String.format(stringResource(R.string.save_profile), currentProfileState.name))
             }
             LazyColumn {
                 items(profilesList) { name ->
-                    Row {
-                        Text(text = name)
-                        Button(onClick = { viewModel.loadProfile(name) }) {
-                            Text(text = "Load")
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Text(text = name, modifier = Modifier.weight(1f))
+                        Button(onClick = { viewModel.loadProfile(name) }, modifier = Modifier.wrapContentWidth()) {
+                            Text(text = stringResource(id = R.string.load))
                         }
-                        Button(onClick = { viewModel.deleteProfile(name) }) {
-                            Text(text = "Delete")
+                        Button(onClick = { viewModel.deleteProfile(name) }, modifier = Modifier.wrapContentWidth()) {
+                            Text(text = stringResource(id = R.string.delete))
                         }
                     }
                 }
             }
-            Button(onClick = { viewModel.loadProfilesList() }) {
-                Text(text = "Load profiles")
+            Button(onClick = { openAlertDialog.value = true }) {
+                Text(text = stringResource(id = R.string.reset_configuration))
+            }
+        }
+
+        when {
+            openAlertDialog.value -> {
+                ResetDialog(
+                    title = stringResource(id = R.string.reset_configuration),
+                    text = String.format(stringResource(R.string.reset_configuration_text), currentProfileState.name),
+                    onDismiss = {
+                        openAlertDialog.value = false
+                    },
+                    onConfirm = {
+                        openAlertDialog.value = false
+                        viewModel.resetProfile()
+                    })
             }
         }
     }
-/*
-    TextField(value = request, onValueChange = {request = it}, label = { Text("Request")} )
-    Button(onClick = { swBluetooth.writeCharacteristic(SwalkitCharacteristic.REQUEST, request) }) {
-        Text(text = "Send request")
-    }
-    TextField(value = swBluetooth.configurationValue.value, onValueChange = {swBluetooth.configurationValue.value = it}, label = { Text("Configuration")} )
-    Button(onClick = { swBluetooth.writeCharacteristic(SwalkitCharacteristic.CONFIGURATION, swBluetooth.configurationValue.value) }) {
-        Text(text = "Send configuration")
-    }
-    Button(onClick = { swBluetooth.readCharacteristic(SwalkitCharacteristic.CONFIGURATION) }) {
-        Text(text = "Receive configuration")
-    }
 
-    val c2 = SwalkitConfig()
-    c2.name = "a"
-    c2.frontSignal.distance = 9
-    c2.fromByteArray(config.toByteArray())
-    Text(text = config.toString())
-    Text(text = c2.toString())
+    @Composable
+    fun ResetDialog(title:String, text:String, onDismiss: () -> Unit, onConfirm: () -> Unit) : Unit {
+        AlertDialog(
+            onDismissRequest = {
 
- */
+            },
+            title = { Text(text = title) },
+            text = { Text(text = text) },
+            confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(text = stringResource(id = R.string.reset))
+            }
+        }, dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(id = R.string.cancel))
+            }
+        })
+    }
 }

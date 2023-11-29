@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
         }
         if (!this::swViewModel.isInitialized) {
             swViewModel = SwalkitViewModel(SwalkitDatabase.getInstance(this))
+            swViewModel.loadProfilesList()
         }
         setContent {
             MainComposable()
@@ -76,8 +77,8 @@ class MainActivity : ComponentActivity() {
                     composable(route = MotorsDestination.route) {
                         MotorsDestination.screen(swViewModel)
                     }
-                    composable(route = SensorsDestination.route) {
-                        SensorsDestination.screen(swViewModel)
+                    composable(route = SwalkitDestination.route) {
+                        SwalkitDestination.screen(swViewModel)
                     }
                 }
             }

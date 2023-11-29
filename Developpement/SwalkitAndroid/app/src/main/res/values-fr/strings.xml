@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SwalkitAndroid</string>
+    <string name="no_bluetoothle_feature">BluetoothLE non disponible sur cet appareil</string>
+    <string name="no_bluetooth_adapter">Pas d\'adaptateur Bluetooth</string>
+    <string name="bluetooth_disabled">Bluetooth désactivé</string>
+    <string name="permission_required">Permission requise</string>
+    <string name="no_device_selected">Aucun dispositif sélectionné</string>
+    <string name="device_not_found">%s non trouvé</string>
+    <string name="profiles_screen_title">Profils</string>
+    <string name="motors_screen_title">Moteurs</string>
+    <string name="motors_front">Devant</string>
+    <string name="motors_danger">Danger</string>
+    <string name="motors_near">Proche</string>
+    <string name="motors_far">Loin</string>
+    <string name="read_sensors_value">Lire les valeurs des capteurs</string>
+    <string name="sensors_value">Valeur des capteurs :</string>
+    <string name="motors_intensity">Intensité</string>
+    <string name="motors_motors">Moteurs</string>
+    <string name="motors_pulse">Pulsation</string>
+    <string name="motors_distance">Distance</string>
+    <string name="swalkit_screen_title">Swalkit</string>
+    <string name="send_configuration">Envoyer la configuration</string>
+    <string name="receive_configuration">Recevoir la configuration</string>
+    <string name="save_profile">Enregistrer le profil actuel (%s)</string>
+    <string name="reset_configuration">Réinitialiser la configuration</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="cancel">Annuler</string>
+    <string name="reset_configuration_text">Voulez-vous réinitialiser la configuration du profil %s ?</string>
+    <string name="profile">"Profil : "</string>
+    <string name="load">Charger</string>
+    <string name="delete">Supprimer</string>
+</resources>

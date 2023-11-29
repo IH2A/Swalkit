@@ -39,18 +39,24 @@ class SwalkitViewModel(private val database: SwalkitDatabase) : ViewModel() {
     fun zeroProfile() {
         val profile = SwalkitProfile()
         profile.name = "-"
-        profile.frontSignal.frequency = 0
+        profile.frontSignal.intensity = 0
         profile.frontSignal.pulse = 0
         profile.frontSignal.distance = 0
-        profile.dangerSignal.frequency = 0
+        profile.dangerSignal.intensity = 0
         profile.dangerSignal.pulse = 0
         profile.dangerSignal.distance = 0
-        profile.nearSignal.frequency = 0
+        profile.nearSignal.intensity = 0
         profile.nearSignal.pulse = 0
         profile.nearSignal.distance = 0
-        profile.farSignal.frequency = 0
+        profile.farSignal.intensity = 0
         profile.farSignal.pulse = 0
         profile.farSignal.distance = 0
+        _currentProfile.value = profile
+    }
+
+    fun resetProfile() {
+        val profile = SwalkitProfile()
+        profile.name = _currentProfile.value.name
         _currentProfile.value = profile
     }
 
