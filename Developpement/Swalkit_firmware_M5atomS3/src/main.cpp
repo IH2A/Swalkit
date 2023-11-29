@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <M5AtomS3.h>
-// #include <Preferences.h>
 #include "SwalkitBle.h"
 #include "SwalkitProfile.h"
 // #include "sensors.h"
@@ -49,6 +48,10 @@ void setup()
         M5.lcd.drawSpot(0,0,40,M5.Lcd.color16to24(random16()));
         M5.lcd.drawSpot(0,0,20,M5.Lcd.color16to24(random16()));
         // xTaskCreatePinnedToCore(screen_update_task, "screen_update_task", 4096, NULL, 3, NULL, 0);
+    }
+
+    if (!swalkitProfile.load()) {
+        M5.Lcd.fillScreen(ORANGE);
     }
 
     // Init. de la communication I2C

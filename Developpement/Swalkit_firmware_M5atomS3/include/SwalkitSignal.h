@@ -10,6 +10,7 @@ public:
     int pulse;
     int distance;
 
+    void set(int frequency, int pulse, int distance);
     void fromBytes(const uint8_t *data);
     void toBytes(uint8_t *data);
 

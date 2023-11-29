@@ -1,6 +1,11 @@
 #include "SwalkitSignal.h"
 #include <sstream>
 
+void SwalkitSignal::set(int frequency, int pulse, int distance) {
+    this->frequency = frequency;
+    this->pulse = pulse;
+    this->distance = distance;
+}
 
 void SwalkitSignal::fromBytes(const uint8_t *data) {
     frequency = static_cast<int>(data[0]);
