@@ -5,8 +5,7 @@
 #include "runningAverage.h"
 #include <Wire.h>
 #include "TCA9548A.h"
-//#include "Adafruit_VL53L0X.h"
-#include "VL53L0X.h"
+#include "Adafruit_VL53L0X.h"
 
 #define NUMBER_OF_SENSORS 8
 
@@ -22,7 +21,7 @@ public:
     TCA9548A<TwoWire> TCA_HUB_2;
 
     RunningAverage<int>* sensor_average[NUMBER_OF_SENSORS];
-    VL53L0X* sensor[NUMBER_OF_SENSORS];
+    Adafruit_VL53L0X* sensor[NUMBER_OF_SENSORS];
 
 };
 
