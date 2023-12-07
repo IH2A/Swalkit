@@ -30,4 +30,5 @@
     <string name="profile">"Profil : "</string>
     <string name="load">Charger</string>
     <string name="delete">Supprimer</string>
+    <string name="about_screen_title">\?</string>
 </resources>
