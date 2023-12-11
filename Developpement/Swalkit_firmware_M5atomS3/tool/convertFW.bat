@@ -1,0 +1,1 @@
+bin2header.exe -o ../include/fw.h ../fw/Hbridge.bin

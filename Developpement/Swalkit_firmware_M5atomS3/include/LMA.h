@@ -4,6 +4,8 @@
 
 #include "UNIT_HBRIDGE.h"
 
+#define SWALKIT_VERSION     21
+
 class LMA
 {
 public:

@@ -45,6 +45,8 @@ class UNIT_HBRIDGE {
     void jumpBootloader(void);
     uint8_t getFirmwareVersion(void);
     uint8_t getI2CAddress(void);
+    void startApp(void);
+    bool updateFW(const uint8_t *fw, uint32_t length, uint32_t startAddr = 0x8001000);
 };
 
 #endif

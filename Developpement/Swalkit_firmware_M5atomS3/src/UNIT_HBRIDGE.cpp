@@ -128,9 +128,64 @@ uint8_t UNIT_HBRIDGE::getI2CAddress(void) {
     return data[0];
 }
 
+
 // Only V1.1 can use this
 void UNIT_HBRIDGE::jumpBootloader(void) {
     uint8_t value = 1;
-
     writeBytes(_addr, JUMP_TO_BOOTLOADER_REG, (uint8_t *)&value, 1);
+    _wire->end();
+    pinMode(_sda, OUTPUT);
+    pinMode(_scl, OUTPUT);
+    digitalWrite(_sda, LOW);
+    digitalWrite(_scl, LOW);
+    delay(2000);
+    _wire->begin(_sda, _scl, _speed);
+    delay(10);
+}
+
+
+void UNIT_HBRIDGE::startApp(void){
+    writeBytes(0x54, 0x77, NULL, 0);
+    delay(100);
+}
+
+bool UNIT_HBRIDGE::updateFW(const uint8_t *fw, uint32_t length, uint32_t startAddr){
+    _wire->setBufferSize(1050);
+    uint32_t maxPage = 1024;
+    int nbPage = length / maxPage;
+    if(length % maxPage != 0) nbPage++;
+    uint32_t addr = startAddr;
+    uint16_t sizeLeft = length;
+    for(int j = 0 ; j < nbPage ; j++){
+        _wire->beginTransmission(0x54);
+        _wire->write(0x06);
+        _wire->write((addr >> 24) & 0xFF);
+        _wire->write((addr >> 16) & 0xFF);
+        _wire->write((addr >> 8) & 0xFF);
+        _wire->write(addr & 0xFF);
+
+        uint16_t pageSize = maxPage;
+        if(sizeLeft < maxPage){
+            pageSize = sizeLeft;
+        }
+
+        _wire->write((pageSize >> 8) & 0xFF);
+        _wire->write(pageSize & 0xFF); 
+        _wire->write(0); 
+
+        uint16_t sizeWritten = 0;      
+
+        for (int i = 0; i < pageSize; i++) {
+            sizeWritten += _wire->write(*(fw + i + 1024 * j));
+        }
+        uint8_t error = _wire->endTransmission();
+        if(error) return false;
+        /*
+        if(error == 0) Serial.printf("OK : %d/%d : %d\n", j, nbPage, sizeWritten);
+        else Serial.printf("NOK : %d/%d : %d\n", j, nbPage, sizeWritten);
+        */
+        delay(300);
+        addr += pageSize;
+    }
+    return true;
 }
