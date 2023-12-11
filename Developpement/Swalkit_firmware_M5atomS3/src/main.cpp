@@ -13,6 +13,13 @@ bool imu_enable = true;
 bool bluetooth_enable = false;
 bool usb_serial_enable = true;
 
+//imu
+double total_acceleration;
+static const double seuil_mouvement = 1.01;
+bool moving = true;
+unsigned long watchdog_imu_move = 5000; // 1 secondes
+unsigned long last_time_moved = 0; // secondes
+
 // Configuration Bluetooth
 SwalkitProfile swalkitProfile;
 Sensors sensors;
@@ -72,24 +79,28 @@ void setup()
 
     // Init. de la communication I2C avec les moteurs LMA
     if(usb_serial_enable) USBSerial.println("Lma begin...");
-    lma.begin();
+    // lma.begin();
     // Init. de la centrale inertielle pour la detection de mouvement
     if(imu_enable & usb_serial_enable) USBSerial.println("IMU begin...");
 
-    if (imu_enable) M5.IMU.begin();
+    if (imu_enable)
+    {
+        M5.IMU.begin();
+        total_acceleration = 1;
+    }
     
     // Init. de la communication I2C avec les capteurs
     if(usb_serial_enable) USBSerial.print("sensors begin...");
-    sensors.begin(false);
+    // sensors.begin(false);
     if(usb_serial_enable) USBSerial.println("done");
 
     // Init. de la configuration les moteurs LMA
     // lma.on_off(false);
-    lma.set_duty_max(UINT16_MAX);
+    // lma.set_duty_max(UINT16_MAX);
     
     // Init. des tâches multiples paralleles
     if(display_enable) xTaskCreatePinnedToCore(screen_update_task, "screen_update_task", 4096, NULL, 3, NULL, 0);
-    xTaskCreatePinnedToCore(sense_and_drive_task, "sense_and_drive_task", 4096, NULL, 1, NULL, 0);
+    // xTaskCreatePinnedToCore(sense_and_drive_task, "sense_and_drive_task", 4096, NULL, 1, NULL, 0);
     // TODO check stack size with uxTaskGetStackHighWaterMark https://www.freertos.org/uxTaskGetStackHighWaterMark.html
 
     if(usb_serial_enable) USBSerial.println("Running...");
@@ -100,33 +111,8 @@ void sense_and_drive_task(void *pvParameters)
     while (1)
     {
         sensors.read();
-        // uint16_t test_left = UINT16_MAX * ( sin(float(millis())/1000 * 2 *3.141592 * 0.25)*0.1+0.9) ;
-        // uint16_t test_right = ( (millis() / 1000)%2 > 0 ) ? UINT16_MAX : 0; 
 
-        if(imu_enable){
-    //     if(abs(RA_IMU.getAverage() - IMU_Calibration_Data) > MOVEMENT_TRIGGER){
-    //     if(!timer2.isEnabled(2))
-    //     timer2.enable(2);
-    //   M5.Lcd.setCursor(0, 200);
-    //   M5.Lcd.println("               ");
-    //   M5.Lcd.setCursor(0, 200);
-    //   M5.Lcd.printf("moving\n");
-    //   timer2.restartTimer(2);
-    //   Movement = true;
-    // }
-    // else if(!Movement){
-    //   if(timer2.isEnabled(2))
-    //     timer2.disable(2);
-    //   ledcWriteTone(ChannelLeft, 0);
-    //   ledcWriteTone(ChannelRight, 0);
-    //   M5.Lcd.setCursor(0, 200);
-    //   M5.Lcd.println("               ");
-    //   M5.Lcd.setCursor(0, 200);
-    //   M5.Lcd.println("not moving");
-    //   return;
-    // }
-        }
-
+        if(!moving) return;
     // for 8 sensors
     
         uint16_t front = 0;
@@ -284,6 +270,7 @@ void loop()
         }
     }
     delay(100);
+
 }
 
 void set_display_from_sensors()
@@ -291,6 +278,21 @@ void set_display_from_sensors()
     if(imu_enable)
     {
         M5.IMU.getAccel(&ax,&ay,&az);
-        M5.Lcd.drawSpot((int)(-ay*128)+64,(int)(-ax*128)+64,5,M5.Lcd.color16to24(random16()));
+        if(display_enable) M5.Lcd.drawSpot((int)(-ay*128)+64,(int)(-ax*128)+64,5,M5.Lcd.color16to24(random16()));
+        total_acceleration = std::sqrt(ax * ax + ay * ay + az * az) * 0.05 + total_acceleration*0.95;
+        if(total_acceleration > seuil_mouvement)
+        {
+            moving = true;
+            last_time_moved = millis();
+        }
+        if(millis() - last_time_moved > watchdog_imu_move)
+        {
+            moving = false;
+        }
+            M5.Lcd.setCursor(10,10);
+    M5.Lcd.print(total_acceleration);
+    M5.Lcd.print(" ");
+    M5.Lcd.println(moving);
+
     }
 }
