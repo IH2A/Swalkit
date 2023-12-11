@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -66,6 +67,11 @@ class MainActivity : ComponentActivity() {
                                     Text(text = getString(it.textId))
                                 }
                             }
+                            Button(modifier = Modifier.wrapContentWidth(), onClick = {
+                                navController.navigate(AboutDestination.route) { launchSingleTop = true }
+                            }) {
+                                Text(text = getString(AboutDestination.textId))
+                            }
                         }
                     )
                 }
@@ -79,6 +85,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = SwalkitDestination.route) {
                         SwalkitDestination.screen(swViewModel)
+                    }
+                    composable(route = AboutDestination.route) {
+                        AboutDestination.screen(swViewModel)
                     }
                 }
             }

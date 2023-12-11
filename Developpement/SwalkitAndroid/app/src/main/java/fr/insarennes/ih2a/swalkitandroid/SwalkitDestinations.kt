@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import fr.insarennes.ih2a.swalkitandroid.ui.composables.Motors
 import fr.insarennes.ih2a.swalkitandroid.ui.composables.Profiles
 import fr.insarennes.ih2a.swalkitandroid.ui.composables.Swalkit
+import fr.insarennes.ih2a.swalkitandroid.ui.composables.About
 
 interface IDestination {
 //    val icon:ImageVector
@@ -28,6 +29,12 @@ object SwalkitDestination : IDestination {
     override val route = "swalkit"
     override val textId = R.string.swalkit_screen_title
     override val screen: @Composable (vm:SwalkitViewModel) -> Unit =  { Swalkit.SwalkitScreen(it) }
+}
+
+object AboutDestination : IDestination {
+    override val route = "about"
+    override val textId = R.string.about_screen_title
+    override val screen: @Composable (SwalkitViewModel) -> Unit = { About.AboutScreen() }
 }
 
 val bottomBarDestinations = listOf(ProfilesDestination, MotorsDestination, SwalkitDestination)

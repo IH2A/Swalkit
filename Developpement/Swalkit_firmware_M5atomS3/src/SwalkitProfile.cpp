@@ -39,35 +39,35 @@ void SwalkitProfile::toBytes(uint8_t *&data, size_t &data_length) {
 
 bool SwalkitProfile::load() {
     bool result = false;
-    if (preferences.begin(profile_namespace, true)) {
-        if (!preferences.isKey(profile_data)) {
-            // if no profile exists : create it first and reopen the namespace
-            USBSerial.println("No profile found");
-            preferences.end();
-            store();
-            if (!preferences.begin(profile_namespace, true)) {
-                USBSerial.println("Unable to reopen preferences namespace");
-                return false;
-            }
-        }
+    bool profile_found = false;
 
-        size_t data_length = preferences.getBytesLength(profile_data);
-        if (data_length > 0) {
-            uint8_t *data = new uint8_t[data_length];
-            if (data_length == preferences.getBytes(profile_data, data, data_length)) {
-                fromBytes(data, data_length);
-                result = true;
-            } else {
-                USBSerial.println("Unable to get profile data");
-            }
-            delete[] data;
-        } else {
-            USBSerial.println("Unable to get profile data length");
-        }
-        preferences.end();
-    } else {
-        USBSerial.println("Unable to open preferences namespace");
+    if (preferences.begin(profile_namespace, true)) {
+        profile_found = preferences.isKey(profile_data);
     }
+    if (!profile_found) {
+        // if no profile exists : create it first and reopen the namespace
+        preferences.end();
+        store();
+        if (!preferences.begin(profile_namespace, true)) {
+            USBSerial.println("Unable to reopen preferences namespace");
+            return false;
+        }
+    }
+
+    size_t data_length = preferences.getBytesLength(profile_data);
+    if (data_length > 0) {
+        uint8_t *data = new uint8_t[data_length];
+        if (data_length == preferences.getBytes(profile_data, data, data_length)) {
+            fromBytes(data, data_length);
+            result = true;
+        } else {
+            USBSerial.println("Unable to get profile data");
+        }
+        delete[] data;
+    } else {
+        USBSerial.println("Unable to get profile data length");
+    }
+    preferences.end();
     return result;
 }
 
@@ -76,15 +76,12 @@ bool SwalkitProfile::store() {
     uint8_t *data = nullptr;
     size_t data_length;
 
-    USBSerial.print("Saving profile: ");
-
     toBytes(data, data_length);
     
     if (preferences.begin(profile_namespace, false)) {
         result = (data_length == preferences.putBytes(profile_data, data, data_length));
         preferences.end();
     }
-    USBSerial.println(result ? "OK" : "NOK");
     return result;
 }
 
