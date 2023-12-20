@@ -67,24 +67,24 @@ La table suivante indique la liste des outils premettant la fabrication d'un kit
 
 La table suivante indique la liste du materiel à commander, necessaire à la fabrication d'un kit :
 
-|   Nom     |    Pour quoi faire?   |    fournisseur    |   quantité nécéssaire    |     Aperçu     | Prix unitraire indicatif |
-|-|-|-|-|-|-|
-|M5Stack AtomS3|C'est le micro-controlleur central qui gère les capteurs, les moteurs, la logique, la communication bluetooth...|[shop.m5stack](https://shop.m5stack.com/products/atoms3-dev-kit-w-0-85-inch-screen);[gotronic](https://www.gotronic.fr/art-module-atoms3-dev-kit-c123-37089.htm)|1| <img src="ressources/m5atoms3.jpg" alt="AtomS3" width="100"/> | 17,40€|
-|Batterie|C'est l'alimentation de tout le système|[gotronic](https://www.gotronic.fr/art-batterie-externe-usb-57975-35475.htm)|1| <img src="ressources/ori-batterie-externe-usb-57975-35475.jpg" alt="Batterie" width="100"/>|19,90€|
-|Smart Hub i2c|Ces hub gèrent les capteurs et permet de les différencier sur le bus i2c|[gotronic](https://www.gotronic.fr/art-hub-8-ports-i2c-grove-103020293-31770.htm)|2| <img src="ressources/ori-hub-8-ports-i2c-grove-103020293-31770.jpg" alt="Smart Hub" width="100"/>|8,05€|
-|Hub i2c simple|Ce hub permet de connecter l'ensemble des dispositifs sur le même bus i2c|[gotronic](https://www.gotronic.fr/art-hub-6-ports-i2c-grove-103020272-31348.htm)|1| <img src="ressources/ar-hub-6-ports-i2c-grove-103020272-31348.jpg" alt="Hub i2c simple" width="100"/>|1,90€|
-|Pont en H|C'est un circuit électronique utilisé pour contrôler l'intensité du courant traversant un moteur|[shop.m5stack](https://shop.m5stack.com/products/h-bridge-unit-v1-1-stm32f030)|2|<img src="ressources/hbridge.png" alt="Pont en H" width="100"/>|9€|
-|Moteur LMA|Ce sont les moteur vibrants a positionner près des poignées du déambulateur|[digikey](https://www.digikey.fr/en/products/detail/vybronics-inc/VG2230001H/16719289)|2|<img src="ressources/MFG_VG2230001H.jpg" alt="Moteur LMA" width="100"/>|7,09€|
-|Capteurs TOF|Capteur "Time of flight" VL53L0X permettant la détection d'un objet dans une plage de 3 à 100 cm|[gotronic](https://www.gotronic.fr/art-module-grove-time-of-flight-101020532-28252.htm#complte_desc)|2|<img src="ressources/grove-vl53l0x.jpg" alt="Capteurs" width="100"/>|15,65€|
-|Cable grove court|Câbles courts pour connecter les composants sur le bus i2c|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990036/5482563)|3 lots de 5|<img src="ressources/110990036.jpg" alt="grove court" width="100"/>|1,91€|
-|Câble grove long|Câbles longs pour connecter les composants sur le bus i2c|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990027/5482567)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
-|Câble usbc|Pour televerser le programme, alimenter l'atomS3 et recharger la batterie|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-usbc-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-usbc-0-1-33653.jpg" alt="usbc" width="100"/>|4,30€|
-|Cable d'alimentation moteur|Pour alimenter les moteurs vibrants|à titre indicatif: [gotronic](https://www.gotronic.fr/art-cable-blinde-cbp225-5075.htm)|2 mètres|<img src="ressources/ar-cable-blinde-cbp225-5075.jpg" alt="Cable" width="100"/>|~1€/m|
-|Bobine PLA|Pour imprimer les boitiers|à titre indicatif: [arianeplast](https://www.arianeplast.com/51-pla-format-1-kg)|<1kg|<img src="ressources/pla-format-1-kg.jpg" alt="PLA" width="100"/>|TODO Thomas ref sans prix non commandable en ligne|
-|Visserie|Pour l'assemblage|M2 et M3|-||
-|Colle forte|Pour coller les moteurs||-||
-|Scotch|Pour coller les moteurs||-||
-|Déambulateur|Le gemino est utilisé comme base||1|<img src="ressources/gemino-20-rollator-galley-main.jpg" alt="rollator" width="100"/>|615€|
+|   Nom     |    Nom exact |  Pour quoi faire?   |    fournisseur    |   quantité nécéssaire    |     Aperçu     | Prix unitraire indicatif |
+|-|-|-|-|-|-|-|
+|AtomS3|M5Stack AtomS3| C'est le micro-controlleur central qui gère les capteurs, les moteurs, la logique, la communication bluetooth...|[shop.m5stack](https://shop.m5stack.com/products/atoms3-dev-kit-w-0-85-inch-screen);[gotronic](https://www.gotronic.fr/art-module-atoms3-dev-kit-c123-37089.htm)|1| <img src="ressources/m5atoms3.jpg" alt="AtomS3" width="100"/> | 17,40€|
+|Batterie|Varta Power bank energy type 57975|C'est l'alimentation de tout le système|[gotronic](https://www.gotronic.fr/art-batterie-externe-usb-57975-35475.htm)|1| <img src="ressources/ori-batterie-externe-usb-57975-35475.jpg" alt="Batterie" width="100"/>|19,90€|
+|Smart Hub i2c|Grove - 8 Channel I2C Hub (TCA9548A)| Ces hub gèrent les capteurs et permet de les différencier sur le bus i2c|[gotronic](https://www.gotronic.fr/art-hub-8-ports-i2c-grove-103020293-31770.htm)|2| <img src="ressources/ori-hub-8-ports-i2c-grove-103020293-31770.jpg" alt="Smart Hub" width="100"/>|8,05€|
+|Hub i2c simple|Grove - I2C Hub (6 ports) v1.0|Ce hub permet de connecter l'ensemble des dispositifs sur le même bus i2c|[gotronic](https://www.gotronic.fr/art-hub-6-ports-i2c-grove-103020272-31348.htm)|1| <img src="ressources/ar-hub-6-ports-i2c-grove-103020272-31348.jpg" alt="Hub i2c simple" width="100"/>|1,90€|
+|Pont en H|Hbridge v1.1 Unit (stm32F030)|C'est un circuit électronique utilisé pour contrôler l'intensité du courant traversant un moteur|[shop.m5stack](https://shop.m5stack.com/products/h-bridge-unit-v1-1-stm32f030)|2|<img src="ressources/hbridge.png" alt="Pont en H" width="100"/>|9€|
+|Moteur LMA| - |Ce sont les moteur vibrants a positionner près des poignées du déambulateur|[digikey](https://www.digikey.fr/en/products/detail/vybronics-inc/VG2230001H/16719289)|2|<img src="ressources/MFG_VG2230001H.jpg" alt="Moteur LMA" width="100"/>|7,09€|
+|Capteurs TOF| Grove - Time of Flight Distance Sensor (VL53L0X) | Capteur "Time of flight" VL53L0X permettant la détection d'un objet dans une plage de 3 à 100 cm|[gotronic](https://www.gotronic.fr/art-module-grove-time-of-flight-101020532-28252.htm#complte_desc)|8|<img src="ressources/grove-vl53l0x.jpg" alt="Capteurs" width="100"/>|15,65€|
+|Cable grove court| - |Câbles courts pour connecter les composants sur le bus i2c|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990036/5482563)|3 lots de 5|<img src="ressources/110990036.jpg" alt="grove court" width="100"/>|1,91€|
+|Câble grove long| - |Câbles longs pour connecter les composants sur le bus i2c|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990027/5482567)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
+|Câble usbc| - |Pour televerser le programme, alimenter l'atomS3 et recharger la batterie|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-usbc-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-usbc-0-1-33653.jpg" alt="usbc" width="100"/>|4,30€|
+|Cable d'alimentation moteur| - |Pour alimenter les moteurs vibrants|à titre indicatif: [gotronic](https://www.gotronic.fr/art-cable-blinde-cbp225-5075.htm)|2 mètres|<img src="ressources/ar-cable-blinde-cbp225-5075.jpg" alt="Cable" width="100"/>|~1€/m|
+|Bobine PLA| - |Pour imprimer les boitiers|à titre indicatif: [arianeplast](https://www.arianeplast.com/51-pla-format-1-kg)|<1kg|<img src="ressources/pla-format-1-kg.jpg" alt="PLA" width="100"/>|TODO Thomas ref sans prix non commandable en ligne|
+|Visserie| - |Pour l'assemblage|M2 et M3|-||
+|Colle forte| - |Pour coller les moteurs||-||
+|Scotch| - |Pour coller les moteurs||-||
+|Déambulateur| - |Le gemino est utilisé comme base||1|<img src="ressources/gemino-20-rollator-galley-main.jpg" alt="rollator" width="100"/>|615€|
 
 ## 3.3. Vue d'ensemble
 
