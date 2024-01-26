@@ -9,10 +9,14 @@ https://user-images.githubusercontent.com/100538879/157646195-c86fd216-0dd4-412f
   - [3.2. Le matériel](#32-le-matériel)
   - [3.3. Vue d'ensemble](#33-vue-densemble)
   - [3.4. Notice de montage](#34-notice-de-montage)
+  - [3.5. Câbles et Connections](#35-câbles-et-connections)
+    - [3.5.1. Boîtiers capteurs](#351-boîtiers-capteurs)
+    - [3.5.2. Boîtiers Moteurs](#352-boîtiers-moteurs)
+    - [3.5.3. Boîtier central](#353-boîtier-central)
   - [3.6. Application Android](#36-application-android)
 - [4. FAQ](#4-faq)
 - [5. Publications](#5-publications)
-- [6. Crédits (clic sur image)](#6-crédits-clic-sur-image)
+- [6. Credits (clic sur image)](#6-credits-clic-sur-image)
 
 # 2. Swalkit : "Smart Walker Kit"
 
@@ -90,6 +94,63 @@ La table suivante indique la liste du matériel à commander, necessaire à la f
 
 ## 3.4. Notice de montage
 
+>TODO Thomas instructions de montage (tuto photo?)
+
+## 3.5. Câbles et Connections
+
+### 3.5.1. Boîtiers capteurs
+
+Un boîtier de capteurs se compose de 4 capteurs, chacun relié par un câble au smart Hub I2C du boîtier. Un long câble I2C relie le smart Hub au boîtier central. Ce câble en particulier doit être banché sur le connecteur couché, seul de l'autre côté du composant electronique principal : <img src="ressources/ori-hub-8-ports-I2C-grove-103020293-31770_2.jpg" alt="smarthub" width="100"/>
+
+Les boîtiers capteurs sont symétriques, à un détail près : l'addresse I2C des Smart Hub. En effet, pour les différencier, il faut souder les pad A0 et A1 sur le smart Hub de droite, juste à côté du composant electronique principal de la carte : <img src="ressources/158396947-d8efacd1-f917-4ef9-980c-280def52756b.jpg" alt="smarthub" width="200"/>
+
+<p align="center"><img src="ressources/158400182-8fecf1f1-94f8-4b1c-8215-f870560605ab.jpg" alt="smarthub" width="500" title="boîtiers montés"/>
+
+### 3.5.2. Boîtiers Moteurs
+
+Les moteurs doivent être soudés à un câble 2 voies (par exemple un câble de haut parleur). L'autre côté du câble sera vissé dans un bornier du pont en H.
+
+Le moteur doit être collé au fond de son receptacle et le câble doit être protégé pour éviter l'arrachement (nous utilisons du scotch).
+
+Les boîtiers droite et gauche sont symétriques et les étapes de montage sont identiques.
+
+Voir la section concernant [l'assemblage mécanique](#34-impressions-3d-et-assemblage-mécanique).
+
+
+> TODO Photo moteur monté
+
+### 3.5.3. Boîtier central
+
+Sur le hub I2C simple central, il faut brancher :
+- le m5stack atomS3, avec un câble grove court
+- les deux Smart hub I2C venant des boîtiers capteur
+- les deux ponts en H du boîtier central, avec un câble grove court
+
+Les ponts en H doivent être démontés pour enclencher les switchs. Un premier switch sert à indiquer qu'il faut utiliser le 5V et non pas une alimentation externe.
+Le deuxième sert à mettre une addresse différente de l'addresse par défaut. Sur le pont en H de droite, enclenchez le premier switch d'addresse pour mettre l'addresse à 0x21. Ensuite, branchez le câble moteur sur le bornier correspondant (M+ et M- sans importance).
+
+A ce stade, tout les branchements sont fait. Il faut maintenant téléverser le programme dans le M5stack AtomS3. Pour cela, utilisez l'outil de téléversement et les fichier binaires [disponibles ici sur le dépot](./Installation/M5Stack%20flash/AtomS3%20kit/). Si vous êtes familier avec vscode et l'extension vscode platformio, vous préfèrerez peut être utiliser le projet pio dans le dossier developpement et télécharger votre programme via platformio.
+
+> TODO fabien verifier les fichier binaires et le bon fonctionnement de la procédure d'upload
+
+> TODO fabien enlever les anciennes versions du swalkitdans les dossiers dev et install du dépot
+
+> TODO fabien verifier le lien de telechargement direct
+
+Double-cliquez sur le fichier exécutable pour l'exécuter et installer votre programme sur le M5stack (ou M5atom). Une fenêtre s'ouvre, sélectionnez "ESP32" comme type de puce et "develop" comme mode de travail. 
+
+Modifiez le port COM en fonction de votre appareil. Vous pouvez vérifier votre port COM en débranchant et en rebranchant votre appareil, vous devriez voir le port correspondant disparaître et réapparaître dans la liste des ports COM. 
+
+Sélectionnez le fichier binaire ([disponible ici sur le dépot](./Installation/M5Stack%20flash/AtomS3%20kit/)) en cliquant sur les 3 points de la première ligne. Inscrivez l'adresse 0x0 à droite. Activez le fichier en cliquant sur la case à cocher à gauche. 
+
+> TODO fabien verifier le lien de telechargement direct
+
+
+Cliquez sur "Start" pour télécharger le programme. 
+
+> TODO fabien mettre a jour avec la bonne image
+<p align="center"><img src="ressources/flash.jpg" alt="smarthub" width="500" title="boîtiers montés"/>
+
 > Note de première mise en route : Lorsque le programme est televersé le M5stack démarre. Celui-ci commence à communiquer avec les différents modules. Les pont en H ont besoin d'être mis à jour pour controller correctement les moteurs. En effet, ces mmoteur ont besoin d'une alimentation qui alterne son sens à 70Hz pour fonctionner correctement. Hors, le programme de ces ponts en H alterne le sens du courant à la demande. **Nous mettons à jour ce programme automatiquement via le M5Stack et la communication I2C** pour que l'alternance de sens soit gérée directement dans le pont en H.
 
 ## 3.6. Application Android
@@ -138,7 +199,7 @@ Citer : [GRZESKOWIAK, Fabien, DEVIGNE, Louise, PASTEAU, François, et al. SWALKI
 
 Présentation au congrès [SOFMER 2022.](https://programme.sofmer2022.com/abstract.php?action=planningView&id=93023)
 
-# 6. Crédits (clic sur image)
+# 6. Credits (clic sur image)
 Auteurs principaux : Fabien GRZESKOWIAK et Thomas VOISIN. 
 
 [![](https://ih2a.insa-rennes.fr/fileadmin/_processed_/0/f/csm_schema_chaire_a0628d819e.png)](https://ih2a.insa-rennes.fr/)
