@@ -4,13 +4,14 @@
 
 #include "UNIT_HBRIDGE.h"
 
-#define SWALKIT_VERSION     21
+#define SWALKIT_VERSION      21
+#define NORMAL_VERSION       11
 
 class LMA
 {
 public:
     LMA(){};
-    void begin(uint16_t duty_max = 1024);
+    void begin(uint16_t duty_max = UINT16_MAX);
     UNIT_HBRIDGE driver_right;
     UNIT_HBRIDGE driver_left;
     void write(uint16_t right, uint16_t left);

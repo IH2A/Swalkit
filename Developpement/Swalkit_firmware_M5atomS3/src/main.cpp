@@ -9,7 +9,7 @@ using namespace std;
 
 // Configuration générale
 bool display_enable = true;
-bool imu_enable = true;
+bool imu_enable = false;
 bool bluetooth_enable = false;
 bool usb_serial_enable = true;
 
@@ -64,8 +64,9 @@ void setup()
 {
     // Initialisation du M5stack
     M5.begin(display_enable, usb_serial_enable, true, false); 
-    //default in M5atomS3 is Wire1, but we are also using Wire
-    Wire.begin();
+    //default in M5atomS3 is Wire1 tu use MPU6886, but we are also using Wire on grove (pins 2 and 1)
+    Wire.endTransmission();
+    Wire.begin(2,1,100000L);
     // Init LCD
     display_circles(); 
 
@@ -79,7 +80,7 @@ void setup()
 
     // Init. de la communication I2C avec les moteurs LMA
     if(usb_serial_enable) USBSerial.println("Lma begin...");
-    // lma.begin();
+    lma.begin();
     // Init. de la centrale inertielle pour la detection de mouvement
     if(imu_enable & usb_serial_enable) USBSerial.println("IMU begin...");
 
@@ -91,16 +92,17 @@ void setup()
     
     // Init. de la communication I2C avec les capteurs
     if(usb_serial_enable) USBSerial.print("sensors begin...");
-    // sensors.begin(false);
+    sensors.begin(false);
     if(usb_serial_enable) USBSerial.println("done");
 
     // Init. de la configuration les moteurs LMA
-    // lma.on_off(false);
-    // lma.set_duty_max(UINT16_MAX);
+    lma.on_off(true);
+    lma.set_duty_max(UINT16_MAX);
+    //lma.write(UINT16_MAX,UINT16_MAX);
     
     // Init. des tâches multiples paralleles
     if(display_enable) xTaskCreatePinnedToCore(screen_update_task, "screen_update_task", 4096, NULL, 3, NULL, 0);
-    // xTaskCreatePinnedToCore(sense_and_drive_task, "sense_and_drive_task", 4096, NULL, 1, NULL, 0);
+    xTaskCreatePinnedToCore(sense_and_drive_task, "sense_and_drive_task", 4096, NULL, 1, NULL, 0);
     // TODO check stack size with uxTaskGetStackHighWaterMark https://www.freertos.org/uxTaskGetStackHighWaterMark.html
 
     if(usb_serial_enable) USBSerial.println("Running...");
@@ -260,17 +262,16 @@ void loop()
         {
             swalkitBLE.start();
             if(usb_serial_enable) USBSerial.print("Bluetooth enabled\n");
-            M5.Lcd.fillScreen(BLUE);
+            if (display_enable) M5.Lcd.fillScreen(BLUE);
         }
         else
         {
             swalkitBLE.stop();
             if(usb_serial_enable) USBSerial.print("Bluetooth disabled\n");
-            display_circles();
+            if (display_enable) display_circles();
         }
     }
     delay(100);
-
 }
 
 void set_display_from_sensors()
@@ -295,4 +296,5 @@ void set_display_from_sensors()
     M5.Lcd.println(moving);
 
     }
+    delay(50);
 }

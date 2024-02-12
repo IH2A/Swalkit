@@ -44,13 +44,13 @@ void Sensors::begin(bool debug)
     TCA_HUB_1.closeAll();
     TCA_HUB_2.begin(Wire, TCA9548A_ADDRESS_2); // Start second Multiplexer
     TCA_HUB_2.closeAll();
-
     for (int i = 0; i < NUMBER_OF_SENSORS/2; i ++) {
       TCA_HUB_1.closeAll();
       TCA_HUB_1.openChannel(HUB_1_I2C_SENSORS_CHANNELS[i]);
 
       Wire.beginTransmission(VL53L0X_ADDRESS_DEFAULT);
       byte error = Wire.endTransmission();
+      USBSerial.println(error);
 
       if(error == 0)
       {

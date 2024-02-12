@@ -1,4 +1,4 @@
-
+** MISE A JOUR DES SOURCES EN COURS **
 https://user-images.githubusercontent.com/100538879/157646195-c86fd216-0dd4-412f-9931-ac7addbbb123.mp4
 
 # 1. - Table des matières
@@ -72,13 +72,14 @@ La table suivante indique la liste du matériel à commander, necessaire à la f
 |Pont en H|Hbridge v1.1 Unit (stm32F030)|C'est un circuit électronique utilisé pour contrôler l'intensité du courant traversant un moteur|[shop.m5stack](https://shop.m5stack.com/products/h-bridge-unit-v1-1-stm32f030)|2|<img src="ressources/hbridge.png" alt="Pont en H" width="100"/>|9€|
 |Moteur LMA| - |Ce sont les moteur vibrants a positionner près des poignées du déambulateur|[digikey](https://www.digikey.fr/en/products/detail/vybronics-inc/VG2230001H/16719289)|2|<img src="ressources/MFG_VG2230001H.jpg" alt="Moteur LMA" width="100"/>|7,09€|
 |Capteurs TOF| Grove - Time of Flight Distance Sensor (VL53L0X) | Capteur "Time of flight" VL53L0X permettant la détection d'un objet dans une plage de 3 à 100 cm|[gotronic](https://www.gotronic.fr/art-module-grove-time-of-flight-101020532-28252.htm#complte_desc)|8|<img src="ressources/grove-vl53l0x.jpg" alt="Capteurs" width="100"/>|15,65€|
-|Câble grove court| - |Câbles courts pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990036/5482563)|3 lots de 5|<img src="ressources/110990036.jpg" alt="grove court" width="100"/>|1,91€|
-|Câble grove long| - |Câbles longs pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990027/5482567)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
+|Câble grove 5cm| - |Câbles courts pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990036/5482563)|3 lots de 5|<img src="ressources/110990036.jpg" alt="grove court" width="100"/>|1,91€|
+|Câble grove 20cm| - |Câbles longs pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990027/5482567)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
+|Câble grove 100cm| - |Câbles très longs pour connecter les composants sur le bus I2C|[mouser](https://www.mouser.fr/ProductDetail/M5Stack/A034-D?qs=81r%252BiQLm7BQIX3ZPS9TpAA%3D%3D)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|1,81€|
 |Câble USBC| - |Pour téléverser le programme, alimenter l'atomS3 et recharger la batterie|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-USBC-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-USBC-0-1-33653.jpg" alt="USBC" width="100"/>|4,30€|
 |Câble d'alimentation moteur| - |Pour alimenter les moteurs vibrants|à titre indicatif: [gotronic](https://www.gotronic.fr/art-câble-blinde-cbp225-5075.htm)|2 mètres|<img src="ressources/ar-câble-blinde-cbp225-5075.jpg" alt="câble" width="100"/>|~1€/m|
 |Bobine PLA| - |Pour imprimer les boîtiers|à titre indicatif : [arianeplast](https://www.arianeplast.com/3d-filament-recycle/195-pla-recycle-couleur-metallise-filament-175mm.html)|<1kg|<img src="ressources/pla-format-1-kg.jpg" alt="PLA" width="100"/>|~20€/kg|
-|Visserie| - |Pour l'assemblage|M2 et M3|-||
-|Colle forte| - |Pour coller les moteurs||-||
+|Visserie| - |Pour l'assemblage|[M2 et M3](https://www.bricovis.fr/)|-||
+|Gaine spirale| - |Pour organiser les câbles|[leroy merlin](https://www.leroymerlin.fr/produits/electricite-domotique/rallonge-multiprise-enrouleur-et-cable-electrique/gaine-electrique-icta/gaine-spirale-p.html)|2 mètres||
 |Scotch| - |Pour coller les moteurs||-||
 |Déambulateur| - |Le gemino est utilisé comme base||1|<img src="ressources/gemino-20-rollator-galley-main.jpg" alt="rollator" width="100"/>|615€|
 
@@ -90,7 +91,22 @@ La table suivante indique la liste du matériel à commander, necessaire à la f
 
 ## 3.4. Notice de montage
 
-> Note de première mise en route : Lorsque le programme est televersé le M5stack démarre. Celui-ci commence à communiquer avec les différents modules. Les pont en H ont besoin d'être mis à jour pour controller correctement les moteurs. En effet, ces mmoteur ont besoin d'une alimentation qui alterne son sens à 70Hz pour fonctionner correctement. Hors, le programme de ces ponts en H alterne le sens du courant à la demande. **Nous mettons à jour ce programme automatiquement via le M5Stack et la communication I2C** pour que l'alternance de sens soit gérée directement dans le pont en H.
+> Note de première mise en route : Lorsque le programme est televersé le M5stack démarre. Celui-ci commence à communiquer avec les différents modules. Les pont en H ont besoin d'être mis à jour pour controller correctement les moteurs. En effet, ces moteurs ont besoin d'une alimentation qui alterne son sens à 70Hz pour fonctionner correctement. Hors, le programme de ces ponts en H alterne le sens du courant à la demande. **Nous mettons à jour ce programme automatiquement via le M5Stack et la communication I2C** pour que l'alternance de sens soit gérée directement dans le pont en H.
+
+
+<img src="ressources/step1.png" alt="step1" width="700"/>
+<img src="ressources/step2.png" alt="step2" width="700"/>
+<img src="ressources/step3.png" alt="step3" width="700"/>
+<img src="ressources/step4.png" alt="step4" width="700"/>
+<img src="ressources/step5.png" alt="step5" width="700"/>
+<img src="ressources/step6.png" alt="step6" width="700"/>
+<img src="ressources/step7.png" alt="step7" width="700"/>
+<img src="ressources/step8.png" alt="step8" width="700"/>
+<img src="ressources/step9.png" alt="step9" width="700"/>
+<img src="ressources/step10.png" alt="step10" width="700"/>
+<img src="ressources/step11.png" alt="step11" width="700"/>
+<img src="ressources/step12.png" alt="step12" width="700"/>
+<img src="ressources/step13.png" alt="step13" width="700"/>
 
 ## 3.6. Application Android
 
