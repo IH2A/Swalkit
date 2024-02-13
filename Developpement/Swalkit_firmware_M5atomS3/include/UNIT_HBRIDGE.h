@@ -1,7 +1,8 @@
 #ifndef __UNIT_HBRIDGE_H
 #define __UNIT_HBRIDGE_H
-// https://github.com/m5stack/M5Unit-Hbridge/tree/main
+
 #include "Arduino.h"
+#include "M5AtomS3.h"
 #include "Wire.h"
 
 #define HBRIDGE_ADDR            0x20
@@ -47,6 +48,8 @@ class UNIT_HBRIDGE {
     uint8_t getI2CAddress(void);
     void startApp(void);
     bool updateFW(const uint8_t *fw, uint32_t length, uint32_t startAddr = 0x8001000);
+    void attemptRecoveryBootloader();
+    bool performRecovery(const uint8_t *fw, uint32_t length, uint32_t startAddr = 0x8001000);
 };
 
 #endif
