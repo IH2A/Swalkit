@@ -188,7 +188,7 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
         updateStatus()
     }
 
-    fun disconnectFromDevice() {
+    private fun disconnectFromDevice() {
         checkedBTConnectPermission {
             bluetoothGatt?.let {
                 it.disconnect()
@@ -264,7 +264,7 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
             stopScanHandler.postDelayed({ stopScanningForDevices() }, SCANMAXDURATION)
         }
     }
-    fun stopScanningForDevices() {
+    private fun stopScanningForDevices() {
         if (scanningForDevices) {
             bluetoothLEScanner?.let {
                 if (checkPermission(android.Manifest.permission.BLUETOOTH_SCAN)) {

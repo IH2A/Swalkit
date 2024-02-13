@@ -1,12 +1,30 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
 }
 
+// references the file containing value for keystore (keystore file, key alias and passwords for both)
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+// initialize and loads info from keystore properties
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
 android {
     namespace = "fr.insarennes.ih2a.swalkitandroid"
     compileSdk = 34
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+        }
+    }
 
     defaultConfig {
         applicationId = "fr.insarennes.ih2a.swalkitandroid"
@@ -23,11 +41,13 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isDebuggable = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
