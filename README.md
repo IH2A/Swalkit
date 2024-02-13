@@ -131,8 +131,8 @@ L'application Android permet de :
 
 Le Bluetooth du kit est désactivé au démarrage. Il faut appuyer sur l'écran du M5Stack AtomS3 (qui est en fait un bouton). L'écran de l'AtomS3 devient alors bleu. Vous pouvez alors appairer votre téléphone avec le kit dans vos paramètres Bluetooth.
 
-Une fois que celà est fait vous pouvez télécharger le [fichier d'installation (.apk) de l'application](https://github.com/IH2A/Swalkit/blob/master/Installation/App/app-release.apk).
-<p align="center"><img src="ressources/qrcode_apk.png" alt="qrcode" width="700" title="QRCode du lien vers le fichier apk"/></p>
+Une fois que celà est fait vous pouvez télécharger le [fichier d'installation (.apk) de l'application](https://github.com/IH2A/Swalkit/raw/master/Installation/App/app-release.apk).
+<p align="center"><img src="ressources/qrcode_apk.png" alt="qrcode" width="500" title="QRCode du lien vers le fichier apk"/></p>
 
 Une fois l'installation faite, vous pouvez vous connecter au kit en sélectionnant l'icône Bluetooth de l'application.
 
