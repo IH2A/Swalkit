@@ -15,9 +15,9 @@ Les objets/projets présentés sur cette plateforme le sont UNIQUEMENT ET EXCLUS
 -----------------------------------------------------------------------------------------------------------------
 
 # 1. Table des matières
-- [1. Table des matières](#1---table-des-matières)
+- [1. Table des matières](#1-table-des-matières)
 - [2. Swalkit : "Smart Walker Kit"](#2-swalkit--smart-walker-kit)
-- [3. Fabriquer son kit en quelques étapes](#3-fabriquer-son-kit-en-quelques-étapes)
+- [3. Étapes de fabrication du Swalkit](#3-étapes-de-fabrication-du-swalkit)
   - [3.1. Les outils](#31-les-outils)
   - [3.2. Le matériel](#32-le-matériel)
   - [3.3. Vue d'ensemble](#33-vue-densemble)
@@ -62,7 +62,7 @@ L'ensemble des sources est disponible sur ce dépot.
 
 La table suivante indique la liste des outils premettant la fabrication d'un kit :
 
-|   Nom             |     Pour quoi faire ?                                               |    Remarques   |
+|                |     Pour quoi faire ?                                               |    Remarques   |
 |-----------|-|-|
 |   Un ordinateur sous windows    |  Téléverser le programme dans le microcontrôleur M5Stack AtomS3   |  Utiliser l'outil de téléversement fourni (cf [tutoriel](#33-vue-densemble))                                   |
 |                   |    Adapter les modèles 3D                                           |  Utliliser un logiciel de modelisation 3d (Fusion360, Solidworks...)    |
