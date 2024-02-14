@@ -2,13 +2,13 @@
 
 https://user-images.githubusercontent.com/100538879/157646195-c86fd216-0dd4-412f-9931-ac7addbbb123.mp4
 
-> **Responsabilité
-Toute la documentation est fournie "en l'état", la chaire IH2A ne fournissent aucune garantie de quelque élément que ce soit, qu'il soit explicite, implicite ou statutaire, y compris, mais sans s'y limiter, toute garantie de qualité marchande ou l’adéquation à un usage particulier ou toute garantie que le contenu des articles sera sans erreur. La chaire IH2A ne peut en aucun cas engager sa responsabilité pour tout dommage direct ou indirect, ou dommages découlant de l’utilisation de la documentation des projets partagés sur cette plateforme.**
+> **Responsabilité  
+Toute la documentation est fournie "en l'état", la chaire IH2A ne fournit aucune garantie de quelque élément que ce soit, qu'il soit explicite, implicite ou statutaire, y compris, mais sans s'y limiter, toute garantie de qualité marchande ou l’adéquation à un usage particulier ou toute garantie que le contenu des articles sera sans erreur. La chaire IH2A ne peut en aucun cas engager sa responsabilité pour tout dommage direct ou indirect, ou dommages découlant de l’utilisation de la documentation des projets partagés sur cette plateforme.**
 
-> **Avertissement
-Les objets/projets présentés sur cette plateforme le sont UNIQUEMENT ET EXCLUSIVEMENT à titre d'informations, d'enseignements et d'exploration des possibilités du prototypage réalisable en fablab. Leur mise en avant ne constitue en aucun cas un conseil de professionnel quand à leur usage, elle ne remplace pas l'avis d'un spécialiste médical ou paramédical seul en mesure d'évaluer, de conseiller et de proposer des matériels, imprimés ou non, correspondant à une situation et des besoins précis et personnels faisant suite à la réalisation d'un bilan complet.**
+> **Avertissement  
+Les objets/projets présentés sur cette plateforme le sont UNIQUEMENT ET EXCLUSIVEMENT à titre d'informations, d'enseignements et d'exploration des possibilités du prototypage réalisable en fablab. Leur mise en avant ne constitue en aucun cas un conseil de professionnel quant à leur usage, elle ne remplace pas l'avis d'un spécialiste médical ou paramédical seul en mesure d'évaluer, de conseiller et de proposer des matériels, imprimés ou non, correspondant à une situation et des besoins précis et personnels faisant suite à la réalisation d'un bilan complet.**
 
-> **Le Github de la chaire IH2A ([https://github.com/IH2A/](https://github.com/IH2A/)) ainsi que toutes les autres plateformes associées à la documentation de nos projets (site de communication de la chaire IH2A, [https://ih2a.insa-rennes.fr/](https://ih2a.insa-rennes.fr/)) sont le reflet de travaux de recherche appliquée aux aides technologiques au sein d'une chaire académique de recherche et de l'intérêt professionel pour les possibilités offertes par le prototypage collaboratif en fablab.**
+> **Le Github de la chaire IH2A ([https://github.com/IH2A/](https://github.com/IH2A/)) ainsi que toutes les autres plateformes associées à la documentation de nos projets (site de communication de la chaire IH2A, [https://ih2a.insa-rennes.fr/](https://ih2a.insa-rennes.fr/)) sont le reflet de travaux de recherche appliqués aux aides technologiques au sein d'une chaire académique de recherche et de l'intérêt professionnel pour les possibilités offertes par le prototypage collaboratif en fablab.**
 
 > **La situation de handicap est délicate et complexe et doit être évaluée et accompagnée par des professionnels.**
 
@@ -49,10 +49,10 @@ Les capteurs mesurent des distances jusqu'à 80cm. Ils sont positionnés à l'av
 Une app mobile Android permet de personnaliser la configuration du comportement des moteurs. Ainsi, il est possible de définir plusieurs profils pour différents usagers et différents contexte d'usage (exemple : intérieur, extérieur, domicile, etc.).
 <p align="center"><img src="ressources/retour-adapte.png" alt="schema" width="700"/>
 
-Le reste de la page indique comment fabriquer son kit, et les publications scientifiques dont le kit à fait l'objet.
+Le reste de la page indique comment fabriquer son kit, et les publications scientifiques dont le kit a fait l'objet.
 L'ensemble des sources est disponible sur ce dépot.
 
-> **Attention 
+> **Attention  
 > La chaire IH2A ne fabrique pas de kit et ne fournit pas de kit. Seuls les indications de montage et d'assemblage, ainsi qu'une liste de composants, sont indiqués dans ce dépôt.**
 
 
@@ -60,35 +60,35 @@ L'ensemble des sources est disponible sur ce dépot.
 
 ## 3.1. Les outils
 
-La table suivante indique la liste des outils premettant la fabrication d'un kit :
+La table suivante indique la liste des outils permettant la fabrication d'un kit :
 
-|                |     Pour quoi faire ?                                               |    Remarques   |
+|   Quel outil ?   |     Pour quoi faire ?                                               |    Remarques   |
 |-----------|-|-|
-|   Un ordinateur sous windows    |  Téléverser le programme dans le microcontrôleur M5Stack AtomS3   |  Utiliser l'outil de téléversement fourni (cf [tutoriel](#33-vue-densemble))                                   |
+|   Un ordinateur sous Windows    |  Téléverser le programme dans le microcontrôleur M5Stack AtomS3   |  Utiliser l'outil de téléversement fourni (cf [tutoriel](#33-vue-densemble))                                   |
 |                   |    Adapter les modèles 3D                                           |  Utliliser un logiciel de modelisation 3d (Fusion360, Solidworks...)    |
-|   Une imprimante 3D    |   Imprimer les boîtiers et interfaces mécanique                |  Une imprimante petit format fera l'affaire         |
+|   Une imprimante 3D    |   Imprimer les boîtiers et interfaces mécaniques               |  Une imprimante petit format fera l'affaire         |
 |   Un fer à souder    |   Il y a des points de soudure à faire sur une carte PCB pour définir des adresses différentes aux bus I2C intelligents  |           |
 |    |   Il faut souder des câbles sur les moteurs  |           |
-|   Un petit tournevis cruciforme |   Pour ouvrir et fermer les différents boîtiers et fixier les capteurs |           |
+|   Un petit tournevis cruciforme |   Pour ouvrir et fermer les différents boîtiers et fixer les capteurs |           |
 
 ## 3.2. Le matériel
 
-La table suivante indique la liste du matériel à commander, necessaire à la fabrication d'un kit :
+La table suivante indique la liste du matériel à commander, nécessaire à la fabrication d'un kit :
 
 |   Nom     |    Nom exact |  Pour quoi faire?   |    Fournisseur    |   Quantité nécéssaire    |     Aperçu     | Prix unitraire indicatif |
 |-|-|-|-|-|-|-|
 |AtomS3|M5Stack AtomS3| C'est le microcontrôleur central qui gère les capteurs, les moteurs, la logique, la communication Bluetooth...|[shop.m5stack](https://shop.m5stack.com/products/atoms3-dev-kit-w-0-85-inch-screen); [gotronic](https://www.gotronic.fr/art-module-atoms3-dev-kit-c123-37089.htm)|1| <img src="ressources/m5atoms3.jpg" alt="AtomS3" width="100"/> | 17,40€|
 |Batterie|Varta Power bank energy type 57975|C'est l'alimentation de tout le système|[gotronic](https://www.gotronic.fr/art-batterie-externe-usb-57975-35475.htm)|1| <img src="ressources/ori-batterie-externe-usb-57975-35475.jpg" alt="Batterie" width="100"/>|19,90€|
-|Smart Hub I2C|Grove - 8 Channel I2C Hub (TCA9548A)| Ces hub gèrent les capteurs et permet de les différencier sur le bus I2C|[gotronic](https://www.gotronic.fr/art-hub-8-ports-I2C-grove-103020293-31770.htm)|2| <img src="ressources/ori-hub-8-ports-I2C-grove-103020293-31770.jpg" alt="Smart Hub" width="100"/>|8,05€|
-|Hub I2C simple|Grove - I2C Hub (6 ports) v1.0|Ce hub permet de connecter l'ensemble des dispositifs sur le même bus I2C|[gotronic](https://www.gotronic.fr/art-hub-6-ports-I2C-grove-103020272-31348.htm)|1| <img src="ressources/ar-hub-6-ports-I2C-grove-103020272-31348.jpg" alt="Hub I2C simple" width="100"/>|1,90€|
+|Smart Hub I2C|Grove - 8 Channel I2C Hub (TCA9548A)| Ces hubs gèrent les capteurs et permettent de les différencier sur le bus I2C|[gotronic](https://www.gotronic.fr/art-hub-8-ports-I2C-grove-103020293-31770.htm)|2| <img src="ressources/ori-hub-8-ports-i2c-grove-103020293-31770.jpg" alt="Smart Hub" width="100"/>|8,05€|
+|Hub I2C simple|Grove - I2C Hub (6 ports) v1.0|Ce hub permet de connecter l'ensemble des dispositifs sur le même bus I2C|[gotronic](https://www.gotronic.fr/art-hub-6-ports-I2C-grove-103020272-31348.htm)|1| <img src="ressources/ar-hub-6-ports-i2c-grove-103020272-31348.jpg" alt="Hub I2C simple" width="100"/>|1,90€|
 |Pont en H|Hbridge v1.1 Unit (stm32F030)|C'est un circuit électronique utilisé pour contrôler l'intensité du courant traversant un moteur|[shop.m5stack](https://shop.m5stack.com/products/h-bridge-unit-v1-1-stm32f030)|2|<img src="ressources/hbridge.png" alt="Pont en H" width="100"/>|9€|
-|Moteur LMA| - |Ce sont les moteur vibrants a positionner près des poignées du déambulateur|[digikey](https://www.digikey.fr/en/products/detail/vybronics-inc/VG2230001H/16719289)|2|<img src="ressources/MFG_VG2230001H.jpg" alt="Moteur LMA" width="100"/>|7,09€|
+|Moteur LMA| - |Ce sont les moteur vibrants à positionner près des poignées du déambulateur|[digikey](https://www.digikey.fr/en/products/detail/vybronics-inc/VG2230001H/16719289)|2|<img src="ressources/MFG_VG2230001H.jpg" alt="Moteur LMA" width="100"/>|7,09€|
 |Capteurs TOF| Grove - Time of Flight Distance Sensor (VL53L0X) | Capteur "Time of flight" VL53L0X permettant la détection d'un objet dans une plage de 3 à 100 cm|[gotronic](https://www.gotronic.fr/art-module-grove-time-of-flight-101020532-28252.htm#complte_desc)|8|<img src="ressources/grove-vl53l0x.jpg" alt="Capteurs" width="100"/>|15,65€|
 |Câble grove 5cm| - |Câbles courts pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990036/5482563)|3 lots de 5|<img src="ressources/110990036.jpg" alt="grove court" width="100"/>|1,91€|
 |Câble grove 20cm| - |Câbles longs pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990027/5482567)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
 |Câble grove 100cm| - |Câbles très longs pour connecter les composants sur le bus I2C|[mouser](https://www.mouser.fr/ProductDetail/M5Stack/A034-D?qs=81r%252BiQLm7BQIX3ZPS9TpAA%3D%3D)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|1,81€|
-|Câble USBC| - |Pour téléverser le programme, alimenter l'atomS3 et recharger la batterie|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-USBC-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-USBC-0-1-33653.jpg" alt="USBC" width="100"/>|4,30€|
-|Câble d'alimentation moteur| - |Pour alimenter les moteurs vibrants|à titre indicatif: [gotronic](https://www.gotronic.fr/art-câble-blinde-cbp225-5075.htm)|2 mètres|<img src="ressources/ar-câble-blinde-cbp225-5075.jpg" alt="câble" width="100"/>|~1€/m|
+|Câble USB-C| - |Pour téléverser le programme, alimenter l'atomS3 et recharger la batterie|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-usbc-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-USBC-0-1-33653.jpg" alt="USBC" width="100"/>|4,30€|
+|Câble d'alimentation moteur| - |Pour alimenter les moteurs vibrants|à titre indicatif: [gotronic](https://www.gotronic.fr/art-câble-blinde-cbp225-5075.htm)|2 mètres|<img src="ressources/ar-cable-blinde-cbp225-5075.jpg" alt="câble" width="100"/>|~1€/m|
 |Bobine PLA| - |Pour imprimer les boîtiers|à titre indicatif : [arianeplast](https://www.arianeplast.com/3d-filament-recycle/195-pla-recycle-couleur-metallise-filament-175mm.html)|<1kg|<img src="ressources/pla-format-1-kg.jpg" alt="PLA" width="100"/>|~20€/kg|
 |Visserie| - |Pour l'assemblage|[M2 et M3](https://www.bricovis.fr/)|-||
 |Gaine spirale| - |Pour organiser les câbles|[leroy merlin](https://www.leroymerlin.fr/produits/electricite-domotique/rallonge-multiprise-enrouleur-et-cable-electrique/gaine-electrique-icta/gaine-spirale-p.html)|2 mètres||
