@@ -87,7 +87,7 @@ La table suivante indique la liste du matériel à commander, nécessaire à la 
 |Câble grove 5cm| - |Câbles courts pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990036/5482563)|3 lots de 5|<img src="ressources/110990036.jpg" alt="grove court" width="100"/>|1,91€|
 |Câble grove 20cm| - |Câbles longs pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990027/5482567)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
 |Câble grove 100cm| - |Câbles très longs pour connecter les composants sur le bus I2C|[mouser](https://www.mouser.fr/ProductDetail/M5Stack/A034-D?qs=81r%252BiQLm7BQIX3ZPS9TpAA%3D%3D)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|1,81€|
-|Câble USB-C| - |Pour téléverser le programme, alimenter l'atomS3 et recharger la batterie|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-usbc-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-USBC-0-1-33653.jpg" alt="USBC" width="100"/>|4,30€|
+|Câble USB-C| - |Pour téléverser le programme, alimenter l'atomS3 et recharger la batterie|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-usbc-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-usbc-0-1-33653.jpg" alt="USBC" width="100"/>|4,30€|
 |Câble d'alimentation moteur| - |Pour alimenter les moteurs vibrants|à titre indicatif: [gotronic](https://www.gotronic.fr/art-câble-blinde-cbp225-5075.htm)|2 mètres|<img src="ressources/ar-cable-blinde-cbp225-5075.jpg" alt="câble" width="100"/>|~1€/m|
 |Bobine PLA| - |Pour imprimer les boîtiers|à titre indicatif : [arianeplast](https://www.arianeplast.com/3d-filament-recycle/195-pla-recycle-couleur-metallise-filament-175mm.html)|<1kg|<img src="ressources/pla-format-1-kg.jpg" alt="PLA" width="100"/>|~20€/kg|
 |Visserie| - |Pour l'assemblage|[M2 et M3](https://www.bricovis.fr/)|-||
@@ -145,7 +145,7 @@ La dernière page permet d'envoyer le profil courant au kit, de recevoir la conf
 Il peut être judicieux d'appuyer sur l'écran de l'AtomS3 pour désactiver la communication Bluetooth une fois la configuration faite, bien que celle-ci soit peu gourmande en energie (BLE). L'AtomS3 garde la dernière configuration en mémoire lorsque celui ci s'éteint.
 
 # 4. FAQ
->**J'aimerai me procurer un SWALKIT, comment faire?**
+>**J'aimerais me procurer un SWALKIT, comment faire?**
 >
 >Le plus simple est de se rapprocher d'un fablab local. Nous fournissons simplement la notice mais ne pouvons faire plus.
 
@@ -155,9 +155,9 @@ Il peut être judicieux d'appuyer sur l'écran de l'AtomS3 pour désactiver la c
 
 >**Mon SWALKIT a un comportement étrange**
 >
->S'il s'agit d'une première mise en route, vérifiez l'ensemble du câblage. Assurez vous d'avoir donné la bonne addresse à chaque dispositif I2C, un inversion est vite arrivée.
+>S'il s'agit d'une première mise en route, vérifiez l'ensemble du câblage. Assurez vous d'avoir donné la bonne addresse à chaque dispositif I2C, une inversion est vite arrivée.
 >
->Si ce n'est pas une première utilisation : vérifiez d'abord que vos capteurs fonctionnent. Pour cela utilisez l'application. Mettez vous dans un environnement dégagé, et appuyez sur le bouton de lecture des capteurs : chaque capteur doit envoyer un valeur entre 70 et 80 (cm). Mettez votre doigt devant un capteur sans occulter les autres, et réappuyez sur le bouton : un des capteurs doit envoyer une valeur faible de l'ordre de quelques cm. La plage de detection des capteur est de 3 cm à 8 cm.
+>Si ce n'est pas une première utilisation : vérifiez d'abord que vos capteurs fonctionnent. Pour cela utilisez l'application. Mettez-vous dans un environnement dégagé et appuyez sur le bouton de lecture des capteurs : chaque capteur doit envoyer une valeur entre 70 et 80 (cm). Mettez votre doigt devant un capteur sans occulter les autres, et réappuyez sur le bouton : un des capteurs doit envoyer une valeur faible de l'ordre de quelques cm. La plage de detection des capteur est de 3 cm à 8 cm.
 >
 >Par ailleurs, le m5AtomS3 peut être perturbé par un bus I2C instable : **n'hésitez pas à le redémarer en appuyant sur le bouton latéral.**
 
