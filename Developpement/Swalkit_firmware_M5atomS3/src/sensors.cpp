@@ -50,7 +50,6 @@ void Sensors::begin(bool debug)
 
       Wire.beginTransmission(VL53L0X_ADDRESS_DEFAULT);
       byte error = Wire.endTransmission();
-      USBSerial.println(error);
 
       if(error == 0)
       {

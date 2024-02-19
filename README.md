@@ -22,7 +22,8 @@ Les objets/projets présentés sur cette plateforme le sont UNIQUEMENT ET EXCLUS
   - [3.2. Le matériel](#32-le-matériel)
   - [3.3. Vue d'ensemble](#33-vue-densemble)
   - [3.4. Notice de montage](#34-notice-de-montage)
-  - [3.5. Application Android](#35-application-android)
+  - [3.5. Mode d'emploi du M5 stack](#35-mode-demploi-du-m5-stack)
+  - [3.6. Application Android](#36-application-android)
 - [4. FAQ](#4-faq)
 - [5. Publications](#5-publications)
 - [6. Crédits (clic sur image)](#6-crédits-clic-sur-image)
@@ -124,7 +125,13 @@ La table suivante indique la liste du matériel à commander, nécessaire à la 
 <img src="ressources/step12.png" alt="step12" width="700"/>
 <img src="ressources/step13.png" alt="step13" width="700"/>
 
-## 3.5. Application Android
+## 3.5. Mode d'emploi du M5 stack
+
+<img src="ressources/tuto1.png" alt="tuto1" width="700"/>
+<img src="ressources/tuto2.png" alt="tuto2" width="700"/>
+<img src="ressources/tuto3.png" alt="tuto3" width="700"/>
+
+## 3.6. Application Android
 
 L'application Android permet de :
 - Définir des profils
