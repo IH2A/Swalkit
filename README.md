@@ -26,7 +26,7 @@ Les objets/projets présentés sur cette plateforme le sont UNIQUEMENT ET EXCLUS
   - [3.6. Application Android](#36-application-android)
 - [4. FAQ](#4-faq)
 - [5. Publications](#5-publications)
-- [6. Crédits (clic sur image)](#6-crédits-clic-sur-image)
+- [6. Crédits](#6-crédits)
 
 # 2. Swalkit : "Smart Walker Kit"
 
@@ -68,7 +68,7 @@ La table suivante indique la liste des outils permettant la fabrication d'un kit
 |   Un ordinateur sous Windows    |  Téléverser le programme dans le microcontrôleur M5Stack AtomS3   |  Utiliser l'outil de téléversement fourni (cf [tutoriel](#33-vue-densemble))                                   |
 |                   |    Adapter les modèles 3D                                           |  Utliliser un logiciel de modelisation 3d (Fusion360, Solidworks...)    |
 |   Une imprimante 3D    |   Imprimer les boîtiers et interfaces mécaniques               |  Une imprimante petit format fera l'affaire         |
-|   Un fer à souder    |   Il y a des points de soudure à faire sur une carte PCB pour définir des adresses différentes aux bus I2C intelligents  |           |
+|   Un fer à souder    |   Il y a des points de soudure à faire sur une carte PCB pour assigner des adresses différentes aux bus I2C intelligents  |           |
 |    |   Il faut souder des câbles sur les moteurs  |           |
 |   Un petit tournevis cruciforme |   Pour ouvrir et fermer les différents boîtiers et fixer les capteurs |           |
 
@@ -86,12 +86,12 @@ La table suivante indique la liste du matériel à commander, nécessaire à la 
 |Moteur LMA| - |Ce sont les moteur vibrants à positionner près des poignées du déambulateur|[digikey](https://www.digikey.fr/en/products/detail/vybronics-inc/VG2230001H/16719289)|2|<img src="ressources/MFG_VG2230001H.jpg" alt="Moteur LMA" width="100"/>|7,09€|
 |Capteurs TOF| Grove - Time of Flight Distance Sensor (VL53L0X) | Capteur "Time of flight" VL53L0X permettant la détection d'un objet dans une plage de 3 à 100 cm|[gotronic](https://www.gotronic.fr/art-module-grove-time-of-flight-101020532-28252.htm#complte_desc)|8|<img src="ressources/grove-vl53l0x.jpg" alt="Capteurs" width="100"/>|15,65€|
 |Câble grove 5cm| - |Câbles courts pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990036/5482563)|3 lots de 5|<img src="ressources/110990036.jpg" alt="grove court" width="100"/>|1,91€|
-|Câble grove 20cm| - |Câbles longs pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990027/5482567)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
+|Câble grove 30cm| - |Câbles longs pour connecter les composants sur le bus I2C|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990040/5482564)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
 |Câble grove 100cm| - |Câbles très longs pour connecter les composants sur le bus I2C|[mouser](https://www.mouser.fr/ProductDetail/M5Stack/A034-D?qs=81r%252BiQLm7BQIX3ZPS9TpAA%3D%3D)|1 lot de 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|1,81€|
 |Câble USB-C| - |Pour téléverser le programme, alimenter l'atomS3 et recharger la batterie|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-usbc-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-usbc-0-1-33653.jpg" alt="USBC" width="100"/>|4,30€|
 |Câble d'alimentation moteur| - |Pour alimenter les moteurs vibrants|à titre indicatif: [gotronic](https://www.gotronic.fr/art-câble-blinde-cbp225-5075.htm)|2 mètres|<img src="ressources/ar-cable-blinde-cbp225-5075.jpg" alt="câble" width="100"/>|~1€/m|
 |Bobine PLA| - |Pour imprimer les boîtiers|à titre indicatif : [arianeplast](https://www.arianeplast.com/3d-filament-recycle/195-pla-recycle-couleur-metallise-filament-175mm.html)|<1kg|<img src="ressources/pla-format-1-kg.jpg" alt="PLA" width="100"/>|~20€/kg|
-|Visserie| - |Pour l'assemblage|[M2 et M3](https://www.bricovis.fr/)|-||
+|Visserie| - |Pour l'assemblage|[M3x8mm = 6; M3x15mm = 14; Écrous M3 = 20; M2x8mm = 25; Écrous M2 = 16](https://www.bricovis.fr/produit-vis-a-tete-fraisee-hexagonale-creuse-filetage-total-inox-a2-din-7991-tfhca2/)|-||
 |Gaine spirale| - |Pour organiser les câbles|[leroy merlin](https://www.leroymerlin.fr/produits/electricite-domotique/rallonge-multiprise-enrouleur-et-cable-electrique/gaine-electrique-icta/gaine-spirale-p.html)|2 mètres||
 |Scotch| - |Pour coller les moteurs||-||
 |Déambulateur| - |Le gemino est utilisé comme base||1|<img src="ressources/gemino-20-rollator-galley-main.jpg" alt="rollator" width="100"/>|615€|
@@ -104,7 +104,7 @@ La table suivante indique la liste du matériel à commander, nécessaire à la 
 
 ## 3.4. Notice de montage
 
-> Note de première mise en route : Lorsque le programme est televersé le M5stack démarre. Celui-ci commence à communiquer avec les différents modules. Les pont en H ont besoin d'être mis à jour pour controller correctement les moteurs. En effet, ces moteurs ont besoin d'une alimentation qui alterne son sens à 70Hz pour fonctionner correctement. Hors, le programme de ces ponts en H alterne le sens du courant à la demande. **Nous mettons à jour ce programme automatiquement via le M5Stack et la communication I2C** pour que l'alternance de sens soit gérée directement dans le pont en H.
+> Note de première mise en route : Lorsque le programme est téléversé le M5stack démarre. Celui-ci commence à communiquer avec les différents modules. Les ponts en H ont besoin d'être mis à jour pour contrôler correctement les moteurs. En effet, ces moteurs ont besoin d'une alimentation qui alterne son sens à 70Hz pour fonctionner correctement. Or, le programme de ces ponts en H alterne le sens du courant à la demande. **Nous mettons à jour ce programme automatiquement via le M5Stack et la communication I2C** pour que l'alternance de sens soit gérée directement dans le pont en H.
 
 
 <img src="ressources/step1.png" alt="step1" width="700"/>
@@ -162,23 +162,27 @@ Il peut être judicieux d'appuyer sur l'écran de l'AtomS3 pour désactiver la c
 
 >**Mon SWALKIT ne vibre plus après quelques secondes à l'arrêt**
 >
->Le SWALKIT ne fait pas vibrer les moteurs lorsque le déambulateur n'a pas bougé depuis plusieurs secondes. dev tip: Cette option peut être désactivée dans le programme source via une variable booleenne "bool imu_enable" au début du fichier main.cpp.
+>Le SWALKIT ne fait pas vibrer les moteurs lorsque le déambulateur n'a pas bougé depuis plusieurs secondes. Cette option peut être désactivée via un appui long sur l'écran du M5stack.
 
 >**Mon SWALKIT a un comportement étrange**
 >
 >S'il s'agit d'une première mise en route, vérifiez l'ensemble du câblage. Assurez vous d'avoir donné la bonne addresse à chaque dispositif I2C, une inversion est vite arrivée.
 >
->Si ce n'est pas une première utilisation : vérifiez d'abord que vos capteurs fonctionnent. Pour cela utilisez l'application. Mettez-vous dans un environnement dégagé et appuyez sur le bouton de lecture des capteurs : chaque capteur doit envoyer une valeur entre 70 et 80 (cm). Mettez votre doigt devant un capteur sans occulter les autres, et réappuyez sur le bouton : un des capteurs doit envoyer une valeur faible de l'ordre de quelques cm. La plage de detection des capteur est de 3 cm à 8 cm.
+>Si ce n'est pas une première utilisation : vérifiez d'abord que vos capteurs fonctionnent. Pour cela utilisez l'application en activant le bluetooth du kit via un appui court sur l'écran du M5stack. Mettez-vous dans un environnement dégagé et appuyez sur le bouton de lecture des capteurs : chaque capteur doit envoyer une valeur entre 70 et 80 (cm). Mettez votre doigt devant un capteur sans occulter les autres, et réappuyez sur le bouton : un des capteurs doit envoyer une valeur faible de l'ordre de quelques cm. La plage de detection des capteur est de 3 cm à 8 cm.
 >
->Par ailleurs, le m5AtomS3 peut être perturbé par un bus I2C instable : **n'hésitez pas à le redémarer en appuyant sur le bouton latéral.**
+>Par ailleurs, le m5AtomS3 peut être perturbé par un bus I2C instable : **n'hésitez pas à le redémarrer en débranchant et rebranchant l'USB-C.**
 
 # 5. Publications
 
 Citer : [GRZESKOWIAK, Fabien, DEVIGNE, Louise, PASTEAU, François, et al. SWALKIT: A generic augmented walker kit to provide haptic feedback navigation assistance to people with both visual and motor impairments. In : 2022 International Conference on Rehabilitation Robotics (ICORR). IEEE, 2022. p. 1-6.](https://ieeexplore.ieee.org/abstract/document/9896406/)
 
-Présentation au congrès [SOFMER 2022.](https://programme.sofmer2022.com/abstract.php?action=planningView&id=93023)
+Présentation au congrès SOFMER 2022.
 
-# 6. Crédits (clic sur image)
-Auteurs principaux : Fabien GRZESKOWIAK et Thomas VOISIN. 
+# 6. Crédits
 
+Co-financé par [Inria - Défi DORNELL](https://project.inria.fr/dornell/) et [Sopra Steria Mission Handicap](https://www.missionhandicap.soprasteria.com/).
+
+Auteurs principaux : Fabien GRZESKOWIAK et Thomas VOISIN.
+
+Le swalkit a été développé par [la chaire IH2A.](https://ih2a.insa-rennes.fr/)
 [![](https://ih2a.insa-rennes.fr/fileadmin/_processed_/0/f/csm_schema_chaire_a0628d819e.png)](https://ih2a.insa-rennes.fr/)
