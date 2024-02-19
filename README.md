@@ -118,8 +118,8 @@ La table suivante indique la liste du matériel à commander, nécessaire à la 
 <img src="ressources/step9.png" alt="step9" width="700"/>
 <img src="ressources/step10.png" alt="step10" width="700"/>
 
-<a href="../../raw/master/Installation/M5Stack%20flash/AtomS3%20kit/flash_download_tool_3.9.5/flash_download_tool_3.9.5.exe" target="_blank">Outil de mise à jour</a><br/>
-<a href="../../raw/master/Installation/M5Stack%20flash/AtomS3%20kit/full_firmware_AtomS3.bin" target="_blank">Microcode</a><br/>
+<a href="../../raw/master/Installation/M5Stack%20flash/flash_download_tool_3.9.5.exe" target="_blank">Outil de mise à jour</a><br/>
+<a href="../../raw/master/Installation/M5Stack%20flash/full_firmware_AtomS3.bin" target="_blank">Microcode</a><br/>
 
 <img src="ressources/step11.png" alt="step11" width="700"/>
 <img src="ressources/step12.png" alt="step12" width="700"/>
