@@ -54,7 +54,7 @@ Le reste de la page indique comment fabriquer son kit, et les publications scien
 L'ensemble des sources est disponible sur ce dépot.
 
 > **Attention  
-> La chaire IH2A ne fabrique pas de kit et ne fournit pas de kit. Seuls les indications de montage et d'assemblage, ainsi qu'une liste de composants, sont indiqués dans ce dépôt.**
+> La chaire IH2A ne fabrique pas de kit et ne fournit pas de kit. Seules les indications de montage et d'assemblage, ainsi qu'une liste de composants, sont indiquées dans ce dépôt.**
 
 
 # 3. Étapes de fabrication du Swalkit
@@ -91,7 +91,7 @@ La table suivante indique la liste du matériel à commander, nécessaire à la 
 |Câble USB-C| - |Pour téléverser le programme, alimenter l'atomS3 et recharger la batterie|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-usbc-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-usbc-0-1-33653.jpg" alt="USBC" width="100"/>|4,30€|
 |Câble d'alimentation moteur| - |Pour alimenter les moteurs vibrants|à titre indicatif: [gotronic](https://www.gotronic.fr/art-câble-blinde-cbp225-5075.htm)|2 mètres|<img src="ressources/ar-cable-blinde-cbp225-5075.jpg" alt="câble" width="100"/>|~1€/m|
 |Bobine PLA| - |Pour imprimer les boîtiers|à titre indicatif : [arianeplast](https://www.arianeplast.com/3d-filament-recycle/195-pla-recycle-couleur-metallise-filament-175mm.html)|<1kg|<img src="ressources/pla-format-1-kg.jpg" alt="PLA" width="100"/>|~20€/kg|
-|Visserie| - |Pour l'assemblage|[M3x8mm = 6; M3x15mm = 14; Écrous M3 = 20; M2x8mm = 25; Écrous M2 = 16](https://www.bricovis.fr/produit-vis-a-tete-fraisee-hexagonale-creuse-filetage-total-inox-a2-din-7991-tfhca2/)|-||
+|Visserie| - |Pour l'assemblage|[M3x8mm = 6</br>M3x15mm = 14</br>Écrous M3 = 20</br>M2x8mm = 25</br>Écrous M2 = 16](https://www.bricovis.fr/produit-vis-a-tete-fraisee-hexagonale-creuse-filetage-total-inox-a2-din-7991-tfhca2/)|-||
 |Gaine spirale| - |Pour organiser les câbles|[leroy merlin](https://www.leroymerlin.fr/produits/electricite-domotique/rallonge-multiprise-enrouleur-et-cable-electrique/gaine-electrique-icta/gaine-spirale-p.html)|2 mètres||
 |Scotch| - |Pour coller les moteurs||-||
 |Déambulateur| - |Le gemino est utilisé comme base||1|<img src="ressources/gemino-20-rollator-galley-main.jpg" alt="rollator" width="100"/>|615€|
