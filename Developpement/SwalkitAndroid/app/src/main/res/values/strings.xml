@@ -35,4 +35,9 @@
     <string name="logo_ih2a" translatable="false">IH2A</string>
     <string name="logo_sopra" translatable="false">Sopra Steria</string>
     <string name="logo_insa" translatable="false">INSA</string>
+    <string name="profile_sent_to_device">Configuration sent to Swalkit</string>
+    <string name="profile_send_error">Error sending configuration</string>
+    <string name="profile_received_from_device">Configuration received from Swalkit</string>
+    <string name="profile_receive_error">Error receiving configuration</string>
+    <string name="profile_saved">Profile saved</string>
 </resources>

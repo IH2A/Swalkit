@@ -1,5 +1,6 @@
 package fr.insarennes.ih2a.swalkitandroid.ui.composables
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -29,6 +31,7 @@ object Profiles {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun ProfilesScreen(viewModel: SwalkitViewModel) {
+        val context = LocalContext.current
         val currentProfileState by viewModel.currentProfile.collectAsStateWithLifecycle()
         val profilesList by viewModel.profilesList.collectAsStateWithLifecycle()
         val openAlertDialog = remember{mutableStateOf(false) }
@@ -37,7 +40,9 @@ object Profiles {
             .padding(16.dp)
             .fillMaxSize()) {
             Text(text = currentProfileState.toString())
-            Button(onClick = { viewModel.saveCurrentProfile() }) {
+            Button(onClick = { viewModel.saveCurrentProfile{
+                Toast.makeText(context, context.getString(R.string.profile_saved), Toast.LENGTH_SHORT).show()
+            } }) {
                 Text(text = String.format(stringResource(R.string.save_profile), currentProfileState.name))
             }
             LazyColumn {

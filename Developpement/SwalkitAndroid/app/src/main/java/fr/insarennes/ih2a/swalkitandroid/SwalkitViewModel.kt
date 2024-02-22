@@ -26,13 +26,14 @@ class SwalkitViewModel(private val database: SwalkitDatabase) : ViewModel() {
             }
     }
 
-    fun sendProfileToDevice(profile:SwalkitProfile) {
-        SWBluetoothLE.getInstance().writeCharacteristic(SwalkitCharacteristic.PROFILE, profile.toByteArray())
+    fun sendProfileToDevice(profile:SwalkitProfile): Boolean {
+        return SWBluetoothLE.getInstance().writeCharacteristic(SwalkitCharacteristic.PROFILE, profile.toByteArray())
     }
 
-    fun receiveProfileFromDevice() {
-        SWBluetoothLE.getInstance().readCharacteristic(SwalkitCharacteristic.PROFILE) { data ->
+    fun receiveProfileFromDevice(callback: () -> Unit): Boolean {
+        return SWBluetoothLE.getInstance().readCharacteristic(SwalkitCharacteristic.PROFILE) { data ->
             _currentProfile.value.fromByteArray(data)
+            callback.invoke()
         }
     }
 
@@ -70,10 +71,11 @@ class SwalkitViewModel(private val database: SwalkitDatabase) : ViewModel() {
         }
     }
 
-    fun saveCurrentProfile() {
+    fun saveCurrentProfile(callback:() -> Unit) {
         viewModelScope.launch {
             database.profileDAO().saveProfile(currentProfile.value.toDataProfile())
             loadProfilesList()
+            callback.invoke()
         }
     }
 

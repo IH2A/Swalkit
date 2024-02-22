@@ -31,4 +31,9 @@
     <string name="load">Charger</string>
     <string name="delete">Supprimer</string>
     <string name="about_screen_title">\?</string>
+    <string name="profile_send_error">Erreur lors de l\'envoi de la configuration</string>
+    <string name="profile_sent_to_device">Configuration envoyée au Swalkit</string>
+    <string name="profile_received_from_device">Configuration reçue du Swalkit</string>
+    <string name="profile_receive_error">Erreur lors de la réception de la configuration</string>
+    <string name="profile_saved">Profil actuel enregistré</string>
 </resources>

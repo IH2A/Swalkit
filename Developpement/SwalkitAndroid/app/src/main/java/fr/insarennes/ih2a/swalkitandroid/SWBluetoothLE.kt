@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattService
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
+import android.bluetooth.BluetoothStatusCodes
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanResult
@@ -201,36 +202,40 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
 
     // the deprecated part is needed for older devices
     @Suppress("DEPRECATION")
-    fun writeCharacteristic(characteristicId:SwalkitCharacteristic, value:ByteArray) {
+    fun writeCharacteristic(characteristicId:SwalkitCharacteristic, value:ByteArray): Boolean {
+        var result:Boolean = false
         bluetoothGatt?.let { gatt ->
             bluetoothGattService?.getCharacteristic(getCharacteristicUUID(characteristicId))
                 ?.let { characteristic ->
                     checkedBTConnectPermission {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            gatt.writeCharacteristic(
+                            result = BluetoothStatusCodes.SUCCESS == gatt.writeCharacteristic(
                                 characteristic,
                                 value,
                                 BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE
                             )
                         } else {
                             characteristic.value = value
-                            gatt.writeCharacteristic(characteristic)
+                            result = gatt.writeCharacteristic(characteristic)
                         }
                     }
                 }
         }
+        return result
     }
 
-    fun readCharacteristic(characteristicId: SwalkitCharacteristic, callback: (ByteArray) -> Unit) {
+    fun readCharacteristic(characteristicId: SwalkitCharacteristic, callback: (ByteArray) -> Unit): Boolean {
+        var result = false
         bluetoothGatt?.let { gatt ->
             bluetoothGattService?.getCharacteristic(getCharacteristicUUID(characteristicId))
                 ?.let { characteristic ->
                     checkedBTConnectPermission {
                         gattReadCallbacks[getCharacteristicUUID(characteristicId)] = callback
-                        gatt.readCharacteristic(characteristic)
+                        result = gatt.readCharacteristic(characteristic)
                     }
                 }
         }
+        return result
     }
 
     private fun getCharacteristicUUID(characteristic:SwalkitCharacteristic): UUID {
