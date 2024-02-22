@@ -100,8 +100,11 @@ void Sensors::begin(bool debug)
 void Sensors::read()
 {
     VL53L0X_RangingMeasurementData_t m;
-    for(int i = 0; i < NUMBER_OF_SENSORS; i++)
-    {
+    current_sensor++;
+    if(current_sensor >= NUMBER_OF_SENSORS) current_sensor = 0;
+    int i = current_sensor;
+    // for(int i = 0; i < NUMBER_OF_SENSORS; i++)
+    // {
         sensor[i]->getSingleRangingMeasurement(&m);
         uint16_t measure = m.RangeMilliMeter;
         if(_debug) USBSerial.print(i);
@@ -119,5 +122,5 @@ void Sensors::read()
             if(_debug) USBSerial.println("NOK");
             sensor_average[i]->addValue(SENSOR_MAX_VALUE);
         } 
-    } 
+    // } 
 }
