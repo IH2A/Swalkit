@@ -17,7 +17,7 @@ double total_acceleration;
 double seuil_mouvement = 0;
 bool moving = true;
 bool moving_changed = true;
-unsigned long watchdog_imu_move = 5000; // 1 secondes
+unsigned long watchdog_imu_move = 5000; // 5 secondes
 unsigned long last_time_moved = 0;      // secondes
 
 // Configuration Bluetooth
@@ -169,7 +169,6 @@ void sense_and_drive_task(void *pvParameters)
         }
 
         // for 8 sensors
-
         uint16_t front = 0;
         uint16_t right = 0;
         uint16_t left = 0;
@@ -306,7 +305,8 @@ void sense_and_drive_task(void *pvParameters)
             else if (left == right && left > 0)
             {
                 // If we are in an uncertain state (impropable but might happen), vibrate on the last side detected previously
-                last_left ? lma.write(0, left * (UINT16_MAX / 100)) : lma.write(right * (UINT16_MAX / 100), 0);
+                //last_left ? lma.write(0, left * (UINT16_MAX / 100)) : lma.write(right * (UINT16_MAX / 100), 0);
+                lma.write(right * (UINT16_MAX / 100), left * (UINT16_MAX / 100));
             }
             else
             {
