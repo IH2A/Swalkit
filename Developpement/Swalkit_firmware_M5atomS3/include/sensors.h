@@ -22,8 +22,7 @@ public:
 
     RunningAverage<int>* sensor_average[NUMBER_OF_SENSORS];
     Adafruit_VL53L0X* sensor[NUMBER_OF_SENSORS];
-private:
-    int current_sensor = 0;
+
 };
 
 #endif // sensors_h

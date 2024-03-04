@@ -132,46 +132,18 @@ void SwalkitBLE::ProfileCallbacks::onWrite(BLECharacteristic *pCharacteristic) {
         profileRef.fromBytes(data, data_length);
         USBSerial.print("Received profile: ");
         USBSerial.println(profileRef.toString().c_str());
-        profileRef.store();
+        profileRef.store_flag = true;
+        USBSerial.println("->profileRef.store()");
     }
 }
 
 void SwalkitBLE::ProfileCallbacks::onRead(BLECharacteristic *pCharacteristic) {
-    uint8_t *data = nullptr;
+    
     size_t data_length;
-    profileRef.toBytes(data, data_length);
-    pCharacteristic->setValue(data, data_length);
+    profileRef.toBytes(data_length);
+    pCharacteristic->setValue(profileRef.dataBuffer, data_length);
     USBSerial.print("Sending profile : ");
     USBSerial.println(profileRef.toString().c_str());
 }
 #pragma endregion
 
-// void ISRBlueetoothWriteSensors() {
-//   std::vector<int> values;
-//   for (int i = 0; i < NUMBER_OF_SENSORS; i++) {
-//       values.push_back(RA_vector[i]->getAverage());
-//   }
-//   SerialBT.println("20"+sendIntListBT(values, "sensors"));
-//   Serial.println("SEND\t20" + sendIntListBT(values, "sensors"));
-// }
-
-// void readBluetoothData() {
-//   if (SerialBT.available()) {
-//     Serial.println("\nreading BT");
-//     // Read the whole command send via Bluetooth
-//     serialCommandData = SerialBT.readStringUntil('\n');
-//     if (!serialCommandData) {
-//       Serial.println("Cannot read command");
-//     } else {
-//       Serial.println("got command: " + serialCommandData);
-//       // Get wich type of command it represents
-//       int serialCommand = serialCommandData.substring(0,2).toInt();
-//       Serial.println("command: " + String(serialCommand));
-//       String commandAtributes = serialCommandData.length() > 2 ?
-//               serialCommandData.substring(2, serialCommandData.length()) :
-//               "";
-//       Serial.println("attributes: " + commandAtributes);
-//       serialCommandOptions(serialCommand, commandAtributes);
-//     }
-//   }
-// }

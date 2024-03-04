@@ -5,6 +5,12 @@
 #include "sensors.h"
 #include "LMA.h"
 
+#define MAX(X,Y) ((X)>(Y)?(X):(Y))
+#define MIN(X,Y) ((X)<(Y)?(X):(Y))
+#define MIN3(X,Y,Z) (MIN(X,MIN(Y,Z)))
+#define CLIP(X,A,B) (MAX(MIN(X,B),A))
+
+
 using namespace std;
 
 // Configuration générale
@@ -13,8 +19,8 @@ bool bluetooth_enable = false;
 bool usb_serial_enable = false;
 
 // imu
-double total_acceleration;
-double seuil_mouvement = 0;
+float total_acceleration;
+float seuil_mouvement = 0;
 bool moving = true;
 bool moving_changed = true;
 unsigned long watchdog_imu_move = 5000; // 5 secondes
@@ -34,7 +40,7 @@ bool last_left = false;
 
 void sense_and_drive_task(void *pvParameters);
 void screen_update_task(void *pvParameters);
-void set_display_from_sensors();
+void set_display_from_sensors(void *pvParameters);
 void lcd_write_state();
 
 void display_circles(int _delay)
@@ -130,8 +136,8 @@ void setup()
     M5.lcd.fillScreen(WHITE);
 
     // Init. des tâches multiples paralleles
-    xTaskCreatePinnedToCore(screen_update_task, "screen_update_task", 4096, NULL, 3, NULL, 0);
-    xTaskCreatePinnedToCore(sense_and_drive_task, "sense_and_drive_task", 4096, NULL, 1, NULL, 0);
+    xTaskCreatePinnedToCore(set_display_from_sensors, "set_display_from_sensors_task", 4096, NULL, 3, NULL, 0);
+    xTaskCreatePinnedToCore(sense_and_drive_task, "sense_and_drive_task", 2048, NULL, 1, NULL, 0);
     // TODO check stack size with uxTaskGetStackHighWaterMark https://www.freertos.org/uxTaskGetStackHighWaterMark.html
 
     if (usb_serial_enable)
@@ -144,6 +150,7 @@ void sense_and_drive_task(void *pvParameters)
     // UBaseType_t uxHighWaterMark;
     // uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);
     // USBSerial.println(uxHighWaterMark);
+    uint32_t now = millis();
     while (1)
     {
         sensors.read();
@@ -152,8 +159,8 @@ void sense_and_drive_task(void *pvParameters)
         {
             M5.IMU.getAccel(&ax, &ay, &az);
             total_acceleration = std::sqrt(ax * ax + ay * ay + az * az) * 0.1 + total_acceleration * 0.9;
-            // USBSerial.println(total_acceleration);
-            if (total_acceleration > seuil_mouvement + 0.003)
+            //USBSerial.println(total_acceleration);
+            if (abs(total_acceleration - seuil_mouvement) > 0.003f)
             {
                 if (!moving)
                     moving_changed = true;
@@ -173,92 +180,89 @@ void sense_and_drive_task(void *pvParameters)
         uint16_t right = 0;
         uint16_t left = 0;
         uint16_t pulse = 0;
+        int pulseId = 0;
+        int rightId = 0;
+        int leftId = 0;
 
+        int pulseTab[5] = {0, swalkitProfile.farSignal.pulse, swalkitProfile.nearSignal.pulse, swalkitProfile.dangerSignal.pulse, swalkitProfile.frontSignal.pulse};
+        int sideTab[4] = {0, swalkitProfile.farSignal.intensity, swalkitProfile.nearSignal.intensity, swalkitProfile.dangerSignal.intensity};
+
+
+        int front_distance = MIN3(MAX(sensors.sensor_average[2]->getAverage(), sensors.sensor_average[5]->getAverage()), sensors.sensor_average[3]->getAverage(), sensors.sensor_average[4]->getAverage());
+        int right_distance = MIN3(sensors.sensor_average[0]->getAverage(), sensors.sensor_average[1]->getAverage(), sensors.sensor_average[2]->getAverage());
+        int left_distance = MIN3(sensors.sensor_average[5]->getAverage(), sensors.sensor_average[6]->getAverage(), sensors.sensor_average[7]->getAverage());
+
+            
         // center
-        if ((sensors.sensor_average[2]->getAverage() < swalkitProfile.frontSignal.distance && sensors.sensor_average[5]->getAverage() < swalkitProfile.frontSignal.distance) || sensors.sensor_average[3]->getAverage() < swalkitProfile.frontSignal.distance || sensors.sensor_average[4]->getAverage() < swalkitProfile.frontSignal.distance)
+        if (front_distance < swalkitProfile.frontSignal.distance)
         {
             front = swalkitProfile.frontSignal.intensity;
-            pulse = 4;
+            pulseId = 4;
         }
 
         // left side
-        if (sensors.sensor_average[5]->getAverage() < swalkitProfile.dangerSignal.distance ||
-            sensors.sensor_average[6]->getAverage() < swalkitProfile.dangerSignal.distance ||
-            sensors.sensor_average[7]->getAverage() < swalkitProfile.dangerSignal.distance)
+        if (left_distance < swalkitProfile.dangerSignal.distance)
         {
-            left = swalkitProfile.dangerSignal.intensity;
-            pulse = pulse > 3 ? pulse : 3; // if pulse > 3 then pulse = pulse else pulse = 3
-        }
-        else if (sensors.sensor_average[5]->getAverage() < swalkitProfile.nearSignal.distance ||
-                 sensors.sensor_average[6]->getAverage() < swalkitProfile.nearSignal.distance ||
-                 sensors.sensor_average[7]->getAverage() < swalkitProfile.nearSignal.distance)
+            leftId = 3;
+            pulseId = MAX(pulseId, 3);
+        } 
+        else 
         {
-            left = swalkitProfile.nearSignal.intensity;
-            pulse = pulse > 2 ? pulse : 2;
+            if (left_distance < swalkitProfile.nearSignal.distance)
+            {
+                leftId =  2;
+                pulseId = MAX(pulseId, 2);
+            } 
+            else 
+            {
+                if (left_distance < swalkitProfile.farSignal.distance)
+                {
+                    leftId = 1;
+                    pulseId = MAX(pulseId, 1);
+                } 
+                else
+                {
+                    leftId = 0;
+                }
+            }
         }
-        else if (sensors.sensor_average[5]->getAverage() < swalkitProfile.farSignal.distance ||
-                 sensors.sensor_average[6]->getAverage() < swalkitProfile.farSignal.distance ||
-                 sensors.sensor_average[7]->getAverage() < swalkitProfile.farSignal.distance)
-        {
-            left = swalkitProfile.farSignal.intensity;
-            pulse = pulse > 1 ? pulse : 1;
-        }
-        else
-        {
-            left = 0;
-        }
+
 
         // right side
-        if (sensors.sensor_average[0]->getAverage() < swalkitProfile.dangerSignal.distance ||
-            sensors.sensor_average[1]->getAverage() < swalkitProfile.dangerSignal.distance ||
-            sensors.sensor_average[2]->getAverage() < swalkitProfile.dangerSignal.distance)
+        if (right_distance < swalkitProfile.dangerSignal.distance)
         {
-            right = swalkitProfile.dangerSignal.intensity;
-            pulse = pulse > 3 ? pulse : 3;
-        }
-        else if (sensors.sensor_average[0]->getAverage() < swalkitProfile.nearSignal.distance ||
-                 sensors.sensor_average[1]->getAverage() < swalkitProfile.nearSignal.distance ||
-                 sensors.sensor_average[2]->getAverage() < swalkitProfile.nearSignal.distance)
+            rightId = 3;
+            pulseId = MAX(pulseId, 3);
+        } 
+        else 
         {
-            right = swalkitProfile.nearSignal.intensity;
-            pulse = pulse > 2 ? pulse : 2;
-        }
-        else if (sensors.sensor_average[0]->getAverage() < swalkitProfile.farSignal.distance ||
-                 sensors.sensor_average[1]->getAverage() < swalkitProfile.farSignal.distance ||
-                 sensors.sensor_average[2]->getAverage() < swalkitProfile.farSignal.distance)
-        {
-            right = swalkitProfile.farSignal.intensity;
-            pulse = pulse > 1 ? pulse : 1;
-        }
-        else
-        {
-            right = 0;
-        }
-
-        switch (pulse)
-        {
-        case 4:
-            pulse = swalkitProfile.frontSignal.pulse;
-            break;
-        case 3:
-            pulse = swalkitProfile.dangerSignal.pulse;
-            break;
-        case 2:
-            pulse = swalkitProfile.nearSignal.pulse;
-            break;
-        case 1:
-            pulse = swalkitProfile.farSignal.pulse;
-            break;
-        default:
-            pulse = 0;
-            break;
+            if (right_distance < swalkitProfile.nearSignal.distance)
+            {
+                rightId = 2;
+                pulseId = MAX(pulseId, 2);
+            } 
+            else 
+            {
+                if (right_distance < swalkitProfile.farSignal.distance)
+                {
+                    rightId = 1;
+                    pulseId = MAX(pulseId, 1);
+                } 
+                else
+                {
+                    rightId = 0;
+                }
+            }
         }
 
-        // USBSerial.print(right);
-        // USBSerial.print("...");
-        // USBSerial.print(left);
-        // USBSerial.print("...");
-        // USBSerial.println(front);
+        pulseId = CLIP(pulseId, 0, 4);
+        leftId = CLIP(leftId, 0, 3);
+        rightId = CLIP(rightId, 0, 3);
+
+
+        pulse = pulseTab[pulseId];
+        left = sideTab[leftId];
+        right = sideTab[rightId];
 
         if (pulse != 0)
         {
@@ -285,49 +289,31 @@ void sense_and_drive_task(void *pvParameters)
             front = 0;
         }
 
-        if (front)
-        {
-            lma.write(front * (UINT16_MAX / 100), front * (UINT16_MAX / 100));
-        }
-        else
-        {
-            // Vibrate on the side closest to the obstacle
-            if (left > right)
+
+        if (front){
+            right = front;
+            left = front;
+        } else {
+            if(rightId < leftId) //left closer
             {
-                lma.write(0, left * (UINT16_MAX / 100));
-                last_left = true;
-            }
-            else if (right > left)
+                right = 0;
+            } 
+            else 
             {
-                lma.write(right * (UINT16_MAX / 100), 0);
-                last_left = false;
-            }
-            else if (left == right && left > 0)
-            {
-                // If we are in an uncertain state (impropable but might happen), vibrate on the last side detected previously
-                //last_left ? lma.write(0, left * (UINT16_MAX / 100)) : lma.write(right * (UINT16_MAX / 100), 0);
-                lma.write(right * (UINT16_MAX / 100), left * (UINT16_MAX / 100));
-            }
-            else
-            {
-                lma.write(0, 0);
+                if(rightId > leftId)
+                {
+                    left = 0;
+                }
             }
         }
+
+        lma.write(right * (UINT16_MAX / 100), left * (UINT16_MAX / 100));
 
         // uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);
         // USBSerial.println(uxHighWaterMark);
     }
 }
 
-void screen_update_task(void *pvParameters)
-{
-    while (1)
-    {
-
-        set_display_from_sensors();
-        delay(100);
-    }
-}
 
 enum swalkit_btn_state
 {
@@ -355,6 +341,11 @@ void loop()
     {
         btn_state = on_long_press;
     }
+
+    if(swalkitProfile.store_flag){
+        swalkitProfile.store_flag = false;
+        swalkitProfile.store();
+    }
 }
 
 #define GREEN_SWALKIT 0x2589
@@ -373,7 +364,7 @@ void lcd_write_state()
         M5.Lcd.print("Swalkit Move OFF\n");
 }
 
-void set_display_from_sensors()
+void set_display_from_sensors(void *pvParameters)
 {
     // UBaseType_t uxHighWaterMark;
     // uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);
