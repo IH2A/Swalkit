@@ -127,21 +127,20 @@ SwalkitBLE::ProfileCallbacks::ProfileCallbacks(SwalkitProfile &profile) : profil
 
 void SwalkitBLE::ProfileCallbacks::onWrite(BLECharacteristic *pCharacteristic) {
     size_t data_length = pCharacteristic->getLength();
-    uint8_t *data = pCharacteristic->getData();
     if (data_length > 0) {
-        profileRef.fromBytes(data, data_length);
+        uint8_t *data = pCharacteristic->getData();
+        profileRef.fromBytes(data);
         USBSerial.print("Received profile: ");
         USBSerial.println(profileRef.toString().c_str());
-        profileRef.store_flag = true;
+        profileRef.store();
         USBSerial.println("->profileRef.store()");
     }
 }
 
 void SwalkitBLE::ProfileCallbacks::onRead(BLECharacteristic *pCharacteristic) {
-    
     size_t data_length;
-    profileRef.toBytes(data_length);
-    pCharacteristic->setValue(profileRef.dataBuffer, data_length);
+	const uint8_t *data_bytes = profileRef.toBytes(data_length);
+    pCharacteristic->setValue(const_cast<uint8_t*>(data_bytes), data_length);
     USBSerial.print("Sending profile : ");
     USBSerial.println(profileRef.toString().c_str());
 }

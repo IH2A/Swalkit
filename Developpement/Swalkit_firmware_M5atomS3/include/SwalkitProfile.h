@@ -6,6 +6,7 @@
 #include "SwalkitSignal.h"
 #include <Preferences.h>
 
+
 class SwalkitProfile {
 public:
     std::string name;
@@ -13,12 +14,10 @@ public:
     SwalkitSignal dangerSignal;
     SwalkitSignal nearSignal;
     SwalkitSignal farSignal;
-    uint8_t dataBuffer[32];
-    bool store_flag;
 
     SwalkitProfile();
-    void fromBytes(uint8_t *data, size_t data_length);
-    void toBytes(size_t &data_length);
+    void fromBytes(const uint8_t *data);
+    const uint8_t* toBytes(size_t &data_length);
 
     bool load();
     bool store();
@@ -29,6 +28,8 @@ private:
     Preferences preferences;
     static const char *profile_namespace;
     static const char *profile_data;
+    static constexpr std::size_t BufferSize = 32;
+    uint8_t dataBuffer[BufferSize];
 };
 
 #endif // __SwalkitProfile_h__

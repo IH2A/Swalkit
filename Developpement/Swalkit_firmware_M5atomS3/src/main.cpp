@@ -341,11 +341,6 @@ void loop()
     {
         btn_state = on_long_press;
     }
-
-    if(swalkitProfile.store_flag){
-        swalkitProfile.store_flag = false;
-        swalkitProfile.store();
-    }
 }
 
 #define GREEN_SWALKIT 0x2589
