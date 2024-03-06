@@ -50,7 +50,7 @@ object Motors {
                     modifier = Modifier.align(Alignment.CenterVertically).fillMaxWidth(1f),
                     value = currentProfileState.name,
                     onValueChange = {
-                        viewModel.updateCurrentProfile(currentProfileState.copy(name = it.substring(19)))
+                        viewModel.updateCurrentProfile(currentProfileState.copy(name = it))
                     })
             }
             Row(modifier = Modifier.fillMaxSize()) {
