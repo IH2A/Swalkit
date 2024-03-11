@@ -12,12 +12,12 @@ SwalkitDisplay::SwalkitDisplay() {
     ColorBluetoothStateConnected = TFT_SKYBLUE;
     ColorBluetoothStateDisabled = TFT_TRANSPARENT;
 
-    ColorIMUDisabled = TFT_YELLOW;
+    ColorIMUDisabled = TFT_DARKGREY;
     ColorIMUMoving = 0x2589;    // GREEN_SWALKIT
     ColorIMUStopped = 0xe8e4;   // RED_SWALKIT
 
     ColorStateInitialising = TFT_CYAN;
-    ColorStateCalibrating = TFT_PINK;
+    ColorStateCalibrating = TFT_VIOLET;
     ColorStateReady = TFT_WHITE;
     ColorStateInLongPress = TFT_ORANGE;
 }
@@ -25,21 +25,18 @@ SwalkitDisplay::SwalkitDisplay() {
 void SwalkitDisplay::SetBluetoothState(BluetoothState bluetoothState) {
     switch(bluetoothState) {
         case BluetoothState::Enabled:
+            SetBorderColor(ColorBluetoothStateEnabled);
             if (currentBluetoothState == BluetoothState::Disabled) {
-                SetBorderColor(ColorBluetoothStateEnabled, false);
                 SetQRCode(R"(https://github.com/IH2A/Swalkit/raw/master/Installation/App/app-release.apk)");
-            } else {
-                SetBorderColor(ColorBluetoothStateEnabled);
             }
             break;
         case BluetoothState::Connected:
-            SetBorderColor(ColorBluetoothStateConnected, false);
+            SetBorderColor(ColorBluetoothStateConnected);
             SetQRCode(nullptr);
             break;
         case BluetoothState::Disabled:
-            USBSerial.println("disabling");
             SetBorderColor(ColorBluetoothStateDisabled);
-            USBSerial.println("Bluetooth set to disabled");
+            SetQRCode(nullptr);
             break;
     }
     currentBluetoothState = bluetoothState;
@@ -66,7 +63,7 @@ void SwalkitDisplay::SetSwalkitState(SwalkitState swalkitState) {
             break;
         case SwalkitState::Calibrating:
             SetBackgroundColor(ColorStateCalibrating, false);
-            SetMessage("Calibration\n\nNE PAS BOUGER");
+            SetMessage("Calibration NE PAS BOUGER");
             break;
         case SwalkitState::Ready:
             SetBackgroundColor(ColorStateReady);

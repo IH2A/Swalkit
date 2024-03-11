@@ -161,7 +161,7 @@ void BasicDisplay::DrawCenter() {
 void BasicDisplay::DrawMessage() {
     if (messageText != nullptr) {
         M5.Lcd.setTextColor(messageColor);
-        M5.Lcd.setTextSize(1);
+        M5.Lcd.setTextSize(2);
         DrawText(messageText);
     }
 }
@@ -190,6 +190,7 @@ void BasicDisplay::DrawText(const char *text) {
     size_t i;
     size_t suitableTextLength;
     const char* suitableTextBreak;
+    M5.Lcd.setTextWrap(false);
 
     while (*text) {
         textWidth = M5.Lcd.textWidth(text);
