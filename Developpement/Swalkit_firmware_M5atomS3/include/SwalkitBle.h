@@ -14,7 +14,7 @@
 
 class SwalkitBLE {
 public:
-    SwalkitBLE(SwalkitProfile &profile, Sensors &sensors);
+    SwalkitBLE(SwalkitProfile &profile, Sensors &sensors, bool serrrrrrrrrrrrrrrrrr);
     ~SwalkitBLE();
     void start();
     void stop();
@@ -22,33 +22,37 @@ public:
 private:
     class ServerCallbacks : public BLEServerCallbacks {
     public:
-        ServerCallbacks(SwalkitBLE &_BT_serial);
+        ServerCallbacks(SwalkitBLE &_BT_serial, bool usb_serial_log);
         void onConnect(BLEServer *pServer);
         void onDisconnect(BLEServer *pServer);
 
     private:
         SwalkitBLE &BT_serial;
+        bool usb_serial_log;
     };
 
     class RequestCallbacks : public BLECharacteristicCallbacks {
     public:
-        RequestCallbacks(Sensors &sensors);
+        RequestCallbacks(Sensors &sensors, bool usb_serial_log);
         void onRead(BLECharacteristic *pCharacteristic) override;
     private:
         Sensors &sensors;
+        bool usb_serial_log;
     };
 
     class ProfileCallbacks : public BLECharacteristicCallbacks {
     public:
-        ProfileCallbacks(SwalkitProfile &profile);
+        ProfileCallbacks(SwalkitProfile &profile, bool usb_serial_log);
         void onRead(BLECharacteristic *pCharacteristic) override;
         void onWrite(BLECharacteristic *pCharacteristic) override;
     private:
         SwalkitProfile &profileRef;
+        bool usb_serial_log;
    };
 
     SwalkitProfile &profileRef;
     Sensors &sensors;
+    bool usb_serial_log;
 
     BLEServer *pServer;
     BLEService *pService;

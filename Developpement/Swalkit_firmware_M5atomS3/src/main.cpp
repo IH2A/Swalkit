@@ -2,6 +2,7 @@
 #include <M5AtomS3.h>
 #include "SwalkitBle.h"
 #include "SwalkitProfile.h"
+#include "SwalkitDisplay.h"
 #include "sensors.h"
 #include "LMA.h"
 
@@ -16,20 +17,20 @@ using namespace std;
 // Configuration générale
 bool imu_enable = true;
 bool bluetooth_enable = false;
-bool usb_serial_enable = false;
+bool usb_serial_enable = true;
 
 // imu
 float total_acceleration;
 float seuil_mouvement = 0;
 bool moving = true;
-bool moving_changed = true;
 unsigned long watchdog_imu_move = 5000; // 5 secondes
 unsigned long last_time_moved = 0;      // secondes
 
 // Configuration Bluetooth
 SwalkitProfile swalkitProfile;
 Sensors sensors;
-SwalkitBLE swalkitBLE(swalkitProfile, sensors);
+SwalkitBLE swalkitBLE(swalkitProfile, sensors, usb_serial_enable);
+SwalkitDisplay swalkitDisplay{};
 
 // Déclarations
 LMA lma;
@@ -39,36 +40,14 @@ bool pulsing = false;
 bool last_left = false;
 
 void sense_and_drive_task(void *pvParameters);
-void screen_update_task(void *pvParameters);
 void set_display_from_sensors(void *pvParameters);
-void lcd_write_state();
-
-void display_circles(int _delay)
-{
-    M5.Lcd.fillScreen(YELLOW);
-    delay(_delay);
-    M5.lcd.drawSpot(0, 0, 160, M5.Lcd.color16to24(random16()));
-    delay(_delay);
-    M5.lcd.drawSpot(0, 0, 140, M5.Lcd.color16to24(random16()));
-    delay(_delay);
-    M5.lcd.drawSpot(0, 0, 120, M5.Lcd.color16to24(random16()));
-    delay(_delay);
-    M5.lcd.drawSpot(0, 0, 100, M5.Lcd.color16to24(random16()));
-    delay(_delay);
-    M5.lcd.drawSpot(0, 0, 80, M5.Lcd.color16to24(random16()));
-    delay(_delay);
-    M5.lcd.drawSpot(0, 0, 60, M5.Lcd.color16to24(random16()));
-    delay(_delay);
-    M5.lcd.drawSpot(0, 0, 40, M5.Lcd.color16to24(random16()));
-    delay(_delay);
-    M5.lcd.drawSpot(0, 0, 20, M5.Lcd.color16to24(random16()));
-}
 
 void setup()
 {
     // Initialisation du M5stack
     M5.begin(true, usb_serial_enable, true, false);
-    M5.Lcd.fillScreen(CYAN);
+    swalkitDisplay.Init();
+    swalkitDisplay.SetSwalkitState(SwalkitDisplay::SwalkitState::Initialising);
 
     // default in M5atomS3 is Wire1 tu use MPU6886, but we are also using Wire on grove (pins 2 and 1)
     Wire.endTransmission();
@@ -77,7 +56,9 @@ void setup()
     // load stored profile
     if (!swalkitProfile.load())
     {
-        M5.Lcd.fillScreen(ORANGE);
+        swalkitDisplay.SetError("Error loading profile");
+        delay(5000);
+        swalkitDisplay.SetError(nullptr);
     }
 
     delay(2000);
@@ -94,10 +75,7 @@ void setup()
 
     if (imu_enable)
     {
-
-        M5.Lcd.fillScreen(PINK);
-        M5.Lcd.setCursor(10, 10);
-        M5.Lcd.print("CALIBRATION\nNE PAS BOUGER");
+        swalkitDisplay.SetSwalkitState(SwalkitDisplay::SwalkitState::Calibrating);
 
         M5.IMU.begin();
         for (int i = 0; i < 10; i++)
@@ -131,9 +109,8 @@ void setup()
     // lma.write(UINT16_MAX,UINT16_MAX);
     
     //init lcd
-    display_circles(100);
     delay(200);
-    M5.lcd.fillScreen(WHITE);
+    swalkitDisplay.SetSwalkitState(SwalkitDisplay::SwalkitState::Ready);
 
     // Init. des tâches multiples paralleles
     xTaskCreatePinnedToCore(set_display_from_sensors, "set_display_from_sensors_task", 4096, NULL, 3, NULL, 0);
@@ -162,16 +139,14 @@ void sense_and_drive_task(void *pvParameters)
             //USBSerial.println(total_acceleration);
             if (abs(total_acceleration - seuil_mouvement) > 0.003f)
             {
-                if (!moving)
-                    moving_changed = true;
                 moving = true;
+                swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Moving);
                 last_time_moved = millis();
             }
             if (millis() - last_time_moved > watchdog_imu_move)
             {
-                if (moving)
-                    moving_changed = true;
                 moving = false;
+                swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Stopped);
             }
         }
 
@@ -343,22 +318,6 @@ void loop()
     }
 }
 
-#define GREEN_SWALKIT 0x2589
-#define RED_SWALKIT 0xe8e4
-
-void lcd_write_state()
-{
-    M5.Lcd.setCursor(0, 50);
-    if (bluetooth_enable)
-        M5.Lcd.print("Bluetooth ON\n");
-    else
-        M5.Lcd.print("Bluetooth OFF\n");
-    if (imu_enable)
-        M5.Lcd.print("Swalkit Move ON\n");
-    else
-        M5.Lcd.print("Swalkit Move OFF\n");
-}
-
 void set_display_from_sensors(void *pvParameters)
 {
     // UBaseType_t uxHighWaterMark;
@@ -375,28 +334,19 @@ void set_display_from_sensors(void *pvParameters)
             if (bluetooth_enable)
             {
                 swalkitBLE.start();
-                if (usb_serial_enable)
-                    USBSerial.print("Bluetooth enabled\n");
-                M5.Lcd.fillScreen(BLUE);
             }
             else
             {
                 swalkitBLE.stop();
-                if (usb_serial_enable)
-                    USBSerial.print("Bluetooth disabled\n");
-                M5.Lcd.fillScreen(WHITE);
             }
 
-            if (imu_enable & !moving) M5.lcd.drawSpot(64, 64, 40, RED_SWALKIT);
-            else M5.lcd.drawSpot(64, 64, 60, GREEN_SWALKIT);
-            
             btn_state = idle;
-            lcd_write_state();
             break;
         case on_long_press:
-            M5.Lcd.fillScreen(ORANGE);
+            swalkitDisplay.SetSwalkitState(SwalkitDisplay::SwalkitState::InLongPress);
             break;
         case on_long_press_released:
+            swalkitDisplay.SetSwalkitState(SwalkitDisplay::SwalkitState::Ready);
             imu_enable = !imu_enable;
 
             if (!imu_enable)
@@ -404,39 +354,19 @@ void set_display_from_sensors(void *pvParameters)
                 moving = true;
                 if (usb_serial_enable)
                     USBSerial.print("Imu disabled\n");
-                M5.lcd.drawSpot(64, 64, 60, GREEN_SWALKIT);
+                swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Disabled);
             }
             else
             {
                 if (usb_serial_enable)
                     USBSerial.print("Imu enabled\n");
-                M5.Lcd.fillScreen(WHITE);
-                M5.lcd.drawSpot(64, 64, 40, RED_SWALKIT);
+                    
+                swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Moving);
             }
             btn_state = idle;
-            lcd_write_state();
 
             break;
         default:
-            if (imu_enable)
-            {
-                // M5.Lcd.drawSpot((int)(-az * 128) + 64, (int)(-ax * 128) + 64, 5, M5.Lcd.color16to24(random16()));
-                if (moving_changed)
-                {
-                    moving_changed = false;
-                    if (moving)
-                    {
-                        M5.lcd.drawSpot(64, 64, 60, GREEN_SWALKIT);
-                    }
-                    else
-                    {
-                        M5.lcd.drawSpot(64, 64, 60, WHITE);
-                        M5.lcd.drawSpot(64, 64, 40, RED_SWALKIT);
-                    }
-
-                    lcd_write_state();
-                }
-            }
             break;
         }
         // uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);

@@ -20,6 +20,9 @@ public:
     inline bool is_on(){ return dir; };
 
 private:
+    void tryHBridgeRecovery(UNIT_HBRIDGE &hbridge, uint8_t address);
+    void checkAndUpdateFirmware(UNIT_HBRIDGE &hbridge);
+
     uint16_t duty_max;
     uint8_t dir;
 };
