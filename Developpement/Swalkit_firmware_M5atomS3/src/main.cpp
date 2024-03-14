@@ -9,7 +9,6 @@
 #define MAX(X,Y) ((X)>(Y)?(X):(Y))
 #define MIN(X,Y) ((X)<(Y)?(X):(Y))
 #define MIN3(X,Y,Z) (MIN(X,MIN(Y,Z)))
-#define CLIP(X,A,B) (MAX(MIN(X,B),A))
 
 
 using namespace std;
@@ -20,11 +19,15 @@ bool bluetooth_enable = false;
 bool usb_serial_enable = true;
 
 // imu
-float total_acceleration;
-float seuil_mouvement = 0;
+float total_acceleration, total_gyro;
+float seuil_mouvement, seuil_gyro;
+float ax, ay, az;   // accelerations
+float gx, gy, gz;   // gyro
 bool moving = true;
 unsigned long watchdog_imu_move = 5000; // 5 secondes
 unsigned long last_time_moved = 0;      // secondes
+float acceleration_threshold = 0.014;   // relative to calibration
+float gyro_threshold = 60;  // absolute
 
 // Configuration Bluetooth
 SwalkitProfile swalkitProfile;
@@ -34,8 +37,6 @@ SwalkitDisplay swalkitDisplay{};
 
 // Déclarations
 LMA lma;
-float ax, ay, az;
-bool last_left = false;
 
 // button state
 enum swalkit_btn_state
@@ -87,21 +88,24 @@ void setup()
         swalkitDisplay.SetSwalkitState(SwalkitDisplay::SwalkitState::Calibrating);
 
         M5.IMU.begin();
+        seuil_mouvement = 0;
+        seuil_gyro = 0;
         for (int i = 0; i < 10; i++)
         {
             M5.IMU.getAccel(&ax, &ay, &az);
-            total_acceleration = std::sqrt(ax * ax + ay * ay + az * az);
+            M5.IMU.getGyro(&gx, &gy, &gz);
+            total_acceleration = ax * ax + ay * ay + az * az;
+            total_gyro = gx * gx + gy * gy + gz * gz;
             seuil_mouvement += total_acceleration;
+            seuil_gyro += total_gyro;
             delay(200);
-            USBSerial.print("ax ay az: ");
-            USBSerial.print(ax);
-            USBSerial.print(" ");
-            USBSerial.print(ay);
-            USBSerial.print(" ");
-            USBSerial.println(az);
         }
-        seuil_mouvement *= 0.1;
-        USBSerial.println(seuil_mouvement);
+        seuil_mouvement *= 0.1f;
+        seuil_gyro *= 0.1f;
+        USBSerial.print("seuil mouvement : ");
+        USBSerial.print(seuil_mouvement);
+        USBSerial.print("    seuil gyro : ");
+        USBSerial.println(seuil_gyro);
     }
 
 
@@ -158,7 +162,8 @@ SignalRange getRangeFromDistance(int distance, int &intensity, int &pulse) {
     pulse = 0;
     return SignalRange::Away;
 }
-
+float gyro_max = 0;
+float acc_max = 0;
 void sense_and_drive_task(void *pvParameters)
 {
     // UBaseType_t uxHighWaterMark;
@@ -177,14 +182,34 @@ void sense_and_drive_task(void *pvParameters)
         if (imu_enable)
         {
             M5.IMU.getAccel(&ax, &ay, &az);
-            total_acceleration = std::sqrt(ax * ax + ay * ay + az * az) * 0.1 + total_acceleration * 0.9;
+            M5.IMU.getGyro(&gx, &gy, &gz);
+            total_acceleration = (ax * ax + ay * ay + az * az) * 0.1f + total_acceleration * 0.9f;
+            total_gyro = (gx *gx + gy * gy + gz * gz) * 0.1f + total_gyro * 0.9f;
+            if (total_acceleration > acc_max)
+                acc_max = total_acceleration;
+            if (total_gyro > gyro_max)
+                gyro_max = total_gyro;
             //USBSerial.println(total_acceleration);
+            if (moving) { 
+                bool bAcc = abs(total_acceleration - seuil_mouvement) > acceleration_threshold;
+                bool bGyro = abs(total_gyro - seuil_gyro) > gyro_threshold;
+                if (bAcc) {
+                    if (bGyro) {
+                        swalkitDisplay.SetMessage("Acc + Gyro");
+                    } else {
+                        swalkitDisplay.SetMessage("Acc");
+                    }
+                } else if (bGyro) {
+                    swalkitDisplay.SetMessage("Gyro");
+                }
+            }
 
-            if (abs(total_acceleration - seuil_mouvement) > 0.03f) {
+            if (abs(total_acceleration - seuil_mouvement) > acceleration_threshold || abs(total_gyro - seuil_gyro) > gyro_threshold) {
                 moving = true;
                 swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Moving);
                 last_time_moved = now;
             } else if (now - last_time_moved > watchdog_imu_move) {
+                swalkitDisplay.SetMessage(nullptr);
                 moving = false;
                 swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Stopped);
             }
@@ -246,6 +271,15 @@ void loop()
 
     if (M5.Btn.wasReleased())
     {
+        /*
+        static char buffer[128];
+        sprintf(buffer, "Acc : %.3f, Gyro : %.3f", acc_max, gyro_max);
+        USBSerial.println(buffer);
+        swalkitDisplay.SetMessage(nullptr, false);
+        swalkitDisplay.SetMessage(buffer);
+        acc_max = 0;
+        gyro_max = 0;
+        */
         if (btn_state == on_long_press)
             btn_state = on_long_press_released;
         else
