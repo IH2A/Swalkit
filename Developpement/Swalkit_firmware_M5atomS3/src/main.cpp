@@ -15,9 +15,10 @@ using namespace std;
 
 // Configuration générale
 bool imu_enable = true;
-constexpr bool usb_serial_enable = true;
+constexpr bool usb_serial_enable = false;
 constexpr bool sensors_enabled = true;
 constexpr bool motors_enabled = true;
+constexpr bool display_imu_data = false;
 
 // imu
 float total_acceleration;
@@ -27,11 +28,11 @@ constexpr size_t gyro_data_size = 10;
 float gyro_data[gyro_data_size];
 size_t gyro_index;
 float gyro_calibration = 0;
-float gyro_threshold = 80;
+float gyro_threshold = 50;
 bool moving = true;
 unsigned long watchdog_imu_move = 5000; // 5 secondes
 unsigned long last_time_moved = 0;      // secondes
-float acceleration_threshold = 0.02f;   // relative to calibration
+float acceleration_threshold = 0.015f;   // relative to calibration
 
 // Configuration Bluetooth
 SwalkitProfile swalkitProfile;
@@ -203,6 +204,24 @@ void sense_and_drive_task(void *pvParameters)
 
             read_gyro_data();
             gyro_value = abs(get_current_gyro() - gyro_calibration);
+
+            if (display_imu_data && !moving) { 
+                bool bAcc = abs(total_acceleration - seuil_mouvement) > acceleration_threshold;
+                bool bGyro = gyro_value > gyro_threshold;
+                char buffer[64];
+                *buffer = 0;
+                if (bAcc) {
+                    if (bGyro) {
+                        sprintf(buffer, "Acc : %.3f, Gyro : %.1f", abs(total_acceleration - seuil_mouvement), gyro_value);
+                    } else {
+                        sprintf(buffer, "Acc : %.3f", abs(total_acceleration - seuil_mouvement));
+                    }
+                } else if (bGyro) {
+                    sprintf(buffer, "Gyro : %.1f", gyro_value);
+                }
+                swalkitDisplay.SetMessage(nullptr);
+                if (*buffer) swalkitDisplay.SetMessage(buffer);
+            }            
 
             if (abs(total_acceleration - seuil_mouvement) > acceleration_threshold || gyro_value > gyro_threshold) {
                 moving = true;
