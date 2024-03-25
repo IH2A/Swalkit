@@ -63,7 +63,7 @@ void SwalkitDisplay::SetSwalkitState(SwalkitState swalkitState) {
             break;
         case SwalkitState::Calibrating:
             SetBackgroundColor(ColorStateCalibrating, false);
-            SetMessage("Calibration NE PAS BOUGER");
+            SetMessage("Calibra-\ntion\n\nNE PAS BOUGER");
             break;
         case SwalkitState::Ready:
             SetBackgroundColor(ColorStateReady);

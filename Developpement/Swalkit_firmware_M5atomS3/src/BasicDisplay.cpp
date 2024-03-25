@@ -202,13 +202,23 @@ void BasicDisplay::DrawText(const char *text) {
             suitableTextLength = 0;
             suitableTextBreak = nullptr;
             i = 0;
+
+            // skip starting blanks
+            while (*text == '\n') {
+                y += M5.Lcd.fontHeight();
+                ++text;
+            }
+            while (*text == ' ') {
+                ++text;
+            }
+
             do {
                 // fill in buffer with any beginning space...
                 for (; *text && *text == ' ' && i < sizeof(buffer) - 1; ++i) {
                     buffer[i] = *text++;
                 }
                 // ... and all chars until next space
-                for (; *text && *text != ' ' && i < sizeof(buffer) - 1; ++i) {
+                for (; *text && *text != ' ' && *text != '\n' && i < sizeof(buffer) - 1; ++i) {
                     buffer[i] = *text++;
                 }
                 buffer[i] = '\0';
@@ -217,13 +227,17 @@ void BasicDisplay::DrawText(const char *text) {
                     suitableTextLength = i;
                     suitableTextBreak = text;
                 }
-            } while (*text && textWidth <= availableWidth && i < sizeof(buffer) - 1);
+            } while (*text && *text != '\n' && textWidth <= availableWidth && i < sizeof(buffer) - 1);
 
             if (textWidth > availableWidth && suitableTextLength > 0) { // gone too far ? backtrack to suitable width if any
                 buffer[suitableTextLength] = '\0';
                 text = suitableTextBreak;
                 textWidth = M5.Lcd.textWidth(buffer);
             }
+            if (*text == '\n') {    // skip one \n if it was the last char.
+                ++text;
+            }
+
             M5.Lcd.setCursor(borderSize + (availableWidth - textWidth >> 1), y);
             M5.Lcd.print(buffer);
             y += M5.Lcd.fontHeight();

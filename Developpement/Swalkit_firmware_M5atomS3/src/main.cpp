@@ -16,8 +16,8 @@ using namespace std;
 // Configuration générale
 bool imu_enable = true;
 constexpr bool usb_serial_enable = true;
-constexpr bool sensors_enabled = false;
-constexpr bool motors_enabled = false;
+constexpr bool sensors_enabled = true;
+constexpr bool motors_enabled = true;
 
 // imu
 float total_acceleration;
