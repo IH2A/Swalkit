@@ -15,25 +15,30 @@ using namespace std;
 
 // Configuration générale
 bool imu_enable = true;
-bool bluetooth_enable = false;
-bool usb_serial_enable = true;
+constexpr bool usb_serial_enable = true;
+constexpr bool sensors_enabled = false;
+constexpr bool motors_enabled = false;
 
 // imu
-float total_acceleration, total_gyro;
-float seuil_mouvement, seuil_gyro;
+float total_acceleration;
+float seuil_mouvement;
 float ax, ay, az;   // accelerations
-float gx, gy, gz;   // gyro
+constexpr size_t gyro_data_size = 10;
+float gyro_data[gyro_data_size];
+size_t gyro_index;
+float gyro_calibration = 0;
+float gyro_threshold = 80;
 bool moving = true;
 unsigned long watchdog_imu_move = 5000; // 5 secondes
 unsigned long last_time_moved = 0;      // secondes
-float acceleration_threshold = 0.014;   // relative to calibration
-float gyro_threshold = 60;  // absolute
+float acceleration_threshold = 0.02f;   // relative to calibration
 
 // Configuration Bluetooth
 SwalkitProfile swalkitProfile;
 Sensors sensors;
 SwalkitBLE swalkitBLE(swalkitProfile, sensors, usb_serial_enable);
 SwalkitDisplay swalkitDisplay{};
+bool bluetooth_enabled = false;
 
 // Déclarations
 LMA lma;
@@ -51,6 +56,10 @@ swalkit_btn_state btn_state = idle;
 // tasks
 void sense_and_drive_task(void *pvParameters);
 void handle_button_state(void *pvParameters);
+
+// gyro
+void read_gyro_data();
+float get_current_gyro();
 
 void setup()
 {
@@ -75,51 +84,57 @@ void setup()
     if (usb_serial_enable)
         USBSerial.println("Starting...");
 
-    // Init. de la communication I2C avec les moteurs LMA
-    if (usb_serial_enable)
-        USBSerial.println("Lma begin...");
-    lma.begin();
-    // Init. de la centrale inertielle pour la detection de mouvement
-    if (imu_enable & usb_serial_enable)
-        USBSerial.println("IMU begin...");
+    if (motors_enabled) {
+        // Init. de la communication I2C avec les moteurs LMA
+        if (usb_serial_enable)
+            USBSerial.println("Lma begin...");
+        lma.begin();
+    }
 
     if (imu_enable)
     {
+        // Init. de la centrale inertielle pour la detection de mouvement
+        if (usb_serial_enable)
+            USBSerial.println("IMU begin...");
+
         swalkitDisplay.SetSwalkitState(SwalkitDisplay::SwalkitState::Calibrating);
 
         M5.IMU.begin();
         seuil_mouvement = 0;
-        seuil_gyro = 0;
         for (int i = 0; i < 10; i++)
         {
             M5.IMU.getAccel(&ax, &ay, &az);
-            M5.IMU.getGyro(&gx, &gy, &gz);
-            total_acceleration = ax * ax + ay * ay + az * az;
-            total_gyro = gx * gx + gy * gy + gz * gz;
+            total_acceleration = std::sqrt(ax * ax + ay * ay + az * az);
             seuil_mouvement += total_acceleration;
-            seuil_gyro += total_gyro;
+            read_gyro_data();
             delay(200);
         }
         seuil_mouvement *= 0.1f;
-        seuil_gyro *= 0.1f;
-        USBSerial.print("seuil mouvement : ");
-        USBSerial.print(seuil_mouvement);
-        USBSerial.print("    seuil gyro : ");
-        USBSerial.println(seuil_gyro);
+        gyro_calibration = get_current_gyro();
+        if (usb_serial_enable) {
+            USBSerial.print("seuil mouvement : ");
+            USBSerial.print(seuil_mouvement);
+            USBSerial.print("  calibration gyro : ");
+            USBSerial.println(gyro_calibration);
+        }
     }
 
 
-    // Init. de la communication I2C avec les capteurs
-    if (usb_serial_enable)
-        USBSerial.print("sensors begin...");
-    sensors.begin(false);
-    if (usb_serial_enable)
-        USBSerial.println("done");
+    if (sensors_enabled) {
+        // Init. de la communication I2C avec les capteurs
+        if (usb_serial_enable)
+            USBSerial.print("sensors begin...");
+        sensors.begin(false);
+        if (usb_serial_enable)
+            USBSerial.println("done");
+    }
 
-    // Init. de la configuration les moteurs LMA
-    lma.on_off(true);
-    lma.set_duty_max(UINT16_MAX);
-    // lma.write(UINT16_MAX,UINT16_MAX);
+    if (motors_enabled) {
+        // Init. de la configuration les moteurs LMA
+        lma.on_off(true);
+        lma.set_duty_max(UINT16_MAX);
+        // lma.write(UINT16_MAX,UINT16_MAX);
+    }
     
     //init lcd
     delay(200);
@@ -162,8 +177,7 @@ SignalRange getRangeFromDistance(int distance, int &intensity, int &pulse) {
     pulse = 0;
     return SignalRange::Away;
 }
-float gyro_max = 0;
-float acc_max = 0;
+
 void sense_and_drive_task(void *pvParameters)
 {
     // UBaseType_t uxHighWaterMark;
@@ -173,38 +187,24 @@ void sense_and_drive_task(void *pvParameters)
     int leftIntensity, rightIntensity, pulse;
     unsigned long last_pulsation = 0;
     bool pulsing = false;
+    float gyro_value;
 
     while (1) {
-        sensors.read();
+        if (sensors_enabled) {
+            sensors.read();
+        }
         now = millis();
         leftIntensity = rightIntensity = 0;
 
         if (imu_enable)
         {
             M5.IMU.getAccel(&ax, &ay, &az);
-            M5.IMU.getGyro(&gx, &gy, &gz);
-            total_acceleration = (ax * ax + ay * ay + az * az) * 0.1f + total_acceleration * 0.9f;
-            total_gyro = (gx *gx + gy * gy + gz * gz) * 0.1f + total_gyro * 0.9f;
-            if (total_acceleration > acc_max)
-                acc_max = total_acceleration;
-            if (total_gyro > gyro_max)
-                gyro_max = total_gyro;
-            //USBSerial.println(total_acceleration);
-            if (moving) { 
-                bool bAcc = abs(total_acceleration - seuil_mouvement) > acceleration_threshold;
-                bool bGyro = abs(total_gyro - seuil_gyro) > gyro_threshold;
-                if (bAcc) {
-                    if (bGyro) {
-                        swalkitDisplay.SetMessage("Acc + Gyro");
-                    } else {
-                        swalkitDisplay.SetMessage("Acc");
-                    }
-                } else if (bGyro) {
-                    swalkitDisplay.SetMessage("Gyro");
-                }
-            }
+            total_acceleration = std::sqrt(ax * ax + ay * ay + az * az) * 0.1f + total_acceleration * 0.9f;
 
-            if (abs(total_acceleration - seuil_mouvement) > acceleration_threshold || abs(total_gyro - seuil_gyro) > gyro_threshold) {
+            read_gyro_data();
+            gyro_value = abs(get_current_gyro() - gyro_calibration);
+
+            if (abs(total_acceleration - seuil_mouvement) > acceleration_threshold || gyro_value > gyro_threshold) {
                 moving = true;
                 swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Moving);
                 last_time_moved = now;
@@ -257,7 +257,9 @@ void sense_and_drive_task(void *pvParameters)
             }
         }
 
-        lma.write(rightIntensity * (UINT16_MAX / 100), leftIntensity * (UINT16_MAX / 100));
+        if (motors_enabled) {
+            lma.write(rightIntensity * (UINT16_MAX / 100), leftIntensity * (UINT16_MAX / 100));
+        }
 
         // uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);
         // USBSerial.println(uxHighWaterMark);
@@ -271,15 +273,6 @@ void loop()
 
     if (M5.Btn.wasReleased())
     {
-        /*
-        static char buffer[128];
-        sprintf(buffer, "Acc : %.3f, Gyro : %.3f", acc_max, gyro_max);
-        USBSerial.println(buffer);
-        swalkitDisplay.SetMessage(nullptr, false);
-        swalkitDisplay.SetMessage(buffer);
-        acc_max = 0;
-        gyro_max = 0;
-        */
         if (btn_state == on_long_press)
             btn_state = on_long_press_released;
         else
@@ -303,9 +296,9 @@ void handle_button_state(void *pvParameters)
         switch (btn_state)
         {
         case on_short_pressed:
-            bluetooth_enable = !bluetooth_enable;
+            bluetooth_enabled = !bluetooth_enabled;
 
-            if (bluetooth_enable)
+            if (bluetooth_enabled)
             {
                 swalkitBLE.start();
             }
@@ -348,3 +341,21 @@ void handle_button_state(void *pvParameters)
         delay(100);
     }
 }
+
+void read_gyro_data() {
+    float gx, gy, gz;
+    M5.IMU.getGyro(&gx, &gy, &gz);
+    gyro_data[gyro_index++] = gx * gx + gy * gy + gz * gz;
+    if (gyro_index == gyro_data_size) {
+        gyro_index = 0;
+    }
+}
+
+float get_current_gyro() {
+    float value = 0;
+    constexpr float inv_gyro_data_size = 1.0f / gyro_data_size;
+    for (size_t i = 0; i < gyro_data_size; ++i) {
+        value += gyro_data[i];
+    }
+    return value * inv_gyro_data_size;
+}   
