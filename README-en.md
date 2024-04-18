@@ -3,29 +3,29 @@ https://user-images.githubusercontent.com/100538879/157646195-c86fd216-0dd4-412f
 > **Liability  
 All documentation is provided "as is", Chair IH2A provides no warranty of any kind, whether express, implied or statutory, including, but not limited to, any warranty of merchantability or fitness for a particular purpose or any warranty that the content of the articles will be error free. In no event shall Chair IH2A be liable for any direct or indirect damages, or any damages whatsoever arising from the use of project documentation shared on this platform.**
 
-> Warning  
+> **Warning  
 The objects/projects presented on this platform are for information, teaching and exploration of the possibilities of fablab prototyping ONLY. Their display does not constitute professional advice on their use, nor does it replace the opinion of a medical or paramedical specialist, who alone is in a position to evaluate, advise and propose materials, printed or not, corresponding to a precise and personal situation and needs, following the completion of a complete assessment**.
 
-> The IH2A Chair's Github ([https://github.com/IH2A/](https://github.com/IH2A/)) and all the other platforms associated with the documentation of our projects (the IH2A Chair's communication site, [https://ih2a.insa-rennes.fr/](https://ih2a.insa-rennes.fr/)) reflect research work applied to technological aids within an academic research chair and professional interest in the possibilities offered by collaborative prototyping in a fablab.** The IH2A Chair's Github ([https://github.com/IH2A/](https://github.com/IH2A/)) and all the other platforms associated with the documentation of our projects (the IH2A Chair's communication site, [https://ih2a.insa-rennes.fr/](https://ih2a.insa-rennes.fr/)) reflect research work applied to technological aids within an academic research chair and professional interest in the possibilities offered by collaborative prototyping in a fablab.
+> **The IH2A Chair's Github ([https://github.com/IH2A/](https://github.com/IH2A/)) and all the other platforms associated with the documentation of our projects (the IH2A Chair's communication site, [https://ih2a.insa-rennes.fr/](https://ih2a.insa-rennes.fr/)) reflect research work applied to technological aids within an academic research chair and professional interest in the possibilities offered by collaborative prototyping in a fablab.**
 
-> The disability situation is delicate and complex and must be assessed and supported by professionals.
+> **The disability situation is delicate and complex and must be assessed and supported by professionals.**
 
-> Unless otherwise stated, all content in this project is licensed under the [EUPL 1.2] (https://eupl.eu/1.2/fr/) license.
+> **Unless otherwise stated, all content in this project is licensed under the [EUPL 1.2] (https://eupl.eu/1.2/fr/) license.**
 -----------------------------------------------------------------------------------------------------------------
 
 # 1. Table of contents
-- 1. table of contents](#1-table-des-matières)
-- 2 Swalkit: "Smart Walker Kit"](#2-swalkit--smart-walker-kit)
-- 3 - Swalkit manufacturing steps](#3-swalkit-manufacturing-steps)
-  - 3.1 The tools](#31-the-tools)
-  - 3.2 The equipment](#32-the-equipment)
-  - 3.3 Overview](#33-overview)
-  - 3.4 Installation instructions](#34-installation-instructions)
-  - 3.5 How to use the M5 stack](#35-mode-d'emploi-du-m5-stack)
-  - 3.6. Android application](#36-application-android)
-- 4. FAQ](#4-faq)
-- 5. publications](#5-publications)
-- 6. credits](#6-credits)
+- [1. table of contents](#1-table-des-matières)
+- [2 Swalkit: "Smart Walker Kit"](#2-swalkit--smart-walker-kit)
+- [3 - Swalkit manufacturing steps](#3-swalkit-manufacturing-steps)
+  - [3.1 The tools](#31-the-tools)
+  - [3.2 The equipment](#32-the-equipment)
+  - [3.3 Overview](#33-overview)
+  - [3.4 Installation instructions](#34-installation-instructions)
+  - [3.5 How to use the M5 stack](#35-mode-d'emploi-du-m5-stack)
+  - [3.6. Android application](#36-application-android)
+- [4. FAQ](#4-faq)
+- [5. publications](#5-publications)
+- [6. credits](#6-credits)
 
 # 2. Swalkit: "Smart Walker Kit
 
