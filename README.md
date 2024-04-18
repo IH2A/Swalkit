@@ -29,7 +29,7 @@ Les objets/projets présentés sur cette plateforme le sont UNIQUEMENT ET EXCLUS
 
 # 2. Swalkit : "Smart Walker Kit"
 
-Le "Swalkit" est un kit open source de "déambulateur intelligent". Il a été développé dans le cadre des travaux de recherche sur l'aide à la navigation par retour haptique pour les personnes utilisatrices de déambulateur ayant des déficiences visuelles, au sein de la [chaire académique IH2A]([url](https://ih2a.insa-rennes.fr/)) (Innovations, Handicap, Autonomie et Accessibilité) portée par l'INSA Rennes. Le dispositif "Swalkit" est reproductible : ce dépôt vise à fournir toutes les informations nécessaires afin de pouvoir explorer les possibilités du prototypage réalisables en fablab.
+Le "Swalkit" est un kit open source de "déambulateur intelligent". Il a été développé dans le cadre des travaux de recherche sur l'aide à la navigation par retour haptique pour les personnes utilisatrices de déambulateur ayant des déficiences visuelles, au sein de la [chaire académique IH2A](https://ih2a.insa-rennes.fr/) (Innovations, Handicap, Autonomie et Accessibilité) portée par l'INSA Rennes. Le dispositif "Swalkit" est reproductible : ce dépôt vise à fournir toutes les informations nécessaires afin de pouvoir explorer les possibilités du prototypage réalisables en fablab.
 
 Le kit "Swalkit" est en effet :
 - reproductible et adaptable sur des aides techniques existantes ;
@@ -155,7 +155,7 @@ La dernière page permet d'envoyer le profil courant au kit, de recevoir la conf
 Il peut être judicieux d'appuyer sur l'écran de l'AtomS3 pour désactiver la communication Bluetooth une fois la configuration faite, bien que celle-ci soit peu gourmande en energie (BLE). L'AtomS3 garde la dernière configuration en mémoire lorsque celui ci s'éteint.
 
 # 4. FAQ
->**J'aimerais me procurer un SWALKIT, comment faire?**
+>**J'aimerais me procurer un SWALKIT, comment faire ?**
 >
 >Le plus simple est de se rapprocher d'un fablab local. Nous fournissons simplement la notice mais ne pouvons faire plus.
 
