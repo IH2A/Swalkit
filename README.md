@@ -10,6 +10,7 @@ Les objets/projets présentés sur cette plateforme le sont UNIQUEMENT ET EXCLUS
 
 > **La situation de handicap est délicate et complexe et doit être évaluée et accompagnée par des professionnels.**
 
+> **Sauf mention contraire, tous les contenus de ce projet sont sous licence [EUPL 1.2](https://eupl.eu/1.2/fr/).**
 -----------------------------------------------------------------------------------------------------------------
 
 # 1. Table des matières
