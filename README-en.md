@@ -15,7 +15,7 @@ The objects/projects presented on this platform are for information, teaching an
 
 # 1. Table of contents
 - [1. Table of contents](#1-table-of-contents)
-- [2. Swalkit: "Smart Walker Kit"](#2-swalkit--smart-walker-kit)
+- [2. Swalkit: "Smart Walker Kit"](#2-swalkit-smart-walker-kit)
 - [3. Swalkit manufacturing steps](#3-swalkit-manufacturing-steps)
   - [3.1. The tools](#31-the-tools)
   - [3.2. The equipment](#32-the-equipment)
@@ -78,18 +78,18 @@ The following table shows the list of materials to be ordered, required to manuf
 | Name | Exact name | For what purpose | Supplier | Quantity required | Overview | Indicative unit price |
 |-|-|-|-|-|-|-|
 |AtomS3|M5Stack AtomS3| This is the central microcontroller that manages sensors, motors, logic, Bluetooth communication...|[shop.m5stack](https://shop.m5stack.com/products/atoms3-dev-kit-w-0-85-inch-screen); [gotronic](https://www.gotronic.fr/art-module-atoms3-dev-kit-c123-37089.htm)|1| <img src="ressources/m5atoms3.jpg" alt="AtomS3" width="100"/> | 17,40€|
-|Batterie|Varta Power bank energy type 57975|This is the power supply for the whole system|[gotronic](https://www.gotronic.fr/art-batterie-externe-usb-57975-35475.htm)|1| <img src="ressources/ori-batterie-externe-usb-57975-35475.jpg" alt="Batterie" width="100"/>|19,90€|
+|Battery|Varta Power bank energy type 57975|This is the power supply for the whole system|[gotronic](https://www.gotronic.fr/art-batterie-externe-usb-57975-35475.htm)|1| <img src="ressources/ori-batterie-externe-usb-57975-35475.jpg" alt="Batterie" width="100"/>|19,90€|
 |Smart I2C Hub|Grove - 8 Channel I2C Hub (TCA9548A)| These hubs manage sensors and allow them to be differentiated on the I2C bus|[gotronic](https://www.gotronic.fr/art-hub-8-ports-I2C-grove-103020293-31770.htm)|2| <img src="ressources/ori-hub-8ports-i2c-grove-103020293-31770.jpg" alt="Smart Hub" width="100"/>|8,05€|
 |Simple I2C Hub|Grove - I2C Hub (6 ports) v1.0|This hub allows all devices to be connected to the same I2C bus|[gotronic](https://www.gotronic.fr/art-hub-6-ports-I2C-grove-103020272-31348.htm)|1| <img src="ressources/ar-hub-6-ports-i2c-grove-103020272-31348.jpg" alt="Hub I2C simple" width="100"/>|1,90€|
 |H-bridge|Hbridge v1.1 Unit (stm32F030)|This is an electronic circuit used to control the current flowing through a motor|[shop.m5stack](https://shop.m5stack.com/products/h-bridge-unit-v1-1-stm32f030)|2|<img src="ressources/hbridge.png" alt="Pont en H" width="100"/>|9€|
-|Moteur LMA| - |These are vibrating motors to be positioned near the handles of the walker|[digikey](https://www.digikey.fr/en/products/detail/vybronics-inc/VG2230001H/16719289)|2|<img src="ressources/MFG_VG2230001H.jpg" alt="Moteur LMA" width="100"/>|7,09€|
-|Capteurs TOF| Grove - Time of Flight Distance Sensor (VL53L0X) | VL53L0X "Time of flight" sensor for object detection within a range of 3 to 100 cm|[gotronic](https://www.gotronic.fr/art-module-grove-time-of-flight-101020532-28252.htm#complte_desc)|8|<img src="ressources/grove-vl53l0x.jpg" alt="Capteurs" width="100"/>|15,65€|
-|Câble grove 5cm| - |Short cables for connecting components to the I2C bus|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990036/5482563)|3 sets of 5|<img src="ressources/110990036.jpg" alt="grove court" width="100"/>|1,91€|
-|Câble grove 30cm| - |Long cables for connecting components to the I2C bus|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990040/5482564)|1 set of 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
-|Câble grove 100cm| - |Very long cables for connecting components to the I2C bus|[mouser](https://www.mouser.fr/ProductDetail/M5Stack/A034-D?qs=81r%252BiQLm7BQIX3ZPS9TpAA%3D%3D)|1 set of 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|1,81€|
+|LMA Motors| - |These are vibrating motors to be positioned near the handles of the walker|[digikey](https://www.digikey.fr/en/products/detail/vybronics-inc/VG2230001H/16719289)|2|<img src="ressources/MFG_VG2230001H.jpg" alt="Moteur LMA" width="100"/>|7,09€|
+|TOF Sensors| Grove - Time of Flight Distance Sensor (VL53L0X) | VL53L0X "Time of flight" sensor for object detection within a range of 3 to 100 cm|[gotronic](https://www.gotronic.fr/art-module-grove-time-of-flight-101020532-28252.htm#complte_desc)|8|<img src="ressources/grove-vl53l0x.jpg" alt="Capteurs" width="100"/>|15,65€|
+|Grove cable 5cm| - |Short cables for connecting components to the I2C bus|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990036/5482563)|3 sets of 5|<img src="ressources/110990036.jpg" alt="grove court" width="100"/>|1,91€|
+|Grove cable 30cm| - |Long cables for connecting components to the I2C bus|[digikey](https://www.digikey.fr/en/products/detail/seeed-technology-co-ltd/110990040/5482564)|1 set of 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|2,92€|
+|Grove cable 100cm| - |Very long cables for connecting components to the I2C bus|[mouser](https://www.mouser.fr/ProductDetail/M5Stack/A034-D?qs=81r%252BiQLm7BQIX3ZPS9TpAA%3D%3D)|1 set of 5|<img src="ressources/MFG_110990027.jpg" alt="grove long" width="100"/>|1,81€|
 |USB-C cable| - |To download the program, power the atomS3 and recharge the battery|[gotronic](https://www.gotronic.fr/art-cordon-10-cm-usbc-0-1-33653.htm)|1|<img src="ressources/ar-cordon-10-cm-usbc-0-1-33653.jpg" alt="USBC" width="100"/>|4,30€|
 |Motor supply cable| - |To supply the vibrating motors|for information: [gotronic](https://www.gotronic.fr/art-câble-blinde-cbp225-5075.htm)|2 meters|<img src="ressources/ar-cable-blinde-cbp225-5075.jpg" alt="câble" width="100"/>|~1€/m|
-|Bobine PLA| - |To print the cases|for information: [arianeplast](https://www.arianeplast.com/3d-filament-recycle/195-pla-recycle-couleur-metallise-filament-175mm.html)|<1kg|<img src="ressources/pla-format-1-kg.jpg" alt="PLA" width="100"/>|~20€/kg|
+|PLA Spool| - |To print the cases|for information: [arianeplast](https://www.arianeplast.com/3d-filament-recycle/195-pla-recycle-couleur-metallise-filament-175mm.html)|<1kg|<img src="ressources/pla-format-1-kg.jpg" alt="PLA" width="100"/>|~20€/kg|
 |Screws and bolts| |For assembly|[M3x8mm = 6</br>M3x15mm = 14</br>M3 nuts = 20</br>M2x8mm = 25</br>M2 nuts = 16](https://www.bricovis.fr/produit-vis-a-tete-fraisee-hexagonale-creuse-filetage-total-inox-a2-din-7991-tfhca2/)|-|||
 |Spiral sheath| - |To organize cables|[leroy merlin](https://www.leroymerlin.fr/produits/electricite-domotique/rallonge-multiprise-enrouleur-et-cable-electrique/gaine-electrique-icta/gaine-spirale-p.html)|2 meters||
 |Scotch| - |For gluing motors||-||
