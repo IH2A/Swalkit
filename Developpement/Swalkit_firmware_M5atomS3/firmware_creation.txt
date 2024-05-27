@@ -1,0 +1,10 @@
+generation de full_firmware_AtomS3.bin : 
+lancer flash_download_tool_3.9.5.exe
+selection chip type ESP32-S3 et "OK"
+ajouter les 4 fichiers :
+    bootloader.bin en 0x0000    dans Swalkit\Developpement\Swalkit_firmware_M5atomS3\.pio\build\m5stack-atoms3
+    partitions.bin en 0x8000    dans Swalkit\Developpement\Swalkit_firmware_M5atomS3\.pio\build\m5stack-atoms3
+    boot_app0.bin en 0xe000     dans C:\Users\__nom_user__\.platformio\packages\framework-arduinoespressif32\tools\partitions
+    firmware.bin en 0x10000     dans Swalkit\Developpement\Swalkit_firmware_M5atomS3\.pio\build\m5stack-atoms3
+utiliser le bouton "CombineBin" qui va créer un fichier target.bin    
+remplacer Swalkit\Installation\M5Stack flash\full_firmware_AtomS3.bin par ce fichier target.bin (en le renommant).
