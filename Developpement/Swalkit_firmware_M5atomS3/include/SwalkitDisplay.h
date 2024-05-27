@@ -21,6 +21,10 @@ public:
         Ready,
         InLongPress,
     };
+    enum class MotorState {
+        Stopped,
+        Running,
+    };
 
     SwalkitDisplay();
 
@@ -29,6 +33,7 @@ public:
     void SetBluetoothState(BluetoothState bluetoothState);
     void SetImuState(IMUState imuState);
     void SetSwalkitState(SwalkitState swalkitState);
+    void SetMotorsState(MotorState leftMotorState, MotorState rightMotorState);
 
 private:
     static SwalkitDisplay *pInstance;
@@ -47,6 +52,9 @@ private:
     uint32_t ColorStateCalibrating;
     uint32_t ColorStateReady;
     uint32_t ColorStateInLongPress;
+
+    uint32_t ColorMotorStopped;
+    uint32_t ColorMotorRunning;
 };
 
 #endif

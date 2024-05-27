@@ -20,6 +20,9 @@ SwalkitDisplay::SwalkitDisplay() {
     ColorStateCalibrating = TFT_VIOLET;
     ColorStateReady = TFT_WHITE;
     ColorStateInLongPress = TFT_ORANGE;
+
+    ColorMotorStopped = TFT_TRANSPARENT;
+    ColorMotorRunning = TFT_NAVY;
 }
 
 void SwalkitDisplay::SetBluetoothState(BluetoothState bluetoothState) {
@@ -32,11 +35,11 @@ void SwalkitDisplay::SetBluetoothState(BluetoothState bluetoothState) {
             break;
         case BluetoothState::Connected:
             SetBorderColor(ColorBluetoothStateConnected);
-            SetQRCode(nullptr);
+            SetQRCode(String{});
             break;
         case BluetoothState::Disabled:
             SetBorderColor(ColorBluetoothStateDisabled);
-            SetQRCode(nullptr);
+            SetQRCode(String{});
             break;
     }
     currentBluetoothState = bluetoothState;
@@ -67,10 +70,17 @@ void SwalkitDisplay::SetSwalkitState(SwalkitState swalkitState) {
             break;
         case SwalkitState::Ready:
             SetBackgroundColor(ColorStateReady);
-            SetMessage(nullptr);
+            SetMessage(String{});
             break;
         case SwalkitState::InLongPress:
             SetBackgroundColor(ColorStateInLongPress);
             break;
     }
+}
+
+void SwalkitDisplay::SetMotorsState(MotorState leftMotorState, MotorState rightMotorState) {
+    SetFrontColors(
+        (leftMotorState == MotorState::Running) ? ColorMotorRunning : ColorMotorStopped, 
+        (rightMotorState == MotorState::Running) ? ColorMotorRunning : ColorMotorStopped
+    );
 }

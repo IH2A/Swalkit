@@ -1,13 +1,13 @@
 #include "UNIT_HBRIDGE.h"
 
-void UNIT_HBRIDGE::writeBytes(uint8_t addr, uint8_t reg, uint8_t *buffer,
+uint8_t UNIT_HBRIDGE::writeBytes(uint8_t addr, uint8_t reg, uint8_t *buffer,
                               uint8_t length) {
     _wire->beginTransmission(addr);
     _wire->write(reg);
     for (int i = 0; i < length; i++) {
         _wire->write(*(buffer + i));
     }
-    _wire->endTransmission();
+    return _wire->endTransmission();
 }
 
 void UNIT_HBRIDGE::readBytes(uint8_t addr, uint8_t reg, uint8_t *buffer,
@@ -83,11 +83,11 @@ void UNIT_HBRIDGE::setDriverSpeed8Bits(uint8_t speed) {
     writeBytes(_addr, DRIVER_CONFIG_REG + 1, data, 1);
 }
 
-void UNIT_HBRIDGE::setDriverSpeed16Bits(uint16_t speed) {
+uint8_t UNIT_HBRIDGE::setDriverSpeed16Bits(uint16_t speed) {
     uint8_t data[4];
     data[0] = speed;
     data[1] = (speed >> 8);
-    writeBytes(_addr, DRIVER_CONFIG_REG + 2, data, 2);
+    return writeBytes(_addr, DRIVER_CONFIG_REG + 2, data, 2);
 }
 
 uint16_t UNIT_HBRIDGE::getAnalogInput(hbridge_anolog_read_mode_t bit) {

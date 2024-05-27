@@ -27,7 +27,7 @@ class UNIT_HBRIDGE {
     uint8_t _scl;
     uint8_t _sda;
     uint8_t _speed;
-    void writeBytes(uint8_t addr, uint8_t reg, uint8_t* buffer, uint8_t length);
+    uint8_t writeBytes(uint8_t addr, uint8_t reg, uint8_t* buffer, uint8_t length);
     void readBytes(uint8_t addr, uint8_t reg, uint8_t* buffer, uint8_t length);
 
    public:
@@ -38,7 +38,7 @@ class UNIT_HBRIDGE {
     uint16_t getDriverSpeed16Bits(void);
     void setDriverDirection(uint8_t dir);
     void setDriverSpeed8Bits(uint8_t speed);
-    void setDriverSpeed16Bits(uint16_t speed);
+    uint8_t setDriverSpeed16Bits(uint16_t speed);
     uint16_t getDriverPWMFreq(void);
     void setDriverPWMFreq(uint16_t freq);
     float getMotorCurrent(void);

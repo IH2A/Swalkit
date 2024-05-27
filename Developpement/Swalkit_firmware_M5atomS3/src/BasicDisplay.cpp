@@ -6,6 +6,7 @@
  * Background : level  0
  * Border : level 1. Around Center, Message & QRCode.
  * Center : level 1.
+ * Front : level 1.
  * Message : level 2.
  * QRCode : level 3.
  * Error : level 4. Covers everything.
@@ -16,17 +17,19 @@ void BasicDisplay::Init() {
     height = M5.Lcd.height();
     borderSize = 8;
     centerRadius = 40;
+    frontRadius = 12;
 
     backgroundColor = TFT_WHITE;
     borderColor = TFT_TRANSPARENT;
     centerColor = TFT_TRANSPARENT;
+    frontLeftColor = frontRightColor = TFT_TRANSPARENT;
     messageColor = TFT_BLACK;
     errorColor = TFT_RED;
     errorTextColor = TFT_BLACK;
 
-    messageText = nullptr;
-    qrCodeText = nullptr;
-    errorText = nullptr;
+    messageText.clear();
+    qrCodeText.clear();
+    errorText.clear();
     flags = 0;
 
     M5.Lcd.clear(backgroundColor);
@@ -62,9 +65,20 @@ void BasicDisplay::SetCenterColor(uint32_t color, bool update) {
     }
 }
 
-void BasicDisplay::SetMessage(const char *text, bool update) {
+void BasicDisplay::SetFrontColors(uint32_t left_color, uint32_t right_color, bool update) {
+    if (left_color != frontLeftColor || right_color != frontRightColor) {
+        frontLeftColor = left_color;
+        frontRightColor = right_color;
+        Set(Flags::Front);
+        if (update) {
+            Update();
+        }
+    }
+}
+
+void BasicDisplay::SetMessage(const String &text, bool update) {
     if (text != messageText) {
-        messageText = text; // no copy. Just consider we're using static strings.
+        messageText = text;
         Set(Flags::Background);
         if (update) {
             Update();
@@ -72,10 +86,10 @@ void BasicDisplay::SetMessage(const char *text, bool update) {
     }
 }
 
-void BasicDisplay::SetQRCode(const char *text) {
+void BasicDisplay::SetQRCode(const String &text) {
     if (text != qrCodeText) {
         qrCodeText = text;
-        if (qrCodeText != nullptr) {
+        if (!qrCodeText.isEmpty()) {
             Set(Flags::QRCode);
         } else {
             Set(Flags::Background);
@@ -84,10 +98,10 @@ void BasicDisplay::SetQRCode(const char *text) {
     }
 }
 
-void BasicDisplay::SetError(const char *text) {
+void BasicDisplay::SetError(const String &text) {
     if (text != errorText) {
-        errorText = text; // no copy. Just consider we're using static strings.
-        if (errorText != nullptr) {
+        errorText = text;
+        if (!errorText.isEmpty()) {
             Set(Flags::Error);
         } else {
             Set(Flags::Background);
@@ -101,7 +115,7 @@ void BasicDisplay::Update() {
         Clear(Flags::Error);
         DrawError();
     }
-    if (errorText != nullptr) {
+    if (!errorText.isEmpty()) {
         // error message is top priority. Don't draw anything else.
         return;
     }
@@ -109,7 +123,7 @@ void BasicDisplay::Update() {
     if (IsSet(Flags::Background)) {
         Clear(Flags::Background);
         DrawBackground();
-        Set(Flags::Border | Flags::Center | Flags::Message | Flags::QRCode);
+        Set(Flags::Border | Flags::Center | Flags::Front | Flags::Message | Flags::QRCode);
     }
 
     if (IsSet(Flags::Border)) {
@@ -122,10 +136,11 @@ void BasicDisplay::Update() {
         DrawQRCode();
     }
 
-    if (qrCodeText == nullptr) {
-        if (IsSet(Flags::Center | Flags::Message)) {
-            Clear(Flags::Center | Flags::Message);
+    if (qrCodeText.isEmpty()) {
+        if (IsSet(Flags::Center | Flags::Front | Flags::Message)) {
+            Clear(Flags::Center | Flags::Front | Flags::Message);
             DrawCenter();
+            DrawFront();
             DrawMessage();
         }
     }
@@ -158,26 +173,31 @@ void BasicDisplay::DrawCenter() {
     M5.Lcd.fillCircle(width >> 1, height >> 1, centerRadius, (centerColor != TFT_TRANSPARENT) ? centerColor : backgroundColor);
 }
 
+void BasicDisplay::DrawFront() {
+    M5.Lcd.fillCircle(borderSize + frontRadius + 2, borderSize + frontRadius + 2, frontRadius, (frontLeftColor != TFT_TRANSPARENT) ? frontLeftColor : backgroundColor);
+    M5.Lcd.fillCircle(width - borderSize - frontRadius - 2, borderSize + frontRadius + 2, frontRadius, (frontRightColor != TFT_TRANSPARENT) ? frontRightColor : backgroundColor);
+}
+
 void BasicDisplay::DrawMessage() {
-    if (messageText != nullptr) {
+    if (!messageText.isEmpty()) {
         M5.Lcd.setTextColor(messageColor);
         M5.Lcd.setTextSize(2);
-        DrawText(messageText);
+        DrawText(messageText.c_str());
     }
 }
 
 void BasicDisplay::DrawQRCode() {
-    if (qrCodeText != nullptr) {
+    if (!qrCodeText.isEmpty()) {
         M5.Lcd.qrcode(qrCodeText, borderSize, borderSize, width - (borderSize << 1));
     }
 }
 
 void BasicDisplay::DrawError() {
-    if (errorText != nullptr) {
+    if (!errorText.isEmpty()) {
         M5.Lcd.clear(errorColor);
         M5.Lcd.setTextColor(errorTextColor);
         M5.Lcd.setTextSize(2);
-        DrawText(errorText);
+        DrawText(errorText.c_str());
     }
 }
 

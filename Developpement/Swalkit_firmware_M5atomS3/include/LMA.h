@@ -14,7 +14,7 @@ public:
     void begin(uint16_t duty_max = UINT16_MAX);
     UNIT_HBRIDGE driver_right;
     UNIT_HBRIDGE driver_left;
-    void write(uint16_t right, uint16_t left);
+    uint16_t write(uint16_t right, uint16_t left);
     void on_off(bool on);
     inline void set_duty_max(uint16_t duty_max_){ duty_max = duty_max_; };
     inline bool is_on(){ return dir; };

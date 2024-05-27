@@ -15,11 +15,13 @@ void LMA::begin(uint16_t duty_max)
     set_duty_max(duty_max);
 }
 
-void LMA::write(uint16_t right, uint16_t left){
+uint16_t LMA::write(uint16_t right, uint16_t left){
+    uint8_t lresult, rresult;
     dir = (dir >= 1) ? 1 : 0;
-    driver_right.setDriverSpeed16Bits( (right < duty_max) ? right : duty_max );
-    driver_left.setDriverSpeed16Bits( (left < duty_max) ? left : duty_max );
+    lresult = driver_right.setDriverSpeed16Bits( (right < duty_max) ? right : duty_max );
+    rresult = driver_left.setDriverSpeed16Bits( (left < duty_max) ? left : duty_max );
     //USBSerial.printf("dir %d val %d\n", dir, left);
+    return (lresult << 8) | rresult;
 }
 
 void LMA::on_off(bool on)

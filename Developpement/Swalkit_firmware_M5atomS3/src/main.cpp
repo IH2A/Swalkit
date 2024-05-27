@@ -78,7 +78,7 @@ void setup()
     {
         swalkitDisplay.SetError("Error loading profile");
         delay(5000);
-        swalkitDisplay.SetError(nullptr);
+        swalkitDisplay.SetError(String{});
     }
 
     delay(2000);
@@ -219,7 +219,7 @@ void sense_and_drive_task(void *pvParameters)
                 } else if (bGyro) {
                     sprintf(buffer, "Gyro : %.1f", gyro_value);
                 }
-                swalkitDisplay.SetMessage(nullptr);
+                swalkitDisplay.SetMessage(String{});
                 if (*buffer) swalkitDisplay.SetMessage(buffer);
             }            
 
@@ -228,7 +228,7 @@ void sense_and_drive_task(void *pvParameters)
                 swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Moving);
                 last_time_moved = now;
             } else if (now - last_time_moved > watchdog_imu_move) {
-                swalkitDisplay.SetMessage(nullptr);
+                swalkitDisplay.SetMessage(String{});
                 moving = false;
                 swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Stopped);
             }
@@ -277,7 +277,16 @@ void sense_and_drive_task(void *pvParameters)
         }
 
         if (motors_enabled) {
-            lma.write(rightIntensity * (UINT16_MAX / 100), leftIntensity * (UINT16_MAX / 100));
+            uint16_t write_result = lma.write(rightIntensity * (UINT16_MAX / 100), leftIntensity * (UINT16_MAX / 100));
+            if (write_result != 0) {
+                swalkitDisplay.SetError("LMA Write error " + String(write_result));
+            } else {
+                swalkitDisplay.SetError(String{});
+            }
+            swalkitDisplay.SetMotorsState(
+                leftIntensity > 0 ? SwalkitDisplay::MotorState::Running : SwalkitDisplay::MotorState::Stopped,
+                rightIntensity > 0 ? SwalkitDisplay::MotorState::Running : SwalkitDisplay::MotorState::Stopped
+            );
         }
 
         // uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);

@@ -2,6 +2,7 @@
 #define _BASICDISPLAY_H_
 
 #include <cstdint>
+#include <WString.h>
 
 class BasicDisplay {
 public:
@@ -9,26 +10,29 @@ public:
 
     void SetBackgroundColor(uint32_t color, bool update = true);
     void SetBorderColor(uint32_t color, bool update = true);
+    void SetFrontColors(uint32_t left_color, uint32_t right_color, bool update = true);
     void SetCenterColor(uint32_t color, bool update = true);
-    void SetMessage(const char *text, bool update = true);
-    void SetQRCode(const char *text);
-    void SetError(const char *text);
+    void SetMessage(const String &text, bool update = true);
+    void SetQRCode(const String &text);
+    void SetError(const String &text);
 
     enum class Flags : uint8_t {
         None = 0b00000000,
         Background = 1 << 0,
         Border = 1 << 1,
         Center = 1 << 2,
-        Message = 1 << 3,
-        QRCode = 1 << 4,
-        Error = 1 << 5,
-        All = 0b00111111
+        Front = 1 << 3,
+        Message = 1 << 4,
+        QRCode = 1 << 5,
+        Error = 1 << 6,
+        All = 0b01111111
     };
 
 protected:
     int32_t width, height;
     int32_t borderSize;
     int32_t centerRadius;
+    int32_t frontRadius;
     
     uint32_t messageColor;
     uint32_t errorColor;
@@ -43,6 +47,7 @@ private:
     void DrawBackground();
     void DrawBorder();
     void DrawCenter();
+    void DrawFront();
     void DrawMessage();
     void DrawQRCode();
     void DrawError();
@@ -52,10 +57,12 @@ private:
     uint32_t backgroundColor;
     uint32_t borderColor;
     uint32_t centerColor;
+    uint32_t frontLeftColor;
+    uint32_t frontRightColor;
 
-    const char *messageText;
-    const char *qrCodeText;
-    const char *errorText;
+    String messageText;
+    String qrCodeText;
+    String errorText;
     uint8_t flags;
 };
 
