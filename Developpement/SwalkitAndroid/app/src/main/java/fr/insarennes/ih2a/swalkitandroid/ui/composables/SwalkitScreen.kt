@@ -1,5 +1,7 @@
 package fr.insarennes.ih2a.swalkitandroid.ui.composables
 
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +22,7 @@ import fr.insarennes.ih2a.swalkitandroid.R
 import fr.insarennes.ih2a.swalkitandroid.SWBluetoothLE
 import fr.insarennes.ih2a.swalkitandroid.SwalkitCharacteristic
 import fr.insarennes.ih2a.swalkitandroid.SwalkitViewModel
+import kotlinx.coroutines.Runnable
 
 object Swalkit {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -40,7 +43,7 @@ object Swalkit {
             }
             Button(onClick = {
                     if (!viewModel.receiveProfileFromDevice{
-                            Toast.makeText(context, context.getString(R.string.profile_received_from_device), Toast.LENGTH_SHORT).show()
+                            Handler(Looper.getMainLooper()).post(Runnable { Toast.makeText(context, context.getString(R.string.profile_received_from_device), Toast.LENGTH_SHORT).show() })
                         }) {
                         Toast.makeText(context, context.getString(R.string.profile_receive_error), Toast.LENGTH_LONG).show()
                     }

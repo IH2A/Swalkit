@@ -36,4 +36,5 @@
     <string name="profile_received_from_device">Configuration reçue du Swalkit</string>
     <string name="profile_receive_error">Erreur lors de la réception de la configuration</string>
     <string name="profile_saved">Profil actuel enregistré</string>
+    <string name="swalkit_version">Swalkit v%s</string>
 </resources>
