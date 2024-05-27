@@ -14,6 +14,7 @@
 using namespace std;
 
 // Configuration générale
+String swalkit_version {"Swalkit 1.2.0"};
 bool imu_enable = true;
 constexpr bool usb_serial_enable = false;
 constexpr bool sensors_enabled = true;
@@ -43,6 +44,7 @@ bool bluetooth_enabled = false;
 
 // Déclarations
 LMA lma;
+String no_message{};
 
 // button state
 enum swalkit_btn_state
@@ -68,6 +70,9 @@ void setup()
     M5.begin(true, usb_serial_enable, true, false);
     swalkitDisplay.Init();
     swalkitDisplay.SetSwalkitState(SwalkitDisplay::SwalkitState::Initialising);
+    swalkitDisplay.SetMessage(swalkit_version);
+    delay(3000);
+    swalkitDisplay.SetMessage(no_message);
 
     // default in M5atomS3 is Wire1 tu use MPU6886, but we are also using Wire on grove (pins 2 and 1)
     Wire.endTransmission();
@@ -78,7 +83,7 @@ void setup()
     {
         swalkitDisplay.SetError("Error loading profile");
         delay(5000);
-        swalkitDisplay.SetError(String{});
+        swalkitDisplay.SetError(no_message);
     }
 
     delay(2000);
@@ -219,7 +224,7 @@ void sense_and_drive_task(void *pvParameters)
                 } else if (bGyro) {
                     sprintf(buffer, "Gyro : %.1f", gyro_value);
                 }
-                swalkitDisplay.SetMessage(String{});
+                swalkitDisplay.SetMessage(no_message);
                 if (*buffer) swalkitDisplay.SetMessage(buffer);
             }            
 
@@ -228,7 +233,7 @@ void sense_and_drive_task(void *pvParameters)
                 swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Moving);
                 last_time_moved = now;
             } else if (now - last_time_moved > watchdog_imu_move) {
-                swalkitDisplay.SetMessage(String{});
+                swalkitDisplay.SetMessage(no_message);
                 moving = false;
                 swalkitDisplay.SetImuState(SwalkitDisplay::IMUState::Stopped);
             }
@@ -281,7 +286,7 @@ void sense_and_drive_task(void *pvParameters)
             if (write_result != 0) {
                 swalkitDisplay.SetError("LMA Write error " + String(write_result));
             } else {
-                swalkitDisplay.SetError(String{});
+                swalkitDisplay.SetError(no_message);
             }
             swalkitDisplay.SetMotorsState(
                 leftIntensity > 0 ? SwalkitDisplay::MotorState::Running : SwalkitDisplay::MotorState::Stopped,
