@@ -147,11 +147,16 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
                 super.onConnectionStateChange(gatt, status, newState)
                 when(newState) {
                     BluetoothProfile.STATE_CONNECTED -> {
+                        Log.d(LOG_TAG, "Bluetooth connection state : connected")
                         bluetoothConnected.value = true
                         checkedBTConnectPermission { gatt?.discoverServices() }
                         updateStatus()
                     }
-                    BluetoothProfile.STATE_DISCONNECTED -> { bluetoothConnected.value = false; updateStatus() }
+                    BluetoothProfile.STATE_DISCONNECTED -> {
+                        Log.d(LOG_TAG, "Bluetooth connection state : disconnected")
+                        bluetoothConnected.value = false
+                        updateStatus()
+                    }
                 }
             }
 
@@ -185,13 +190,17 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
                 gattReadCallbacks[characteristic.uuid]?.invoke(value)
             }
         }
-        checkedBTConnectPermission { bluetoothGatt = bluetoothDevice?.connectGatt(activity, false, gattCallback) }
+        checkedBTConnectPermission {
+            Log.d(LOG_TAG, String.format("Connecting to device %s", device.name ?: device.address))
+            bluetoothGatt = bluetoothDevice?.connectGatt(activity, false, gattCallback)
+        }
         updateStatus()
     }
 
     private fun disconnectFromDevice() {
         checkedBTConnectPermission {
             bluetoothGatt?.let {
+                Log.d(LOG_TAG, "Disconnecting from device")
                 it.disconnect()
                 bluetoothGatt = null
                 updateStatus()
@@ -262,6 +271,7 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
             bluetoothDevices.clear()
             scanningForDevices = true
             if (checkPermission(android.Manifest.permission.BLUETOOTH_SCAN) && checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION, Build.VERSION_CODES.LOLLIPOP)) {
+                Log.d(LOG_TAG, "Scanning for BLE devices")
                 val serviceFilter = ScanFilter.Builder().setServiceUuid(ParcelUuid(SWALKITSERVICEUUID)).build()
                 val scanSettings = ScanSettings.Builder().build()
                 bluetoothLEScanner?.startScan(listOf(serviceFilter), scanSettings, scanForDevicesCallback)
@@ -273,6 +283,7 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
         if (scanningForDevices) {
             bluetoothLEScanner?.let {
                 if (checkPermission(android.Manifest.permission.BLUETOOTH_SCAN)) {
+                    Log.d(LOG_TAG, "Stop scanning for BLE devices")
                     bluetoothLEScanner.flushPendingScanResults(scanForDevicesCallback)
                     bluetoothLEScanner.stopScan(scanForDevicesCallback)
                 }
@@ -287,12 +298,9 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
             checkedBTConnectPermission {
                 result?.let {
                     if (!bluetoothDevices.any { bleDevice -> bleDevice.device == result.device }) {
-                        bluetoothDevices.add(
-                            BLEDevice(
-                                result.device.name ?: result.scanRecord?.deviceName
-                                ?: result.device.address, result.device
-                            )
-                        )
+                        val readableDeviceName = result.device.name ?: result.scanRecord?.deviceName ?: result.device.address
+                        Log.d(LOG_TAG, String.format("Found BLE device %s", readableDeviceName))
+                        bluetoothDevices.add(BLEDevice(readableDeviceName, result.device))
                     }
                 }
             }
@@ -311,6 +319,7 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
     private fun checkPermission(permission:String, fromVersion:Int = Build.VERSION_CODES.S): Boolean {
         if (Build.VERSION.SDK_INT >= fromVersion) {
             if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_DENIED) {
+                Log.d(LOG_TAG, String.format("Requesting permission %s", permission))
                 requestPermissionLauncher.launch(permission)
                 return false
             }
