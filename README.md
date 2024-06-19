@@ -144,7 +144,7 @@ Le Bluetooth du kit est désactivé au démarrage. Il faut appuyer sur l'écran 
 Une fois que celà est fait vous pouvez télécharger le [fichier d'installation (.apk) de l'application](https://github.com/IH2A/Swalkit/raw/master/Installation/App/app-release.apk).
 <p align="center"><img src="ressources/qrcode_apk.png" alt="qrcode" width="500" title="QRCode du lien vers le fichier apk"/></p>
 
-Une fois l'installation faite, vous pouvez vous connecter au kit en sélectionnant l'icône Bluetooth de l'application.
+Une fois l'installation faite, vous pouvez vous connecter au kit en sélectionnant l'icône Bluetooth de l'application. L'application requiert la permission d'utiliser le Bluetooth ainsi que d'accèder à la localisation du téléphone pour pouvoir communiquer avec le M5Stack, ces autorisations doivent être accordées lorsque le téléphone le demande.
 
 La première page permet de gérer les profils, les sélectionner, les enregistrer, les réinitialiser.
 
