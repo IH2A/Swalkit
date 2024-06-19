@@ -171,6 +171,13 @@ Il peut être judicieux d'appuyer sur l'écran de l'AtomS3 pour désactiver la c
 >
 >Par ailleurs, le m5AtomS3 peut être perturbé par un bus I2C instable : **n'hésitez pas à le redémarrer en débranchant et rebranchant l'USB-C.**
 
+>**Je ne parviens pas à me connecter au SWALKIT via l'application Android**
+>
+>Assurez-vous que l'application dispose bien des autorisations pour utiliser le Bluetooth, ainsi que pour accèder à la position du téléphone (la position - ou localisation - n'est pas utilisée en tant que telle mais cette autorisation est nécessaire pour permettre l'établissement de la communication Bluetooth Low Energy entre le téléphone et le M5Stack).
+>Pour ce faire, vous pouvez vérifier dans les paramètres des applications du téléphone, sections autorisations, qu'aucune autorisation n'est indiquée comme bloquée, ou refusée, et les autoriser le cas échéant.
+
+
+
 # 5. Publications
 
 Citer : [GRZESKOWIAK, Fabien, DEVIGNE, Louise, PASTEAU, François, et al. SWALKIT: A generic augmented walker kit to provide haptic feedback navigation assistance to people with both visual and motor impairments. In : 2022 International Conference on Rehabilitation Robotics (ICORR). IEEE, 2022. p. 1-6.](https://hal.science/hal-03709659/document)
