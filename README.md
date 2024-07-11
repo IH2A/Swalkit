@@ -175,6 +175,7 @@ Il peut être judicieux d'appuyer sur l'écran de l'AtomS3 pour désactiver la c
 >
 >Assurez-vous que l'application dispose bien des autorisations pour utiliser le Bluetooth, ainsi que pour accèder à la position du téléphone (la position - ou localisation - n'est pas utilisée en tant que telle mais cette autorisation est nécessaire pour permettre l'établissement de la communication Bluetooth Low Energy entre le téléphone et le M5Stack).
 >Pour ce faire, vous pouvez vérifier dans les paramètres des applications du téléphone, sections autorisations, qu'aucune autorisation n'est indiquée comme bloquée, ou refusée, et les autoriser le cas échéant.
+>Assurez-vous aussi que la localisation est activée ("Localisation" ou "Position" suivant les téléphones)
 
 
 
