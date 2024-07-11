@@ -145,6 +145,7 @@ Once this is done, you can download the [application installation file (.apk)](h
 <p align="center"><img src="ressources/qrcode_apk.png" alt="qrcode" width="500" title="QRCode link to apk file"/></p>
 
 Once installed, you can connect to the kit by selecting the Bluetooth icon in the application.
+The application requires permission to use Bluetooth and to access the phone's location in order to communicate with the M5Stack. These authorizations must be granted when the phone requests them.
 
 The first page lets you manage profiles, select, save and reset them.
 
@@ -171,6 +172,11 @@ It may be advisable to press the AtomS3's display to deactivate Bluetooth commun
 >
 >Furthermore, the m5AtomS3 may be affected by an unstable I2C bus: **don't hesitate to restart it by disconnecting and reconnecting the USB-C.**.
 
+>**I can't connect to SWALKIT via the Android application**
+
+>Make sure that the application is authorized to use Bluetooth, as well as to access the phone's position (the position - or location - is not used as such, but this authorization is necessary to enable Bluetooth Low Energy communication to be established between the phone and the M5Stack). 
+>To do this, you can check in the phone's application settings, authorizations section, that no authorizations are indicated as blocked or refused, and authorize them where appropriate.
+>Also make sure that location is enabled in the phone ("Location" or "Position" depending on the phones).
 # 5. Publications
 
 Cite: [GRZESKOWIAK, Fabien, DEVIGNE, Louise, PASTEAU, François, et al. SWALKIT: A generic augmented walker kit to provide haptic feedback navigation assistance to people with both visual and motor impairments. In : 2022 International Conference on Rehabilitation Robotics (ICORR). IEEE, 2022. p. 1-6.](https://hal.science/hal-03709659/document)

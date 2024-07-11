@@ -144,7 +144,7 @@ Le Bluetooth du kit est désactivé au démarrage. Il faut appuyer sur l'écran 
 Une fois que celà est fait vous pouvez télécharger le [fichier d'installation (.apk) de l'application](https://github.com/IH2A/Swalkit/raw/master/Installation/App/app-release.apk).
 <p align="center"><img src="ressources/qrcode_apk.png" alt="qrcode" width="500" title="QRCode du lien vers le fichier apk"/></p>
 
-Une fois l'installation faite, vous pouvez vous connecter au kit en sélectionnant l'icône Bluetooth de l'application.
+Une fois l'installation faite, vous pouvez vous connecter au kit en sélectionnant l'icône Bluetooth de l'application. L'application requiert la permission d'utiliser le Bluetooth ainsi que d'accèder à la localisation du téléphone pour pouvoir communiquer avec le M5Stack, ces autorisations doivent être accordées lorsque le téléphone le demande.
 
 La première page permet de gérer les profils, les sélectionner, les enregistrer, les réinitialiser.
 
@@ -170,6 +170,14 @@ Il peut être judicieux d'appuyer sur l'écran de l'AtomS3 pour désactiver la c
 >Si ce n'est pas une première utilisation : vérifiez d'abord que vos capteurs fonctionnent. Pour cela utilisez l'application en activant le bluetooth du kit via un appui court sur l'écran du M5stack. Mettez-vous dans un environnement dégagé et appuyez sur le bouton de lecture des capteurs : chaque capteur doit envoyer une valeur entre 70 et 80 (cm). Mettez votre doigt devant un capteur sans occulter les autres, et réappuyez sur le bouton : un des capteurs doit envoyer une valeur faible de l'ordre de quelques cm. La plage de detection des capteur est de 3 cm à 8 cm.
 >
 >Par ailleurs, le m5AtomS3 peut être perturbé par un bus I2C instable : **n'hésitez pas à le redémarrer en débranchant et rebranchant l'USB-C.**
+
+>**Je ne parviens pas à me connecter au SWALKIT via l'application Android**
+>
+>Assurez-vous que l'application dispose bien des autorisations pour utiliser le Bluetooth, ainsi que pour accèder à la position du téléphone (la position - ou localisation - n'est pas utilisée en tant que telle mais cette autorisation est nécessaire pour permettre l'établissement de la communication Bluetooth Low Energy entre le téléphone et le M5Stack).
+>Pour ce faire, vous pouvez vérifier dans les paramètres des applications du téléphone, sections autorisations, qu'aucune autorisation n'est indiquée comme bloquée, ou refusée, et les autoriser le cas échéant.
+>Assurez-vous aussi que la localisation est activée ("Localisation" ou "Position" suivant les téléphones)
+
+
 
 # 5. Publications
 

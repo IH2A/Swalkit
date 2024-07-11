@@ -10,9 +10,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +59,10 @@ fun BlueToothStatus() {
             title = stringResource(id = R.string.permission_required)
             iconId = R.drawable.baseline_bluetooth_disabled_24
             action = { swBluetooth.enableBluetooth() }
+        }
+        BluetoothLEStatus.LOCATION_REQUIRED -> {
+            title = stringResource(id = R.string.location_disabled)
+            iconId = R.drawable.baseline_bluetooth_disabled_24
         }
         BluetoothLEStatus.BLUETOOTH_DISABLED -> {
             title = stringResource(id = R.string.bluetooth_disabled)

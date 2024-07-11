@@ -18,7 +18,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.Handler
 import android.os.Looper
 import android.os.ParcelUuid
@@ -37,6 +39,7 @@ enum class BluetoothLEStatus {
     UNKNOWN,
     NO_BLUETOOTH,
     PERMISSION_REQUIRED,
+    LOCATION_REQUIRED,
     BLUETOOTH_DISABLED,
     NO_DEVICE_SELECTED,
     NOT_CONNECTED_TO_DEVICE,
@@ -65,6 +68,7 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
 
     private val SCANMAXDURATION: Long = 10000
 
+    private val locationManager: LocationManager = activity.getSystemService(LocationManager::class.java)
     private val bluetoothManager: BluetoothManager = activity.getSystemService(BluetoothManager::class.java)
     private val bluetoothAdapter: BluetoothAdapter? = bluetoothManager.adapter
     private val bluetoothLEScanner = bluetoothAdapter?.bluetoothLeScanner
@@ -101,6 +105,7 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
     fun start() {
         // register receiver for bluetooth being enabled/disabled
         activity.registerReceiver(this, IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED))
+        activity.registerReceiver(this, IntentFilter(LocationManager.MODE_CHANGED_ACTION))
         Log.i(LOG_TAG, "bluetooth state registered")
     }
     fun stop() {
@@ -123,6 +128,7 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
                         updateStatus()
                     }
                 }
+            LocationManager.MODE_CHANGED_ACTION -> updateStatus()
         }
     }
 
@@ -258,6 +264,7 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
         status.value = when {
             bluetoothAdapter == null -> BluetoothLEStatus.NO_BLUETOOTH
             !bluetoothEnabled.value -> BluetoothLEStatus.BLUETOOTH_DISABLED
+            Build.VERSION.SDK_INT >= VERSION_CODES.P && !locationManager.isLocationEnabled -> BluetoothLEStatus.LOCATION_REQUIRED
             bluetoothDevice == null -> BluetoothLEStatus.NO_DEVICE_SELECTED
             !bluetoothConnected.value -> BluetoothLEStatus.NOT_CONNECTED_TO_DEVICE
             bluetoothConnected.value -> BluetoothLEStatus.CONNECTED_TO_DEVICE
@@ -272,7 +279,8 @@ class SWBluetoothLE(private val activity: ComponentActivity) : BroadcastReceiver
             scanningForDevices = true
             if (checkPermission(android.Manifest.permission.BLUETOOTH_SCAN) && checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION, Build.VERSION_CODES.LOLLIPOP)) {
                 Log.d(LOG_TAG, "Scanning for BLE devices")
-                val serviceFilter = ScanFilter.Builder().setServiceUuid(ParcelUuid(SWALKITSERVICEUUID)).build()
+//                val serviceFilter = ScanFilter.Builder().setServiceUuid(ParcelUuid(SWALKITSERVICEUUID)).build()
+                val serviceFilter = ScanFilter.Builder().build()
                 val scanSettings = ScanSettings.Builder().build()
                 bluetoothLEScanner?.startScan(listOf(serviceFilter), scanSettings, scanForDevicesCallback)
             }
