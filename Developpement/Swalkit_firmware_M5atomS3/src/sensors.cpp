@@ -100,10 +100,13 @@ void Sensors::read()
             if(_debug) USBSerial.print("...");
             if(_debug) USBSerial.print(measure);
             if(_debug) USBSerial.print("...");
+            uint8_t status = sensor[i]->readRangeStatus();
+            bool measureFailed = (measure == 0 && status != 0) || status == 1 || status == 2 || status == 7 || sensor[i]->timeoutOccurred();
 
-            if (!sensor[i]->timeoutOccurred()) {  // phase failures have incorrect data
+            if (!measureFailed) {  // phase failures have incorrect data
 
                 if(_debug) USBSerial.println("OK");
+                //if(measure == 0) measure = SENSOR_MAX_VALUE;
                 sensor_average[i]->addValue(measure<SENSOR_MAX_VALUE*10?
                                 measure/10 :
                                 SENSOR_MAX_VALUE);

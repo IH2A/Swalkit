@@ -29,7 +29,7 @@ constexpr size_t gyro_data_size = 10;
 float gyro_data[gyro_data_size];
 size_t gyro_index;
 float gyro_calibration = 0;
-float gyro_threshold = 50;
+float gyro_threshold = 40;
 bool moving = true;
 unsigned long watchdog_imu_move = 5000; // 5 secondes
 unsigned long last_time_moved = 0;      // secondes
