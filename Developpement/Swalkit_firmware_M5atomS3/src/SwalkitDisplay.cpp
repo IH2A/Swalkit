@@ -84,3 +84,10 @@ void SwalkitDisplay::SetMotorsState(MotorState leftMotorState, MotorState rightM
         (rightMotorState == MotorState::Running) ? ColorMotorRunning : ColorMotorStopped
     );
 }
+
+
+void SwalkitDisplay::PressToContinue(String message)
+{
+    SetMessage(message+" press button");
+    do { M5.update(); } while (!M5.Btn.wasReleased());
+}

@@ -19,6 +19,10 @@ public:
     inline void set_duty_max(uint16_t duty_max_){ duty_max = duty_max_; };
     inline bool is_on(){ return dir; };
 
+    void debug(UNIT_HBRIDGE driver, uint8_t address);
+
+    void recover();
+
 private:
     void tryHBridgeRecovery(UNIT_HBRIDGE &hbridge, uint8_t address);
     void checkAndUpdateFirmware(UNIT_HBRIDGE &hbridge);

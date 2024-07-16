@@ -34,6 +34,7 @@ public:
     void SetImuState(IMUState imuState);
     void SetSwalkitState(SwalkitState swalkitState);
     void SetMotorsState(MotorState leftMotorState, MotorState rightMotorState);
+    void PressToContinue(String message);
 
 private:
     static SwalkitDisplay *pInstance;
